@@ -123,6 +123,14 @@ input,select{font:inherit;color:inherit}
 .toast{position:absolute;left:50%;top:calc(76px + var(--safe-t));transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:13.5px;font-weight:600;z-index:30;animation:fade .2s;white-space:nowrap}
 .login{flex:1;display:flex;flex-direction:column;justify-content:center;padding:28px 26px calc(28px + var(--safe-b));background:linear-gradient(180deg,var(--brand) 0 38%,var(--bg) 38%)}
 .logo{width:58px;height:58px;border-radius:17px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-weight:800;font-size:22px;margin-bottom:14px}
+.info{background:var(--info-bg);color:var(--brand2);padding:10px 12px;border-radius:10px;font-size:13px}
+.login.cl{justify-content:flex-start;padding-top:max(28px,calc(38vh - 190px))}
+.gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px 16px;border-radius:12px;border:1.5px solid #dadce0;background:#fff;font-size:15.5px;font-weight:700;color:#1f1f1f;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.gbtn:active{background:#f1f3f4}
+.gbusy{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px;font-weight:700;color:var(--ink2)}
+.spin{width:18px;height:18px;border-radius:50%;border:2.5px solid #cfd8dc;border-top-color:var(--brand);animation:sp .8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.cloudchip{display:inline-block;font-size:11px;font-weight:800;padding:2px 8px;border-radius:99px;background:rgba(34,197,94,.18);color:#bbf7d0;vertical-align:1px}
+.cloudchip.sync{background:rgba(250,204,21,.2);color:#fde68a}.cloudchip.off{background:rgba(239,68,68,.22);color:#fecaca}
 .err{background:#fdecea;color:var(--danger);padding:10px 12px;border-radius:10px;font-size:13px;font-weight:600}
 .empty{text-align:center;padding:40px 20px;color:var(--ink3)}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -498,7 +506,7 @@ function addCustomers(rows){ // rows: [{gstin,name,address,phone,state}] -> {add
     if(g&&DB.customers.some(c=>c.gstin===g)||(!g&&DB.customers.some(c=>c.name===name))){res.skipped.push(name);return}
     if(g&&!chk.ok)res.bad.push(name);
     const ph=String(r.phone||"").replace(/\D/g,"").replace(/^91(?=\d{10}$)/,"");
-    DB.customers.push({id:DB.nextCust++,name,gstin:g,state:r.state||(chk.ok?chk.state:""),stateCode:chk.ok?chk.stateCode:(g.slice(0,2)||""),
+    DB.customers.push({id:newId()||DB.nextCust++,name,gstin:g,state:r.state||(chk.ok?chk.state:""),stateCode:chk.ok?chk.stateCode:(g.slice(0,2)||""),
       address:String(r.address||"").replace(/\s+/g," ").replace(/,\s*,/g,",").trim(),phone:ph,balance:0,balanceNote:""});res.added.push(name)});
   return res}
 const SERIES_RENAME={"80.5 SERIES":"ECO SERIES","92 SERIES":"PREMIUM SERIES"};
@@ -533,14 +541,14 @@ function fmtStock(code,len,brand){const p=pv(pByCode[code],brand);if(!p||CAT(p)=
   return (neg?"− ":"")+(pk?`${pk} pkt`:"")+(pk&&lo?" + ":"")+(lo||!pk?`${lo} len`:"")}
 function moveStock(code,brand,finish,lengths,type,ref,note){
   const k=stockKey(code,brand,finish);DB.stock[k]=(+DB.stock[k]||0)+lengths;
-  DB.moves.unshift({at:new Date().toISOString(),key:k,lengths,type,ref:ref||"",note:note||"",bal:DB.stock[k]});
+  DB.moves.unshift({id:newId()||undefined,at:new Date().toISOString(),key:k,lengths,type,ref:ref||"",note:note||"",bal:DB.stock[k]});
   if(DB.moves.length>2000)DB.moves.length=2000;
 }
 function deductForInvoice(doc){let n=0;
   doc.lines.forEach(l=>{if(l.brand&&pByCode[l.code]){moveStock(l.code,l.brand,l.finish,-l.lengths,"SALE",doc.no);n++}});
   if(n)doc.stockDeducted=true;}
 let saveWarned=false;
-const save=()=>{try{localStorage.setItem("rr-quote-v1",JSON.stringify(DB));return true}catch(e){if(!saveWarned){saveWarned=true;setTimeout(()=>toast("Phone storage full: remove big logos"),50)}return false}};
+const save=()=>{try{localStorage.setItem("rr-quote-v1",JSON.stringify(DB));cloudSaved();return true}catch(e){if(!saveWarned){saveWarned=true;setTimeout(()=>toast("Phone storage full: remove big logos"),50)}return false}};
 const cust=id=>DB.customers.find(c=>c.id===id);
 const bal=c=>+(c&&c.balance)||0;
 /* transport details */
@@ -1139,7 +1147,7 @@ function createDocs(o){
   const no0=(o.no||"").trim().toUpperCase()||PREFIX[o.type]+DB.next[o.type],err=checkNo(o.type,no0);if(err)return err;
   if(no0===PREFIX[o.type]+DB.next[o.type])DB.next[o.type]++;else bumpCounter(o.type,no0);
   const out=[],gid=groups.length>1?Date.now():0;
-  groups.forEach(([b,its],i)=>{const doc=mkDoc(o.type,i===0?no0:nextFree(o.type),o.date||today(),c,its,o.sourceId||null);doc.id=DB.nextId++;
+  groups.forEach(([b,its],i)=>{const doc=mkDoc(o.type,i===0?no0:nextFree(o.type),o.date||today(),c,its,o.sourceId||null);doc.id=newId()||DB.nextId++;
     doc.tr={mode:"By Road",...(o.tr||{})};
     doc.oldBalance=i===0&&o.addOld?bal(c):0;doc.oldBalanceNote=doc.oldBalance?(c.balanceNote||""):"";
     if(o.hideRate)doc.hideRate=true;
@@ -1490,7 +1498,7 @@ $app.addEventListener("submit",e=>{e.preventDefault();const f=Object.fromEntries
   if(g&&DB.customers.some(c=>c.gstin===g&&c.id!==eid)){toast("This GSTIN is already saved");return}
   if(eid){const c=cust(eid);Object.assign(c,{name:f.name.trim().toUpperCase(),gstin:g,state:f.state||(chk.ok?chk.state:""),stateCode:g.slice(0,2)||c.stateCode||"",address:f.address.trim(),phone:f.phone.trim()});
     save();S.sheet=null;toast("Customer updated");render();return}
-  const c={id:DB.nextCust++,name:f.name.trim().toUpperCase(),gstin:g,state:f.state||(chk.ok?chk.state:""),stateCode:g.slice(0,2)||"",address:f.address,phone:f.phone,balance:r2(parseFloat(f.balance)||0),balanceNote:""};
+  const c={id:newId()||DB.nextCust++,name:f.name.trim().toUpperCase(),gstin:g,state:f.state||(chk.ok?chk.state:""),stateCode:g.slice(0,2)||"",address:f.address,phone:f.phone,balance:r2(parseFloat(f.balance)||0),balanceNote:""};
   DB.customers.push(c);save();S.sheet=null;toast("Customer added");render()}
  if(e.target.id==="docForm"){const d=DB.docs.find(x=>x.id===S.view),no=f.no.trim().toUpperCase(),err=checkNo(d.type,no,d.id);
   if(err){toast(err);return}
@@ -2000,6 +2008,275 @@ function exportRegister(btn){busy(btn,async()=>{
   const buf=await wb.xlsx.writeBuffer();
   await saveFile(`Raviraja_documents_${today()}.xlsx`,new Blob([buf]));
 })}
+
+/* ================== CLOUD: Gmail sign-in + one shared database for all members (Firebase) ================== */
+var FB_CFG={apiKey:"AIzaSyCdHNSEIL2I3KM_giyR8xQCMTS93Rvh-98",authDomain:"raviraja-quotations.firebaseapp.com",projectId:"raviraja-quotations",storageBucket:"raviraja-quotations.firebasestorage.app",messagingSenderId:"668456022383",appId:"1:668456022383:web:505c57910a90b2edc9b89a"};/*FBCFG*/
+const OWNER_EMAIL="ravirajaindustries@gmail.com";
+const FB_CDN="https://www.gstatic.com/firebasejs/10.12.2/";
+const SETTINGS_KEYS=["company","prefix","pdf","pdfBrand"];               // admin only
+const NOSYNC_KEYS=["customers","docs","moves","stock","next","logos","users","nextId","nextCust","custList1"];
+var CL={on:!!FB_CFG,phase:"boot",user:null,me:null,fs:null,auth:null,last:{},raw:{},stockBase:{},unsub:[],members:[],
+  got:new Set(),timer:null,online:navigator.onLine,pending:0,warned:0,err:"",local:null};
+function newId(){return window.CL&&CL.on?Date.now()*1000+Math.floor(Math.random()*1000):null}
+const catKeys=()=>Object.keys(DB).filter(k=>!NOSYNC_KEYS.includes(k)&&!SETTINGS_KEYS.includes(k)).sort();
+const pick=(keys)=>{const o={};keys.forEach(k=>{if(DB[k]!==undefined)o[k]=DB[k]});return o};
+const emOf=u=>String(u&&u.email||"").toLowerCase();
+const sid=s=>encodeURIComponent(String(s)).replace(/\./g,"%2E");
+function cloudDot(){if(!CL.on||CL.phase!=="live")return "";
+  const off=!CL.online,p=CL.pending>0;
+  return `<span class="cloudchip ${off?"off":p?"sync":""}" title="${off?"Offline: changes are kept and sent when online":"All members see the same data"}">${off?"● Offline":p?"● Saving…":"● Live"}</span>`}
+function applyDerived(){
+  if(!DB.prices)DB.prices=defaultPrices();if(!DB.stock)DB.stock={};if(!DB.moves)DB.moves=[];if(!DB.profileEdits)DB.profileEdits={};
+  if(!DB.logos)DB.logos={company:"",brands:{}};if(!DB.logos.brands)DB.logos.brands={};if(!DB.pdf)DB.pdf={};if(!DB.pdfBrand)DB.pdfBrand={};
+  if(!DB.customProfiles)DB.customProfiles=[];if(!DB.profileBrands)DB.profileBrands={};if(!DB.brandSpecs)DB.brandSpecs={};
+  if(!DB.next)DB.next={QUOTATION:1,PI:1,INVOICE:1};
+  if(DB.company)Object.assign(COMPANY,DB.company);if(DB.prefix)Object.assign(PREFIX,DB.prefix);
+  globalThis.__RR_SPECS=DB.brandSpecs;globalThis.__RR_PRICES=DB.prices;
+  DB.customProfiles.forEach(cp=>{if(!pByCode[cp.code]){const np={...cp,custom:true};PROFILES.push(np);pByCode[cp.code]=np}});
+}
+/* ---- start ---- */
+async function cloudBoot(){
+  try{await Promise.all(["firebase-app-compat.js"].map(f=>loadScript(FB_CDN+f)));
+    await Promise.all(["firebase-auth-compat.js","firebase-firestore-compat.js"].map(f=>loadScript(FB_CDN+f)))}
+  catch(e){CL.phase="nolib";render();return}
+  firebase.initializeApp(FB_CFG);CL.auth=firebase.auth();CL.fs=firebase.firestore();
+  try{await CL.fs.enablePersistence({synchronizeTabs:true})}catch(e){}
+  CL.auth.getRedirectResult().catch(e=>{CL.err=authMsg(e);render()});
+  CL.auth.onAuthStateChanged(u=>{CL.user=u;if(u)cloudEnter(u);else{CL.phase="signin";if(S.screen!=="login")go("login");else render()}});
+  addEventListener("online",()=>{CL.online=true;render()});addEventListener("offline",()=>{CL.online=false;render()});
+}
+function authMsg(e){const c=e&&e.code||"";
+  if(c.includes("popup-closed")||c.includes("cancelled-popup"))return "";
+  if(c.includes("unauthorized-domain"))return "This web address is not allowed yet in Firebase (Authorized domains).";
+  if(c.includes("network"))return "No internet. Connect and try again.";
+  return "Sign-in failed: "+(e.message||c)}
+async function cloudSignIn(){CL.err="";const p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({prompt:"select_account"});
+  CL.phase="signing";render();
+  try{await CL.auth.signInWithPopup(p)}
+  catch(e){const c=e.code||"";
+    if(c.includes("popup-blocked")||c.includes("operation-not-supported")){try{await CL.auth.signInWithRedirect(p);return}catch(e2){e=e2}}
+    CL.err=authMsg(e);CL.phase="signin";render()}}
+async function cloudEnter(u){
+  const em=emOf(u);CL.phase="checking";render();
+  const ref=CL.fs.collection("members").doc(em);let snap;
+  try{snap=await ref.get()}catch(e){
+    try{snap=await ref.get({source:"cache"})}catch(e2){CL.phase="error";CL.err="Cannot reach the cloud. Check internet and try again.";render();return}}
+  let me=snap.exists?snap.data():null;
+  if(!me&&em===OWNER_EMAIL){me={email:em,name:u.displayName||"Admin",role:"admin",perms:[...ROLE_PERMS.admin],active:true,owner:true,addedAt:new Date().toISOString()};
+    try{await ref.set(me)}catch(e){}}
+  if(!me){CL.phase="waiting";render();return}
+  if(me.active===false){CL.phase="disabled";render();return}
+  setMe(me,u);
+  if(!CL.local)CL.local=JSON.parse(JSON.stringify(DB));      // this device's old data (offered for upload on first setup)
+  ["customers","docs","moves"].forEach(k=>DB[k]=[]);DB.stock={};DB.next={QUOTATION:1,PI:1,INVOICE:1};CL.last={};CL.raw={};CL.stockBase={};CL.got=new Set();CL.empty=null;
+  CL.phase="loading";render();listen();
+}
+function setMe(me,u){CL.me=me;S.user=me.name||(u&&u.displayName)||me.email;S.uid=me.email;S.role=ROLES[me.role]?me.role:"sales";
+  S.perms=S.role==="admin"?[...ROLE_PERMS.admin]:[...(me.perms||ROLE_PERMS[S.role])]}
+/* ---- listeners: cloud -> app ---- */
+function listen(){const fs=CL.fs,U=CL.unsub;U.forEach(f=>f());U.length=0;
+  const err=k=>e=>{if(e&&e.code==="permission-denied"){if(k==="me"||!CL.me)return;toast("Access changed by admin");cloudEnter(CL.user)}};
+  U.push(fs.collection("members").doc(S.uid).onSnapshot(s=>{if(!s.exists||s.data().active===false){cloudOut(s.exists?"disabled":"waiting");return}
+    const was=JSON.stringify([CL.me.role,CL.me.perms]);setMe(s.data(),CL.user);
+    if(was!==JSON.stringify([CL.me.role,CL.me.perms])){if(S.role==="admin"&&!CL.membersOn)listenMembers();toast("Your permissions were updated");scheduleRender()}},err("me")));
+  if(S.role==="admin")listenMembers();
+  ["customers","docs"].forEach(name=>U.push(fs.collection(name).onSnapshot({includeMetadataChanges:true},s=>onColl(name,s),err(name))));
+  U.push(fs.collection("moves").orderBy("at","desc").limit(500).onSnapshot(s=>{const mine=DB.moves.filter(m=>!m.id||!CL.last["moves/"+m.id]);
+    DB.moves=mine.concat(s.docs.map(d=>{try{return JSON.parse(d.data().j)}catch(e){return null}}).filter(Boolean));
+    s.docs.forEach(d=>CL.last["moves/"+d.id]=1);CL.got.add("moves");scheduleRender()},err("moves")));
+  U.push(fs.collection("stock").onSnapshot(s=>{s.docChanges().forEach(ch=>{const d=ch.doc.data();if(ch.type==="removed"){delete DB.stock[d.k];delete CL.stockBase[d.k]}
+    else{const mine=(+DB.stock[d.k]||0)-(+CL.stockBase[d.k]||0);DB.stock[d.k]=(+d.n||0)+mine;CL.stockBase[d.k]=+d.n||0}});CL.got.add("stock");scheduleRender()},err("stock")));
+  U.push(fs.collection("logos").onSnapshot(s=>{s.docChanges().forEach(ch=>{const id=ch.doc.id,v=ch.type==="removed"?"":ch.doc.data().v||"";CL.last["logos/"+id]=v;
+    if(id==="company")DB.logos.company=v;else{const b=decodeURIComponent(id.slice(2));if(v)DB.logos.brands[b]=v;else delete DB.logos.brands[b]}});CL.got.add("logos");scheduleRender()},err("logos")));
+  ["catalog","settings","counters"].forEach(k=>U.push(fs.collection("app").doc(k).onSnapshot(s=>onApp(k,s),err(k))));
+}
+function listenMembers(){CL.membersOn=true;CL.unsub.push(CL.fs.collection("members").onSnapshot(s=>{CL.members=s.docs.map(d=>d.data()).sort((a,b)=>(b.owner?1:0)-(a.owner?1:0)||String(a.name).localeCompare(b.name));
+  if(S.screen==="setusers")scheduleRender()},()=>{}))}
+function onColl(name,s){const arr=DB[name];
+  s.docChanges().forEach(ch=>{const id=ch.doc.id,i=arr.findIndex(x=>String(x.id)===id);
+    if(ch.type==="removed"){delete CL.last[name+"/"+id];if(i>=0)arr.splice(i,1);return}
+    let o;try{o=JSON.parse(ch.doc.data().j)}catch(e){return}
+    const js=JSON.stringify(o);if(CL.last[name+"/"+id]===js)return;CL.last[name+"/"+id]=js;
+    if(i>=0){const cur=arr[i];Object.keys(cur).forEach(k=>delete cur[k]);Object.assign(cur,o)}else arr.push(o)});
+  if(name==="docs")arr.sort((a,b)=>b.id-a.id);else arr.sort((a,b)=>a.id-b.id);
+  CL.pending=s.metadata.hasPendingWrites?1:0;CL.got.add(name);scheduleRender()}
+function onApp(k,s){CL.got.add(k);
+  if(!s.exists){CL.last["app/"+k]=null;if(k==="catalog")CL.empty=true;scheduleRender();return}
+  const d=s.data();
+  if(k==="counters"){const n=d.next||{};Object.keys(n).forEach(t=>{DB.next[t]=Math.max(+DB.next[t]||1,+n[t]||1)});CL.raw.counters={...n};scheduleRender();return}
+  let o;try{o=JSON.parse(d.j)}catch(e){return}
+  if(k==="catalog")CL.empty=false;
+  const keys=k==="catalog"?Object.keys(o):SETTINGS_KEYS;keys.forEach(x=>{if(o[x]!==undefined)DB[x]=o[x]});
+  applyDerived();CL.last["app/"+k]=JSON.stringify(pick(k==="catalog"?catKeys():SETTINGS_KEYS));scheduleRender()}
+let rTimer=null;
+function scheduleRender(){if(CL.phase==="loading"&&["catalog","settings","customers","docs"].every(k=>CL.got.has(k))){
+    if(CL.empty){if(S.role!=="admin"){CL.phase="notready";render();return}CL.phase="live";go("home");S.sheet={kind:"cloudsetup"};render();return}
+    CL.phase="live";if(!S.draft){try{const dr=JSON.parse(localStorage.getItem("rr-draft")||"null");if(dr&&dr.items&&dr.items.length&&cust(dr.customerId))S.draft=dr}catch(e){}}
+    go("home");return}
+  if(CL.phase!=="live")return;
+  clearTimeout(rTimer);rTimer=setTimeout(()=>{const a=document.activeElement;
+    if(a&&/INPUT|TEXTAREA|SELECT/.test(a.tagName)&&$app.contains(a)){a.addEventListener("blur",()=>scheduleRender(),{once:true});return}
+    render()},120)}
+/* ---- push: app -> cloud (runs after every save) ---- */
+function cloudSaved(){if(!window.CL||!CL.on||CL.phase!=="live")return;clearTimeout(CL.timer);CL.timer=setTimeout(cloudPush,350)}
+const FV=()=>firebase.firestore.FieldValue;
+function denied(what){if(Date.now()-CL.warned>4000){CL.warned=Date.now();toast("Not saved: you don't have permission ("+what+")")}}
+async function cloudPush(){if(CL.phase!=="live"||CL.empty)return;const fs=CL.fs,ops=[],claims=[],by=S.uid,at=FV().serverTimestamp();
+  const canDocs=["quote","pi","invoice","edit"].some(can),canCust=["customers","balance","quote","pi","invoice"].some(can);
+  // customers & documents
+  [["customers",canCust],["docs",canDocs]].forEach(([name,ok])=>{const seen=new Set();
+    DB[name].forEach(x=>{const id=String(x.id);seen.add(id);const js=JSON.stringify(x),key=name+"/"+id,prev=CL.last[key];if(prev===js)return;
+      if(!ok){revert(name,id);return}
+      const data={j:js,by,at};if(name==="docs"){data.type=x.type;data.no=x.no}
+      let oldNo=null;try{oldNo=prev?JSON.parse(prev).no:null}catch(e){}
+      CL.last[key]=js;
+      if(name==="docs"&&oldNo!==x.no&&CL.online)claims.push({x,id,data,prev});else ops.push({ref:fs.collection(name).doc(id),data,key,prev})});
+    Object.keys(CL.last).filter(k=>k.startsWith(name+"/")&&!seen.has(k.slice(name.length+1))).forEach(k=>{const id=k.slice(name.length+1);
+      if(!can("delete")){revert(name,id);return}
+      const prev=CL.last[k];delete CL.last[k];ops.push({ref:fs.collection(name).doc(id),del:true,key:k,prev});
+      if(name==="docs"){try{const o=JSON.parse(prev);ops.push({ref:fs.collection("nos").doc(sid(o.type+"|"+o.no)),del:true})}catch(e){}}})});
+  // catalog (prices, profiles, stock settings) & settings (company, pdf)
+  [["catalog",catKeys(),can("prices")||can("stock")],["settings",SETTINGS_KEYS,can("settings")]].forEach(([k,keys,ok])=>{
+    const js=JSON.stringify(pick(keys));if(CL.last["app/"+k]===js)return;
+    if(!ok){if(CL.last["app/"+k]){const o=JSON.parse(CL.last["app/"+k]);keys.forEach(x=>{if(o[x]!==undefined)DB[x]=o[x]});applyDerived()}return}
+    CL.last["app/"+k]=js;ops.push({ref:fs.collection("app").doc(k),data:{j:js,by,at}})});
+  // counters: only move forward
+  const rc=CL.raw.counters||{},up={};Object.keys(DB.next||{}).forEach(t=>{if((+DB.next[t]||0)>(+rc[t]||0))up[t]=+DB.next[t]});
+  if(Object.keys(up).length){CL.raw.counters={...rc,...up};ops.push({ref:fs.collection("app").doc("counters"),data:{next:up},merge:true})}
+  // stock: send the change (+/-), so two people changing stock at once both count
+  const sk=new Set([...Object.keys(DB.stock),...Object.keys(CL.stockBase)]);
+  sk.forEach(k=>{const d=Math.round(((+DB.stock[k]||0)-(+CL.stockBase[k]||0))*1000)/1000;if(!d)return;
+    if(!(can("stock")||can("invoice"))){DB.stock[k]=CL.stockBase[k]||0;return}
+    CL.stockBase[k]=+DB.stock[k]||0;ops.push({ref:fs.collection("stock").doc(sid(k)),data:{k,n:FV().increment(d),by,at},merge:true})});
+  // stock movement log
+  if(can("stock")||can("invoice"))DB.moves.forEach(m=>{if(!m.id)m.id=newId();if(CL.last["moves/"+m.id])return;CL.last["moves/"+m.id]=1;
+    ops.push({ref:fs.collection("moves").doc(String(m.id)),data:{j:JSON.stringify(m),at:m.at,by}})});
+  // logos
+  if(can("settings")){const L={company:DB.logos.company||""};Object.entries(DB.logos.brands||{}).forEach(([b,v])=>L["b_"+sid(b)]=v||"");
+    Object.keys(CL.last).filter(k=>k.startsWith("logos/")).forEach(k=>{if(!(k.slice(6) in L))L[k.slice(6)]=""});
+    Object.entries(L).forEach(([id,v])=>{if((CL.last["logos/"+id]||"")===v)return;
+      if(v.length>900000){toast("Logo too big for cloud: use a smaller image");return}
+      CL.last["logos/"+id]=v;ops.push(v?{ref:fs.collection("logos").doc(id),data:{v,by,at}}:{ref:fs.collection("logos").doc(id),del:true})})}
+  if(!ops.length&&!claims.length)return;
+  CL.pending++;render0();
+  for(let i=0;i<ops.length;i+=400){const b=fs.batch(),part=ops.slice(i,i+400);
+    part.forEach(o=>o.del?b.delete(o.ref):b.set(o.ref,o.data,o.merge?{merge:true}:undefined));
+    b.commit().catch(e=>{part.forEach(o=>{if(o.key&&o.key.includes("/")){const[n,id]=o.key.split("/");if(n==="customers"||n==="docs"){CL.last[o.key]=o.prev;revert(n,id)}}});
+      denied(e.code==="permission-denied"?"admin only":e.code||"error");scheduleRender()})}
+  for(const c of claims)await claimAndSave(c);
+  CL.pending=Math.max(0,CL.pending-1);render0()}
+function render0(){const c=document.querySelector(".cloudchip");if(c)c.outerHTML=cloudDot()}
+async function claimAndSave({x,id,data,prev}){const back=()=>{CL.last["docs/"+id]=prev;revert("docs",id);denied("documents")};const fs=CL.fs,ref=fs.collection("docs").doc(id);
+  for(let tries=0;tries<6;tries++){const cref=fs.collection("nos").doc(sid(x.type+"|"+x.no));
+    try{const r=await fs.runTransaction(async tx=>{const c=await tx.get(cref);
+        if(c.exists&&String(c.data().id)!==id)return "taken";
+        if(!c.exists)tx.set(cref,{id,type:x.type,no:x.no,by:S.uid});
+        data.no=x.no;data.j=JSON.stringify(x);tx.set(ref,data);return "ok"});
+      if(r==="ok"){CL.last["docs/"+id]=data.j;return}
+      const old=x.no;x.no=nextFree(x.type);save0();toast(`${old} was just used by another member: saved as ${x.no}`);scheduleRender()}
+    catch(e){if(e.code==="permission-denied"){back();return}break}}
+  data.j=JSON.stringify(x);data.no=x.no;CL.last["docs/"+id]=data.j;ref.set(data).catch(e=>{if(e.code==="permission-denied")back()})}
+function save0(){try{localStorage.setItem("rr-quote-v1",JSON.stringify(DB))}catch(e){}}
+function revert(name,id){const prev=CL.last[name+"/"+id],arr=DB[name],i=arr.findIndex(x=>String(x.id)===id);
+  if(!prev){if(i>=0)arr.splice(i,1);return}
+  const o=JSON.parse(prev);if(i>=0){const cur=arr[i];Object.keys(cur).forEach(k=>delete cur[k]);Object.assign(cur,o)}else arr.push(o);denied(name==="docs"?"documents":"customers")}
+/* first setup: put this device's data into the cloud, or start clean */
+function cloudUpload(useLocal){const src=useLocal&&CL.local?CL.local:null;
+  if(src){["customers","docs","moves"].forEach(k=>DB[k]=JSON.parse(JSON.stringify(src[k]||[])));DB.stock={...(src.stock||{})};
+    Object.keys(src).forEach(k=>{if(!NOSYNC_KEYS.includes(k))DB[k]=JSON.parse(JSON.stringify(src[k]))});DB.next={...(src.next||DB.next)};
+    DB.logos=JSON.parse(JSON.stringify(src.logos||{company:"",brands:{}}))}
+  else{DB.next={QUOTATION:400,PI:1,INVOICE:1};DB.customers=[{id:1,name:"CASH CUSTOMER",address:"",gstin:"",state:"Telangana",stateCode:"36",phone:"",balance:0,balanceNote:""}];DB.docs=[];DB.moves=[];DB.stock={}}
+  applyDerived();CL.empty=false;S.sheet=null;save();toast(src?"Uploading this device's data for everyone…":"Cloud ready");go("home")}
+async function cloudOut(why){CL.unsub.forEach(f=>f());CL.unsub.length=0;CL.membersOn=false;
+  try{localStorage.removeItem("rr-quote-v1");localStorage.removeItem("rr-draft")}catch(e){}
+  if(why){CL.phase=why;S.user=null;go("login");return}
+  try{await CL.auth.signOut()}catch(e){}
+  try{await CL.fs.terminate();await CL.fs.clearPersistence()}catch(e){}
+  location.reload()}
+/* ---- screens ---- */
+const GLOGO=`<svg viewBox="0 0 48 48" width="20" height="20"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.6 5.4 2.6 13.3l7.8 6C12.3 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.8c4.3-4 6.9-9.9 6.9-17.2z"/><path fill="#FBBC05" d="M10.4 28.7c-.5-1.4-.8-3-.8-4.7s.3-3.2.8-4.7l-7.8-6C1 16.6 0 20.2 0 24s1 7.4 2.6 10.7l7.8-6z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.4-5.8c-2.1 1.4-4.8 2.3-8.5 2.3-6.3 0-11.7-4.1-13.6-9.8l-7.8 6C6.6 42.6 14.6 48 24 48z"/></svg>`;
+function cloudLogin(){const em=CL.user?esc(CL.user.email):"",ph=CL.phase;
+  const msg={waiting:`<b>${em}</b> is not added yet.<br>Ask the admin to add this Gmail in <b>Settings → Users &amp; roles</b>, then tap <b>Check again</b>.`,
+    disabled:`<b>${em}</b> has been switched off by the admin.`,notready:`The admin has not finished setting up the app yet. Try again in a few minutes.`,
+    nolib:"Cannot load sign-in. Check internet and reopen the app.",error:esc(CL.err)}[ph];
+  const busy={boot:"Starting…",signing:"Opening Google…",checking:"Checking your access…",loading:"Loading company data…"}[ph];
+  return `<div class="login cl">
+  <div style="color:#fff;margin-bottom:26px"><div class="logo">RR</div>
+   <div style="font-size:24px;font-weight:800;letter-spacing:-.4px">Raviraja Quotations</div>
+   <div style="opacity:.75;font-size:14px;margin-top:4px">Quotation · Purchase Order · Tax Invoice</div></div>
+  <div class="card stack" style="padding:20px;box-shadow:0 12px 30px rgba(15,37,48,.12)">
+   ${busy?`<div class="gbusy"><span class="spin"></span>${busy}</div>`:msg?`<div class="${ph==="waiting"||ph==="notready"?"info":"err"}" style="font-size:14px;line-height:1.5">${msg}</div>
+     ${CL.user?`<button class="btn" data-act="cl-retry">Check again</button><button class="btn ghost" data-act="cl-switch">Use another Gmail</button>`:`<button class="btn" data-act="cl-reload">Try again</button>`}`
+   :`<button class="gbtn" data-act="cl-google">${GLOGO}<span>Sign in with Google</span></button>
+     ${CL.err?`<div class="err">${esc(CL.err)}</div>`:""}
+     <div class="muted" style="text-align:center;line-height:1.5">Use your Gmail. The admin decides what each person can see and do.</div>`}
+  </div></div>`}
+function cloudUsers(){if(!can("users"))return SCREENS.denied();const M=CL.members;
+ return bar("Users & roles",M.length+" members · Gmail sign-in",{back:"settings",right:`<button class="iconbtn" data-act="cl-addmember" aria-label="Add member">${I.plus}</button>`})+`<div class="scroll">
+  <div class="info" style="margin:0 0 12px">Add a person's <b>Gmail</b> here, pick their role and tick what they can do. They open the app link, tap <b>Sign in with Google</b> and see the same live data.</div>
+  ${M.map(u=>`<button class="usercard" data-member="${esc(u.email)}"><div class="avatar sm">${esc(String(u.name||u.email).split(/\s+/).map(x=>x[0]||"").join("").slice(0,2).toUpperCase())}</div>
+   <div class="grow"><b>${esc(u.name||u.email)}${u.email===S.uid?' <span class="muted">(you)</span>':""}</b><div class="muted" style="word-break:break-all">${esc(u.email)}${u.owner?" · owner":""}</div>
+   <div class="permsum">${u.role==="admin"?"All permissions":PERM_LIST.filter(([k])=>(u.perms||[]).includes(k)).map(([k])=>PERM_SHORT[k]).join(" · ")||"View only"}</div></div>
+   <span class="pill role-${u.role}">${u.role!=="admin"&&isCustom(u)?"Custom":ROLES[u.role]?.label||u.role}</span>${u.active===false?'<span class="pill p-CONVERTED">Off</span>':""}</button>`).join("")||'<div class="muted">Loading…</div>'}
+  <div class="h2">What each role can do</div><div class="muted" style="margin:-4px 2px 8px">Only admin can delete anything, change settings and add people. The cloud itself blocks it, not just the app.</div>
+  ${Object.entries(ROLES).map(([k,r])=>`<div class="roleinfo"><span class="pill role-${k}">${r.label}</span><span class="muted">${r.desc}</span></div>`).join("")}
+ </div>`+nav()}
+function memberSheet(){const u=CL.members.find(x=>x.email===S.sheet.email),role=S.sheet.role||(u?u.role:"sales"),perms=S.sheet.perms||(u?u.perms||[]:ROLE_PERMS[role]);
+ return sheet(`<h3>${u?"Edit member":"Add member"}</h3><form id="memberForm" class="stack" autocomplete="off">
+   ${u?`<div class="muted" style="word-break:break-all">Gmail: <b>${esc(u.email)}</b></div>`:`<div class="field"><label>Gmail address</label><input name="email" type="email" inputmode="email" autocapitalize="none" placeholder="name@gmail.com" value="${esc(S.sheet.kEmail||"")}"></div>`}
+   <div class="field"><label>Name</label><input name="name" value="${esc(S.sheet.kName!=null?S.sheet.kName:u?u.name||"":"")}" placeholder="e.g. Suresh"></div>
+   <div class="dlab" style="margin-top:4px">Role</div>
+   ${Object.entries(ROLES).map(([k,r])=>`<button type="button" class="rolepick ${role===k?"on":""}" data-mrole="${k}" ${u&&u.owner?"disabled":""}><b>${r.label}</b><span class="muted">${r.desc}</span></button>`).join("")}
+   <div class="dlab" style="margin-top:6px">Permissions</div>
+   <div class="permbox ${role==="admin"?"isadmin":""}">${PERM_LIST.map(([k,l])=>`<label class="permrow"><input type="checkbox" name="perm_${k}" ${role==="admin"||perms.includes(k)?"checked":""} ${role==="admin"?"disabled":""}><span>${l}</span></label>`).join("")}
+     <div class="permnote">${I.lock.replace("<svg",'<svg style="width:13px;height:13px;vertical-align:-2px"')} Delete, settings and users: admin only</div></div>
+   ${u&&!u.owner?`<label class="row" style="gap:10px;font-weight:600;font-size:14px"><input type="checkbox" id="mActive" ${u.active!==false?"checked":""} style="width:20px;height:20px;accent-color:var(--brand)">Can sign in</label>`:""}
+   <button class="btn">${u?"Save":"Add member"}</button>
+   ${u&&!u.owner&&u.email!==S.uid?`<button type="button" class="btn ghost" style="color:var(--danger)" data-act="cl-delmember">Remove member</button>`:""}</form>`)}
+function setupSheet(){const L=CL.local||{customers:[],docs:[]},nc=(L.customers||[]).length,nd=(L.docs||[]).length;
+ return sheet(`<h3>Set up the shared data</h3><p style="font-size:14px;margin:0 0 12px;line-height:1.5">The cloud is empty. Everyone you add will see what you put here.</p>
+  <div class="stack">${nc>1||nd?`<button class="btn" data-act="cl-upload">Upload this device's data<br><span style="font-weight:500;font-size:12.5px;opacity:.85">${nc} customers · ${nd} documents · prices, stock, PDF design</span></button>`:""}
+  <button class="btn ${nc>1||nd?"ghost":""}" data-act="cl-fresh">Start fresh</button></div>`).replace(/ data-close/g,"").replace(/<button type="button" class="sx"[^>]*>✕<\/button>/,"")}
+/* ---- hook into the app ---- */
+if(CL.on){
+  const _login=SCREENS.login,_users=SCREENS.setusers,_home=SCREENS.home,_settings=SCREENS.settings,_sheet=sheetHTML;
+  SCREENS.login=()=>cloudLogin();
+  const _new=SCREENS.new;SCREENS.new=()=>S.draft?_new():SCREENS.home();
+  ["view","pdfview"].forEach(k=>{const f=SCREENS[k];if(f)SCREENS[k]=()=>{if(DB.docs.some(x=>x.id===S.view))return f();setTimeout(()=>{toast("This document was deleted by admin");go("docs")},0);return SCREENS.home()}});
+  SCREENS.setusers=()=>cloudUsers();
+  SCREENS.home=()=>_home().replace('<span class="rolechip">',cloudDot()+' <span class="rolechip">');
+  if(_settings)SCREENS.settings=()=>_settings().replace(/Signed in as ([^<(]*)\(/,(m,n)=>`Signed in as ${n}· ${esc(S.uid||"")} (`);
+  sheetHTML=function(){if(S.sheet&&S.sheet.kind==="member")return memberSheet();if(S.sheet&&S.sheet.kind==="cloudsetup")return setupSheet();return _sheet()};
+  document.addEventListener("click",e=>{const el=e.target.closest("[data-act^='cl-'],[data-member],[data-mrole],[data-act='logout'],[data-act='dorestore']");if(!el)return;
+    const ds=el.dataset;
+    if(ds.member){e.stopImmediatePropagation();S.sheet={kind:"member",email:ds.member};render();return}
+    if(ds.mrole){e.stopImmediatePropagation();const f=document.getElementById("memberForm");S.sheet.kName=f.name.value;if(f.email)S.sheet.kEmail=f.email.value;
+      S.sheet.role=ds.mrole;S.sheet.perms=[...ROLE_PERMS[ds.mrole]];render();return}
+    const a=ds.act;if(!a)return;e.stopImmediatePropagation();
+    if(a==="logout"){S.user=null;cloudOut();return}
+    if(a==="dorestore"){if(!can("delete")){toast("Only admin can restore");return}const d=S.sheet.data;CL.local=d;S.sheet=null;cloudUpload(true);return}
+    if(a==="cl-google")cloudSignIn();
+    if(a==="cl-retry")cloudEnter(CL.user);
+    if(a==="cl-reload")location.reload();
+    if(a==="cl-switch"){CL.auth.signOut().then(()=>cloudSignIn())}
+    if(a==="cl-addmember"){S.sheet={kind:"member",email:""};render()}
+    if(a==="cl-upload")cloudUpload(true);
+    if(a==="cl-fresh")cloudUpload(false);
+    if(a==="cl-delmember"){const em=S.sheet.email;CL.fs.collection("members").doc(em).delete().then(()=>toast("Member removed")).catch(()=>toast("Could not remove"));S.sheet=null;render()}
+  },true);
+  document.addEventListener("submit",e=>{if(e.target.id!=="memberForm")return;e.preventDefault();e.stopImmediatePropagation();
+    const f=e.target,u=CL.members.find(x=>x.email===S.sheet.email),em=u?u.email:String(f.email.value||"").trim().toLowerCase();
+    if(!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/.test(em)){toast("Enter a valid Gmail address");return}
+    if(!u&&CL.members.some(x=>x.email===em)){toast("Already added");return}
+    const role=u&&u.owner?"admin":(S.sheet.role||(u?u.role:"sales"));
+    const perms=role==="admin"?[...ROLE_PERMS.admin]:PERM_LIST.map(x=>x[0]).filter(k=>f.querySelector(`[name=perm_${k}]`)?.checked);
+    const active=u&&!u.owner?!!f.querySelector("#mActive")?.checked:true;
+    if(u&&u.role==="admin"&&(role!=="admin"||!active)&&!CL.members.some(x=>x.email!==u.email&&x.role==="admin"&&x.active!==false)){toast("Keep at least one active admin");return}
+    const data={email:em,name:f.name.value.trim()||em.split("@")[0],role,perms,active,...(u?{}:{addedAt:new Date().toISOString(),addedBy:S.uid})};
+    CL.fs.collection("members").doc(em).set(data,{merge:true}).then(()=>toast(u?"Saved":"Added: "+em+" can now sign in")).catch(()=>toast("Could not save (admin only)"));
+    S.sheet=null;render()},true);
+  CL.phase="boot";cloudBoot();
+}
 
 render();
 </script>

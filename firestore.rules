@@ -1,0 +1,54 @@
+rules_version = '2';
+// Raviraja Quotations — who can read/write what. Enforced by Google's servers, not the phone.
+service cloud.firestore {
+  match /databases/{db}/documents {
+    function signedIn() { return request.auth != null && request.auth.token.email_verified == true; }
+    function em()       { return request.auth.token.email.lower(); }
+    function isOwner()  { return signedIn() && em() == 'ravirajaindustries@gmail.com'; }
+    function mref()     { return /databases/$(db)/documents/members/$(em()); }
+    function m()        { return get(mref()).data; }
+    function isMember() { return isOwner() || (signedIn() && exists(mref()) && m().active == true); }
+    function isAdmin()  { return isOwner() || (isMember() && m().role == 'admin'); }
+    function may(p)     { return isAdmin() || (isMember() && (p in m().perms)); }
+    function typePerm(t){ return t == 'QUOTATION' ? 'quote' : (t == 'PI' ? 'pi' : 'invoice'); }
+
+    // people allowed to use the app (admin manages; everyone can read their own entry)
+    match /members/{e} {
+      allow get:   if isAdmin() || (signedIn() && e == em());
+      allow list:  if isAdmin();
+      allow write: if isAdmin();
+    }
+    // quotations, purchase orders, invoices — only admin can delete
+    match /docs/{id} {
+      allow read:   if isMember();
+      allow create: if may(typePerm(request.resource.data.type));
+      allow update: if may('edit') || may(typePerm(resource.data.type)) || may(typePerm(request.resource.data.type));
+      allow delete: if isAdmin();
+    }
+    match /customers/{id} {
+      allow read:           if isMember();
+      allow create, update: if may('customers') || may('balance') || may('quote') || may('pi') || may('invoice');
+      allow delete:         if isAdmin();
+    }
+    // document numbers in use (stops two people getting the same number)
+    match /nos/{id} {
+      allow read:           if isMember();
+      allow create:         if isMember();
+      allow update, delete: if isAdmin();
+    }
+    match /stock/{id} {
+      allow read:           if isMember();
+      allow create, update: if may('stock') || may('invoice');
+      allow delete:         if isAdmin();
+    }
+    match /moves/{id} {
+      allow read:           if isMember();
+      allow create:         if may('stock') || may('invoice');
+      allow update, delete: if isAdmin();
+    }
+    match /app/catalog  { allow read: if isMember(); allow write: if may('prices') || may('stock'); }
+    match /app/settings { allow read: if isMember(); allow write: if isAdmin(); }
+    match /app/counters { allow read: if isMember(); allow write: if isMember(); }
+    match /logos/{id}   { allow read: if isMember(); allow write: if isAdmin(); }
+  }
+}
