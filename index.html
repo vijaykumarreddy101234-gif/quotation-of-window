@@ -311,12 +311,12 @@ const P=(s,d,c,l,m,w,r)=>({series:s,desc:d,code:c,lpp:l,mw:m,lw:w,rate:r,hsn:s==
 const PROFILES=[
  P("ECO SERIES","2 TRACK","53ET",6,.825,4.867,150),P("ECO SERIES","2.5 TRACK","80ET",6,1.181,6.967,150),
  P("ECO SERIES","3 TRACK","95ET",4,1.346,7.941,150),P("ECO SERIES","SLIDING SASH","60ESH",8,.776,4.578,150),
- P("ECO SERIES","INTERLOCK","38IL",20,.192,1.132,150),P("ECO SERIES","SMALL BEAD","17.5 EB",25,.185,1.0915,150),
+ P("ECO SERIES","SLIDING SASH","75ESH",6,.899,5.307,150),P("ECO SERIES","INTERLOCK","38IL",20,.192,1.132,150),P("ECO SERIES","SMALL BEAD","17.5 EB",25,.185,1.0915,150),
  P("PREMIUM SERIES","2 TRACK","62T",6,.947,5.587,150),P("PREMIUM SERIES","2.5 TRACK","92T",4,1.287,7.596,150),
  P("PREMIUM SERIES","3 TRACK","112T",4,1.658,9.785,150),P("PREMIUM SERIES","SMALL SASH","59SS",6,.873,5.150,150),
  P("PREMIUM SERIES","MEDIUM SASH","67MS",6,.955,5.633,150),P("PREMIUM SERIES","BIG SASH","84BS",6,1.213,7.154,150),
  P("PREMIUM SERIES","MESH","53M",12,.483,2.85,150),P("PREMIUM SERIES","MULLION MESH","62MM",12,.611,3.602,150),
- P("PREMIUM SERIES","SMALL BEAD","24.5 ESB",20,.260,1.535,150),P("PREMIUM SERIES","BIG BEAD","35CB",20,.347,2.05,150),
+ P("PREMIUM SERIES","SMALL BEAD","24.5 ESB",20,.260,1.535,150),P("PREMIUM SERIES","SMALL BEAD","24.5SB",20,.259,1.528,150),P("PREMIUM SERIES","BIG BEAD","35CB",20,.347,2.05,150),
  P("PREMIUM SERIES","DOUBLE GLAZE BEAD","11.5 DGB",20,.200,1.18,150),P("PREMIUM SERIES","INTERLOCK","44IL",20,.206,1.215,150),
  P("CASEMENT","SMALL CASEMENT FRAME","42VF",6,.585,3.45,150),P("CASEMENT","CASEMENT OUTER","60OF",6,1.030,6.075,150),
  P("CASEMENT","CASEMENT OUTER","72OF",6,1.246,7.350,150),P("CASEMENT","CASEMENT OUTWARD WINDOW SASH","78OW",6,1.246,7.35,150),
@@ -345,16 +345,19 @@ const CAT_LABEL={UPVC:"Profiles",AUX:"Auxiliaries",REINF:"Reinforcement"};
 function defaultPrices(){return {brands:["S-CRAFT","SMART"],finishes:["White","Colour","Laminate"],
   rates:{"S-CRAFT|White|UPVC":150,"S-CRAFT|White|AUX":170,"S-CRAFT|REINF":95,"SMART|REINF":95}}}
 const priceKey=(cat,brand,finish)=>cat==="REINF"?`${brand}|REINF`:`${brand}|${finish}|${cat}`;
-function rateFor(code,brand,finish){const p=pByCode[code];if(!p||!brand)return null;
+function rateFor(code,brand,finish){const p=pv(pByCode[code],brand);if(!p||!brand)return null;
   const v=+DB.prices.rates[priceKey(CAT(p),brand,finish)];return v>0?v:null}
 const variantLabel=it=>{if(!it.brand)return "";const p=pByCode[it.code];
   if(p&&CAT(p)==="REINF")return it.brand;return `${it.brand} · ${it.finish}${it.shade?` (${it.shade})`:""}`};
 const sameVariant=(a,b)=>a.brand===b.brand&&a.finish===b.finish&&(a.shade||"")===(b.shade||"");
 
+/* the profile as a given brand makes it (its own packet size, weights, series) */
+function pord(p){return p&&p.ord!=null?p.ord:1000+PROFILES.findIndex(x=>x.code===(p&&p.code))}
+function pv(p,b){if(!p||!b)return p;const S2=globalThis.__RR_SPECS||{},o=S2[b]&&S2[b][p.code];return o?{...p,...o}:p}
 function sortLines(ls){return ls.map((l,i)=>[lineKey(l,i),l]).sort((a,b)=>cmpKey(a[0],b[0])).map(x=>x[1])}
 function orderedLines(d){return sortLines(d.lines)}
 function calcLine(it){
-  const p=pByCode[it.code]||{};
+  const p=(it.brand?pv(pByCode[it.code],it.brand):pByCode[it.code])||{};
   const lpp=it.lpp??p.lpp??0, packets=it.packets||0;
   const lengths=it.lengths||packets*lpp;
   const weight=r3(it.weight!=null&&it.weight!==""?+it.weight:lengths*(p.lw||0));
@@ -476,6 +479,17 @@ const can=p=>S.role==="admin"||(!ADMIN_ONLY.includes(p)&&(S.perms||[]).includes(
 const canType=t=>can(TYPE_PERM[t]);
 const allowedTypes=()=>["PI","QUOTATION","INVOICE"].filter(canType);
 if(!DB.customProfiles) DB.customProfiles=[];
+/* per-brand profile data (codes, packet size, weights, series) — SMART from smart_profile_code_and_weight.pdf */
+const SMART_SPEC={"53ET": {"lpp": 6, "mw": 0.835, "lw": 4.926, "series": "ECO SERIES", "ord": 0}, "80ET": {"lpp": 6, "mw": 1.191, "lw": 7.026, "series": "ECO SERIES", "ord": 1}, "95ET": {"lpp": 4, "mw": 1.377, "lw": 8.123, "series": "ECO SERIES", "ord": 2}, "60ESH": {"lpp": 8, "mw": 0.829, "lw": 4.892, "series": "ECO SERIES", "ord": 3}, "75ESH": {"lpp": 6, "mw": 0.899, "lw": 5.307, "series": "ECO SERIES", "ord": 4}, "38IL": {"lpp": 20, "mw": 0.211, "lw": 1.247, "series": "ECO SERIES", "ord": 5}, "17.5 EB": {"lpp": 25, "mw": 0.209, "lw": 1.236, "series": "ECO SERIES", "ord": 6}, "62T": {"lpp": 6, "mw": 0.96, "lw": 5.666, "series": "PREMIUM SERIES", "ord": 7}, "92T": {"lpp": 4, "mw": 1.329, "lw": 7.84, "series": "PREMIUM SERIES", "ord": 8}, "112T": {"lpp": 4, "mw": 1.704, "lw": 10.056, "series": "PREMIUM SERIES", "ord": 9}, "59SS": {"lpp": 6, "mw": 0.876, "lw": 5.166, "series": "PREMIUM SERIES", "ord": 10}, "67MS": {"lpp": 6, "mw": 0.972, "lw": 5.733, "series": "PREMIUM SERIES", "ord": 11}, "84BS": {"lpp": 6, "mw": 1.22, "lw": 7.2, "series": "PREMIUM SERIES", "ord": 12}, "53M": {"lpp": 12, "mw": 0.502, "lw": 2.96, "series": "PREMIUM SERIES", "ord": 13}, "62MM": {"lpp": 12, "mw": 0.61, "lw": 3.6, "series": "PREMIUM SERIES", "ord": 14}, "24.5SB": {"lpp": 20, "mw": 0.259, "lw": 1.528, "series": "PREMIUM SERIES", "ord": 15}, "11.5 DGB": {"lpp": 20, "mw": 0.2, "lw": 1.18, "series": "PREMIUM SERIES", "ord": 16}, "44IL": {"lpp": 20, "mw": 0.22, "lw": 1.3, "series": "PREMIUM SERIES", "ord": 17}, "42VF": {"lpp": 6, "mw": 0.585, "lw": 3.45, "series": "CASEMENT", "ord": 18}, "60OF": {"lpp": 6, "mw": 1.047, "lw": 6.177, "series": "CASEMENT", "ord": 19}, "72OF": {"lpp": 6, "mw": 1.271, "lw": 7.5, "series": "CASEMENT", "ord": 20}, "35CB": {"lpp": 20, "mw": 0.353, "lw": 2.081, "series": "CASEMENT", "ord": 21}, "78OW": {"lpp": 6, "mw": 1.255, "lw": 7.406, "series": "CASEMENT", "ord": 22}, "104OD": {"lpp": 4, "mw": 1.559, "lw": 9.2, "series": "CASEMENT", "ord": 23}, "104ID": {"lpp": 4, "mw": 1.621, "lw": 9.564, "series": "CASEMENT", "ord": 24}, "74ZM": {"lpp": 6, "mw": 1.109, "lw": 6.545, "series": "CASEMENT", "ord": 25}, "42SM": {"lpp": 6, "mw": 0.744, "lw": 4.389, "series": "CASEMENT", "ord": 26}, "74TM": {"lpp": 6, "mw": 1.071, "lw": 6.32, "series": "CASEMENT", "ord": 27}, "60FM": {"lpp": 6, "mw": 0.895, "lw": 5.283, "series": "CASEMENT", "ord": 28}, "12PB": {"lpp": 8, "mw": 0.526, "lw": 3.104, "series": "CASEMENT", "ord": 29}, "68OM": {"lpp": 6, "mw": 0.866, "lw": 5.111, "series": "CASEMENT", "ord": 30}, "60B": {"lpp": 4, "mw": 0.712, "lw": 4.2, "series": "CASEMENT", "ord": 31}, "92 B": {"lpp": 4, "mw": 0.904, "lw": 5.332, "series": "CASEMENT", "ord": 32}, "112CJC": {"lpp": 4, "mw": 0.443, "lw": 2.612, "series": "AUXILIARIES", "ord": 33}, "92 CJC": {"lpp": 6, "mw": 0.347, "lw": 2.046, "series": "AUXILIARIES", "ord": 34}, "10GB": {"lpp": 12, "mw": 0.137, "lw": 0.808, "series": "AUXILIARIES", "ord": 35}, "38TC": {"lpp": 12, "mw": 0.389, "lw": 2.295, "series": "AUXILIARIES", "ord": 36}, "11MC": {"lpp": 20, "mw": 0.134, "lw": 0.791, "series": "AUXILIARIES", "ord": 37}, "50 AT": {"lpp": 16, "mw": 0.492, "lw": 2.903, "series": "AUXILIARIES", "ord": 38}, "22 SC": {"lpp": 20, "mw": 0.364, "lw": 2.15, "series": "AUXILIARIES", "ord": 39}, "HC": {"lpp": 50, "mw": 0.119, "lw": 0.7, "series": "AUXILIARIES", "ord": 40}};
+if(!DB.brandSpecs) DB.brandSpecs={};
+if(!DB.smartSpec1){DB.brandSpecs.SMART={...SMART_SPEC,...(DB.brandSpecs.SMART||{})};
+  if(!DB.profileBrands) DB.profileBrands={};
+  const others=(DB.prices.brands||[]).filter(b=>b!=="SMART");
+  DB.profileBrands["75ESH"]=["SMART"];DB.profileBrands["24.5SB"]=["SMART"];
+  if(others.length)DB.profileBrands["24.5 ESB"]=others;
+  DB.smartSpec1=true}
+Object.entries(SMART_SPEC).forEach(([k,v])=>{const o=DB.brandSpecs.SMART&&DB.brandSpecs.SMART[k];if(o&&o.ord==null)o.ord=v.ord});
+globalThis.__RR_SPECS=DB.brandSpecs;
 if(!DB.profileBrands) DB.profileBrands={};
 function addCustomers(rows){ // rows: [{gstin,name,address,phone,state}] -> {added,skipped,bad}
   const res={added:[],skipped:[],bad:[]};
@@ -498,13 +512,14 @@ const inBrand=(p,b)=>{const l=DB.profileBrands[p.code];return !l||!b||l.includes
 if(!DB.finishRules) DB.finishRules={brands:{"SMART":["White"]},series:{"ECO SERIES":["White"]}};
 const finishesFor=b=>{const r=DB.finishRules.brands[b];const all=DB.prices.finishes;const l=r?all.filter(f=>r.includes(f)):all;return l.length?l:all.slice(0,1)};
 const seriesFinishOK=(series,f)=>{const r=DB.finishRules.series[series];return !r||!f||r.includes(f)};
-const sold=(p,b,f)=>inBrand(p,b)&&(CAT(p)==="REINF"||(finishesFor(b).includes(f)&&seriesFinishOK(p.series,f)));
-const seriesFor=(b,f)=>SERIES.filter(x=>PROFILES.some(p=>p.series===x&&(f?sold(p,b,f):inBrand(p,b))));
+const sold=(p,b,f)=>{const q=pv(p,b);return inBrand(q,b)&&(CAT(q)==="REINF"||(finishesFor(b).includes(f)&&seriesFinishOK(q.series,f)))};
+const seriesFor=(b,f)=>SERIES.filter(x=>PROFILES.some(p0=>{const p=pv(p0,b);return p.series===x&&(f?sold(p0,b,f):inBrand(p,b))}));
 /* line order on every document: ECO, PREMIUM, CASEMENT, (other series), AUXILIARIES, REINFORCEMENT */
 function seriesRank(series,code){const p=pByCode[code],c=p?CAT(p):"",b=String(series||(p&&p.series)||"").split(" — ")[0].toUpperCase();
-  if(c==="REINF"||/REINFORC/.test(b))return 5;if(c==="AUX"||/AUXIL/.test(b))return 4;
-  if(/ECO|80\.5/.test(b))return 0;if(/PREMIUM|PRIMIUM|92/.test(b))return 1;if(/CAS(E)?MENT/.test(b))return 2;return 3}
-function lineKey(l,i){const P=globalThis.__RR_PRICES||{brands:[],finishes:[]},bi=P.brands.indexOf(l.brand),fi=P.finishes.indexOf(l.finish),pi=PROFILES.findIndex(x=>x.code===l.code);
+  if(/REINFORC/.test(b))return 5;if(/AUXIL/.test(b))return 4;
+  if(/ECO|80\.5/.test(b))return 0;if(/PREMIUM|PRIMIUM|92 SERIES/.test(b))return 1;if(/CAS(E)?MENT/.test(b))return 2;
+  if(c==="REINF")return 5;if(c==="AUX")return 4;return 3}
+function lineKey(l,i){const P=globalThis.__RR_PRICES||{brands:[],finishes:[]},bi=P.brands.indexOf(l.brand),fi=P.finishes.indexOf(l.finish),pi=pord(pv(pByCode[l.code],l.brand)||{code:l.code});
   return [seriesRank(l.series,l.code),String(l.series||"").split(" — ")[0],bi<0?99:bi,fi<0?99:fi,l.shade||"",pi<0?999:pi,i]}
 function cmpKey(a,b){for(let k=0;k<a.length;k++){if(a[k]<b[k])return -1;if(a[k]>b[k])return 1}return 0}
 globalThis.__RR_PRICES=DB.prices;
@@ -513,7 +528,7 @@ const fixFinish=o=>{const fl=finishesFor(o.b);if(!fl.includes(o.f))o.f=fl[0];ret
 const STD_LEN=5.9;   // metres per length (from the weight sheet: kg/length = kg/m × 5.9)
 const stockKey=(code,brand,finish)=>{const p=pByCode[code];return `${code}|${brand}|${p&&CAT(p)==="REINF"?"-":finish}`};
 const stockOf=(code,brand,finish)=>+DB.stock[stockKey(code,brand,finish)]||0;
-function fmtStock(code,len){const p=pByCode[code];if(!p||CAT(p)==="REINF"||!p.lpp)return `${len} len`;
+function fmtStock(code,len,brand){const p=pv(pByCode[code],brand);if(!p||CAT(p)==="REINF"||!p.lpp)return `${len} len`;
   const neg=len<0,a=Math.abs(len),pk=Math.floor(a/p.lpp),lo=a%p.lpp;
   return (neg?"− ":"")+(pk?`${pk} pkt`:"")+(pk&&lo?" + ":"")+(lo||!pk?`${lo} len`:"")}
 function moveStock(code,brand,finish,lengths,type,ref,note){
@@ -816,8 +831,9 @@ profiles(){const P=DB.prices;S.sb=S.sb||P.brands[0];S.sf=S.sf||P.finishes[0];
  const ql=(S.sq||"").trim().toLowerCase();
  S.sf=fixFinish({b:S.sb,f:S.sf});
  const BS=seriesFor(S.sb,S.sf);if(!BS.includes(S.filter)&&BS.length)S.filter=BS[0];
- const list=PROFILES.filter(p=>sold(p,S.sb,S.sf)&&(ql?(p.code+" "+p.desc).toLowerCase().includes(ql):p.series===S.filter));
- const all=PROFILES.filter(p=>sold(p,S.sb,S.sf)).map(p=>({p,len:stockOf(p.code,S.sb,S.sf)}));
+ const BP=PROFILES.map(p=>pv(p,S.sb)).sort((a,b)=>pord(a)-pord(b));
+ const list=BP.filter(p=>sold(p,S.sb,S.sf)&&(ql?(p.code+" "+p.desc).toLowerCase().includes(ql):p.series===S.filter));
+ const all=BP.filter(p=>sold(p,S.sb,S.sf)).map(p=>({p,len:stockOf(p.code,S.sb,S.sf)}));
  const kgTot=all.reduce((t,x)=>t+Math.max(0,x.len)*x.p.lw,0), out=all.filter(x=>x.len<=0).length, low=all.filter(x=>x.len>0&&CAT(x.p)!=="REINF"&&x.len<2*x.p.lpp).length;
  return bar("Stock",`${S.sb} · ${S.sf}`,{right:`${can("stock")?`<button class="iconbtn addprof" data-act="newprof" aria-label="Add profile">${I.plus}</button>`:""}<button class="iconbtn" data-act="stockxls" aria-label="Stock to Excel">${I.xls}</button><button class="iconbtn" data-go="prices" aria-label="Price list" style="width:auto;padding:0 12px;font-weight:700;font-size:13px">₹<span class="hide-s"> Prices</span></button>`})+`<div class="scroll">
   <div class="stats" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:12px">
@@ -835,7 +851,7 @@ profiles(){const P=DB.prices;S.sb=S.sb||P.brands[0];S.sf=S.sf||P.finishes[0];
     const col=len<=0?"var(--danger)":(!reinf&&len<2*p.lpp)?"#b26a00":"var(--ink)";
     return `<button class="prof" data-stock="${esc(p.code)}" style="width:100%;text-align:left"><div class="grow"><div class="row" style="gap:7px"><span class="code">${esc(p.code)}</span><b style="font-size:13.5px">${esc(p.desc)}</b></div>
      <div class="calcline">${reinf?"":p.lpp+" len/pkt · "}${p.lw} kg/len${len>0?` · <b>${len} len · ${kg(r3(len*p.lw))} kg</b>`:""}</div></div>
-     <div style="text-align:right;flex-shrink:0"><b class="num" style="font-size:15px;color:${col}">${len?fmtStock(p.code,len):"Nil"}</b></div></button>`}).join("")}</div></div>`+nav()},
+     <div style="text-align:right;flex-shrink:0"><b class="num" style="font-size:15px;color:${col}">${len?fmtStock(p.code,len,S.sb):"Nil"}</b></div></button>`}).join("")}</div></div>`+nav()},
 
 prices(){const P=DB.prices;
  const inp=(key)=>{const v=P.rates[key];return `<input class="pin" inputmode="decimal" data-price="${esc(key)}" value="${v>0?v:""}" placeholder="—" ${can("prices")?"":"disabled"}>`};
@@ -867,7 +883,7 @@ new(){const d=S.draft, c=cust(d.customerId);
  const ql=S.q.trim().toLowerCase();
  d.finish=fixFinish({b:d.brand,f:d.finish});
  const DS=seriesFor(d.brand,d.finish);if(!DS.includes(S.filter)&&DS.length)S.filter=DS[0];
- const list=PROFILES.filter(p=>sold(p,d.brand,d.finish)&&(ql?(p.code+" "+p.desc).toLowerCase().includes(ql):p.series===S.filter));
+ const list=PROFILES.map(p=>pv(p,d.brand)).sort((a,b)=>pord(a)-pord(b)).filter(p=>sold(p,d.brand,d.finish)&&(ql?(p.code+" "+p.desc).toLowerCase().includes(ql):p.series===S.filter));
  const t2=(k,l)=>`<button class="${d.type===k?"on":""}" data-dtype="${k}">${l}</button>`;
  return bar(d.editId?"Edit "+d.no:"New "+LABEL[d.type],d.editId?"Change profiles, quantities, rates":"Pick customer, then tap + on profiles",{back:d.editId?"view":"home"})+`<div class="scroll" style="padding-bottom:180px">
   ${d.editId?`<div class="editnote">Editing ${LABEL[d.type].toLowerCase()} <b class="mono">${esc(DB.docs.find(x=>x.id===d.editId)?.no||"")}</b>. Tap <b>Update</b> to save the changes.${DB.docs.find(x=>x.id===d.editId)?.stockDeducted?" Stock will be corrected automatically.":""}</div>`
@@ -900,7 +916,7 @@ new(){const d=S.draft, c=cust(d.customerId);
   ${lines.length?`<div class="h2">In this ${LABEL[d.type].toLowerCase()} (${lines.length})</div><div class="card" style="padding:4px 14px">${lines.map((l,i)=>`
    <div class="cartrow" ${i===lines.length-1?'style="border:0"':""}><div class="grow"><div class="row" style="gap:6px"><span class="code">${esc(l.code)}</span><b style="font-size:13px">${esc(l.desc)}</b></div>
    ${l.variant?`<div class="calcline" style="color:var(--brand2);font-weight:700">${esc(l.variant)}</div>`:""}
-   ${l.brand&&l.lengths>stockOf(l.code,l.brand,l.finish)?`<div class="calcline" style="color:var(--danger);font-weight:600">⚠ Only ${fmtStock(l.code,stockOf(l.code,l.brand,l.finish))} in stock</div>`:""}
+   ${l.brand&&l.lengths>stockOf(l.code,l.brand,l.finish)?`<div class="calcline" style="color:var(--danger);font-weight:600">⚠ Only ${fmtStock(l.code,stockOf(l.code,l.brand,l.finish),l.brand)} in stock</div>`:""}
    <div class="calcline">${l.packets?`${l.packets} pkt × ${l.lpp} = `:""}<b>${l.lengths} lengths</b> · ${kg(l.weight)} kg × ${l.rate?"₹"+l.rate:'<b style="color:var(--danger)">no rate</b>'}${d.items[i].weight!=null&&d.items[i].weight!==""?" · <i>weighed</i>":""}</div></div>
    <div style="text-align:right"><b class="num" style="font-size:13.5px">₹${inr(l.amount)}</b><br><button class="muted" data-editline="${i}" style="font-weight:700;color:var(--brand2);padding:4px 0">Edit</button></div></div>`).join("")}</div>`:""}
   <div class="h2">Add profiles</div>
@@ -910,7 +926,7 @@ new(){const d=S.draft, c=cust(d.customerId);
    const lab=p.series==="REINFORCEMENT"?"lengths":"pkts";
    return `<div class="prof ${n?"sel":""}"><div class="grow"><div class="row" style="gap:7px"><span class="code">${esc(p.code)}</span><b style="font-size:13px">${esc(p.desc)}</b></div>
    <div class="calcline">${n?`${p.series==="REINFORCEMENT"?"":n+" × "+p.lpp+" = "}<b>${n*(p.series==="REINFORCEMENT"?1:p.lpp)} lengths · ${kg(r3(n*(p.series==="REINFORCEMENT"?1:p.lpp)*p.lw))} kg</b>`:`${p.series==="REINFORCEMENT"?"":p.lpp+"/pkt · "}${p.lw} kg/len · ${rt?"₹"+rt+"/kg":'<span style="color:var(--danger)">no rate</span>'}`}</div>
-   <div class="calcline" style="color:${stk<=0?"var(--danger)":"var(--ink3)"}">Stock: ${stk?fmtStock(p.code,stk):"Nil"}</div></div>
+   <div class="calcline" style="color:${stk<=0?"var(--danger)":"var(--ink3)"}">Stock: ${stk?fmtStock(p.code,stk,d.brand):"Nil"}</div></div>
    <div class="stepper"><button data-step="${esc(p.code)}" data-d="-1" aria-label="Less">−</button><input inputmode="numeric" data-qty="${esc(p.code)}" value="${n||""}" placeholder="0" aria-label="${lab}"><button data-step="${esc(p.code)}" data-d="1" aria-label="More">+</button></div></div>`}).join("")}</div>
  </div>
  ${lines.length?`<div class="sumbar"><div class="grow"><div style="font-size:11.5px;opacity:.7">${t.lengths} lengths · ${kg(t.weight)} kg · incl. GST${bal(c)&&d.addOld!==false?` + old bal ₹${inr(bal(c),0)}`:""}</div><b class="num" style="font-size:19px">₹${inr(t.grand+(d.addOld!==false?bal(c):0),0)}</b></div><button class="btn accent" data-act="savedraft">${d.editId?"Update":"Save"}</button></div>`:""}`+nav()},
@@ -967,7 +983,7 @@ function sheetHTML(){
    <button class="btn">${ec?"Save changes":"Save customer"}</button>
    ${ec&&can("delete")?(used?`<div class="muted">This customer has documents, so they can't be deleted. Changes here also show on their existing documents.</div>`
      :`<button type="button" class="btn ghost" style="color:var(--danger)" data-act="delcust">Delete customer</button>`):""}</form>`);}
- if(S.sheet.kind==="line"){const it=S.draft.items[S.sheet.i], l=calcLine(it), p=pByCode[it.code]||{};
+ if(S.sheet.kind==="line"){const it=S.draft.items[S.sheet.i], l=calcLine(it), p=pv(pByCode[it.code],it.brand)||{};
   return sheet(`<h3>${esc(l.desc)} <span class="code">${esc(l.code)}</span></h3><form id="lineForm" class="stack">
    <div class="two"><div class="field"><label>${p.series==="REINFORCEMENT"?"Lengths":"Packets"}</label><input name="n" inputmode="numeric" value="${p.series==="REINFORCEMENT"?l.lengths:l.packets}"></div>
    <div class="field"><label>Rate ₹/kg</label><input name="rate" inputmode="decimal" value="${it.brand?(it.rate||""):l.rate}" placeholder="${it.brand?(rateFor(it.code,it.brand,it.finish)?"List ₹"+rateFor(it.code,it.brand,it.finish):"Not set"):""}"></div></div>
@@ -1061,12 +1077,12 @@ function sheetHTML(){
    <div class="h2" style="margin:6px 2px 0">Transport details</div>${trFields(trOf(d))}
    <div class="muted">Next new ${LABEL[d.type].toLowerCase()} number: <b class="mono">${PREFIX[d.type]}${DB.next[d.type]}</b></div>
    <button class="btn">Save changes</button></form>`);}
- if(S.sheet.kind==="stock"){const p=pByCode[S.sheet.code],reinf=CAT(p)==="REINF",len=stockOf(p.code,S.sb,S.sf),mode=S.sheet.mode||"in";
+ if(S.sheet.kind==="stock"){const p=pv(pByCode[S.sheet.code],S.sb),reinf=CAT(p)==="REINF",len=stockOf(p.code,S.sb,S.sf),mode=S.sheet.mode||"in";
   const k=stockKey(p.code,S.sb,S.sf),mv=DB.moves.filter(m=>m.key===k).slice(0,6);
   const T=(m,l)=>`<button type="button" class="${mode===m?"on":""}" data-smode="${m}">${l}</button>`;
   return sheet(`<h3>${esc(p.desc)} <span class="code">${esc(p.code)}</span></h3>
    <div class="muted" style="margin:-8px 0 12px">${esc(reinf?S.sb:S.sb+" · "+S.sf)}</div>
-   <div class="card row" style="background:#f6f8f9;margin-bottom:14px"><div class="grow"><div class="muted">Current stock</div><b style="font-size:20px;color:${len<=0?"var(--danger)":"var(--ink)"}">${len?fmtStock(p.code,len):"Nil"}</b></div>
+   <div class="card row" style="background:#f6f8f9;margin-bottom:14px"><div class="grow"><div class="muted">Current stock</div><b style="font-size:20px;color:${len<=0?"var(--danger)":"var(--ink)"}">${len?fmtStock(p.code,len,S.sb):"Nil"}</b></div>
     <div style="text-align:right" class="muted">${len} lengths<br>${kg(r3(Math.max(0,len)*p.lw))} kg</div></div>
    ${can("stock")?"":`<div class="muted" style="margin-bottom:12px">${I.lock.replace("<svg",'<svg style="width:14px;height:14px;vertical-align:-2px"')} Only Admin / Accounts can change stock.</div>`}
    <form id="stockForm" class="stack" ${can("stock")?"":"hidden"}>
@@ -1080,7 +1096,7 @@ function sheetHTML(){
      <span class="pill ${m.lengths>=0?"p-INVOICE":"p-PI"}" style="min-width:46px;text-align:center">${m.type}</span>
      <span class="grow">${new Date(m.at).toLocaleDateString("en-IN",{day:"2-digit",month:"short"})}${m.ref?" · "+esc(m.ref):""}${m.note?` <span class="muted">${esc(m.note)}</span>`:""}</span>
      <b class="num" style="color:${m.lengths>=0?"var(--ok)":"var(--danger)"}">${m.lengths>0?"+":""}${m.lengths}</b></div>`).join("")}`:""}
-   ${can("stock")?'<div class="h2" style="margin-top:18px">Profile details (all brands)</div>':""}
+   ${can("stock")?`<div class="h2" style="margin-top:18px">Profile details · ${esc(S.sb)}</div>`:""}
    <form id="profForm" class="stack" ${can("stock")?"":"hidden"}><div class="two">
     ${reinf?"":`<div class="field"><label>Lengths per packet</label><input name="lpp" inputmode="numeric" value="${p.lpp}"></div>`}
     <div class="field" ${reinf?'style="grid-column:1/-1"':""}><label>Weight kg per length</label><input name="lw" inputmode="decimal" value="${p.lw}"></div></div>
@@ -1167,7 +1183,7 @@ function setQty(code,n){const d=S.draft,p=pByCode[code];n=Math.max(0,Math.floor(
 }
 const clone=o=>JSON.parse(JSON.stringify(o));
 function itemsFromDoc(doc){
-  return doc.lines.map(l=>{const p=pByCode[l.code],it={code:l.code};
+  return doc.lines.map(l=>{const p=pv(pByCode[l.code],l.brand),it={code:l.code};
     if(l.brand){it.brand=l.brand;it.finish=l.finish;it.shade=l.shade||""}
     if(p&&l.packets>0&&!(l.lpp&&l.lpp!==p.lpp))it.packets=l.packets;else{it.lengths=l.lengths;if(l.packets){it.packets=l.packets;it.lpp=l.lpp}}
     const base=String(l.series||"").split(" — ")[0];
@@ -1507,21 +1523,22 @@ $app.addEventListener("submit",e=>{e.preventDefault();const f=Object.fromEntries
   else DB.users.push({id:Math.max(0,...DB.users.map(x=>x.id))+1,name,username:un,hash:pwHash(un,pw),role,active:true,perms});
   save();S.sheet=null;toast(u?"User updated":"User added");render();
   if(S.role!=="admin"&&S.screen.startsWith("set"))go("home")}
- if(e.target.id==="stockForm"){if(!can("stock")){toast("Not allowed");return}const p=pByCode[S.sheet.code],mode=S.sheet.mode||"in";
+ if(e.target.id==="stockForm"){if(!can("stock")){toast("Not allowed");return}const p=pv(pByCode[S.sheet.code],S.sb),mode=S.sheet.mode||"in";
   const n=Math.max(0,Math.floor(+f.pk||0))*(CAT(p)==="REINF"?0:p.lpp)+Math.max(0,Math.floor(+f.lo||0));
   const cur=stockOf(p.code,S.sb,S.sf);
   if(mode!=="set"&&!n){toast("Enter packets or lengths");return}
   const delta=mode==="in"?n:mode==="out"?-n:n-cur;
-  if(mode==="set"&&!delta){toast("Stock already "+fmtStock(p.code,cur));return}
+  if(mode==="set"&&!delta){toast("Stock already "+fmtStock(p.code,cur,S.sb));return}
   moveStock(p.code,S.sb,S.sf,delta,mode==="in"?"IN":mode==="out"?"OUT":"COUNT","",f.note.trim());
-  save();toast(`${p.code}: ${fmtStock(p.code,stockOf(p.code,S.sb,S.sf))}`);render()}
- if(e.target.id==="profForm"){if(!can("stock")){toast("Not allowed");return}const p=pByCode[S.sheet.code];
+  save();toast(`${p.code}: ${fmtStock(p.code,stockOf(p.code,S.sb,S.sf),S.sb)}`);render()}
+ if(e.target.id==="profForm"){if(!can("stock")){toast("Not allowed");return}const p=pByCode[S.sheet.code],base=S.sb===DB.prices.brands[0]&&!(DB.brandSpecs[S.sb]||{})[p.code];
   const lpp=CAT(p)==="REINF"?p.lpp:Math.floor(+f.lpp),lw=parseFloat(f.lw);
   if(!(lpp>0)||!(lw>0)){toast("Enter valid numbers");return}
   const bl=DB.prices.brands.filter(b=>e.target.querySelector(`[name="b_${CSS.escape(b)}"]`)?.checked);
   if(!bl.length){toast("Tick at least one brand");return}
-  p.lpp=lpp;p.lw=lw;
-  if(p.custom){const cp=DB.customProfiles.find(x=>x.code===p.code);if(cp)Object.assign(cp,{lpp,lw})}else DB.profileEdits[p.code]={lpp,lw};
+  if(!base){DB.brandSpecs[S.sb]=DB.brandSpecs[S.sb]||{};DB.brandSpecs[S.sb][p.code]={...(DB.brandSpecs[S.sb][p.code]||{}),lpp,lw}}
+  else{p.lpp=lpp;p.lw=lw;
+  if(p.custom){const cp=DB.customProfiles.find(x=>x.code===p.code);if(cp)Object.assign(cp,{lpp,lw})}else DB.profileEdits[p.code]={lpp,lw}}
   if(bl.length===DB.prices.brands.length)delete DB.profileBrands[p.code];else DB.profileBrands[p.code]=bl;
   save();toast("Profile details saved");
   if(!inBrand(p,S.sb)){S.sheet=null}render()}
@@ -1545,7 +1562,7 @@ $app.addEventListener("submit",e=>{e.preventDefault();const f=Object.fromEntries
   save();S.sheet=null;toast(`${code} added to ${series}`);render()}
  if(e.target.id==="balForm"){if(!can("balance")){toast("Not allowed");return}const c=cust(S.sheet.id),cr=e.target.querySelector('[data-baltype="cr"]').classList.contains("on");
   const a=r2(Math.abs(parseFloat(f.amt)||0));c.balance=cr?-a:a;c.balanceNote=f.note.trim();save();S.sheet=null;toast("Balance saved");render()}
- if(e.target.id==="lineForm"){const it=S.draft.items[S.sheet.i],p=pByCode[it.code];
+ if(e.target.id==="lineForm"){const it=S.draft.items[S.sheet.i],p=pv(pByCode[it.code],it.brand);
   const n=Math.max(1,Math.floor(+f.n||1));if(p.series==="REINFORCEMENT")it.lengths=n;else it.packets=n;
   if(it.brand&&p&&!sold(p,f.brand,f.finish)){toast(`${p.code} is not sold in ${f.brand} · ${f.finish}`);return}
   if(it.brand){it.rate=f.rate===""?null:(+f.rate||null);it.brand=f.brand;it.finish=f.finish;it.shade=/^white$/i.test(f.finish)?"":f.shade.trim()}
@@ -1900,7 +1917,7 @@ function exportStock(btn){busy(btn,async()=>{
    {header:"Description",key:"d",width:30},{header:"Lengths/pkt",key:"lpp",width:11},{header:"Packets",key:"pk",width:9},{header:"Loose lengths",key:"lo",width:12},
    {header:"Total lengths",key:"len",width:12},{header:"Kg/length",key:"lw",width:10},{header:"Weight (kg)",key:"kg",width:12}];
   const seen=new Set();
-  combos.forEach(([b,f])=>PROFILES.forEach(p=>{const k=stockKey(p.code,b,f);if(seen.has(k))return;seen.add(k);
+  combos.forEach(([b,f])=>PROFILES.forEach(p0=>{const p=pv(p0,b),k=stockKey(p.code,b,f);if(seen.has(k))return;seen.add(k);
     const len=+DB.stock[k]||0;if(!len)return;const reinf=CAT(p)==="REINF";
     const row=ws.addRow({b,f:reinf?"-":f,s:p.series,c:p.code,d:p.desc,lpp:reinf?null:p.lpp,pk:reinf?null:Math.trunc(len/p.lpp),lo:reinf?len:len%p.lpp,len,lw:p.lw});
     row.getCell("kg").value={formula:`I${row.number}*J${row.number}`,result:r3(len*p.lw)};}));
