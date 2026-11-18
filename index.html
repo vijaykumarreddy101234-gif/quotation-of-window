@@ -308,15 +308,15 @@ const COMPANY={name:"RAVIRAJA INDUSTRIES PRIVATE LIMITED",short:"Raviraja Indust
 
 const P=(s,d,c,l,m,w,r)=>({series:s,desc:d,code:c,lpp:l,mw:m,lw:w,rate:r,hsn:s==="REINFORCEMENT"?"72255010":"39162099"});
 const PROFILES=[
- P("80.5 SERIES","2 TRACK","53ET",6,.825,4.867,150),P("80.5 SERIES","2.5 TRACK","80ET",6,1.181,6.967,150),
- P("80.5 SERIES","3 TRACK","95ET",4,1.346,7.941,150),P("80.5 SERIES","SLIDING SASH","60ESH",8,.776,4.578,150),
- P("80.5 SERIES","INTERLOCK","38IL",20,.192,1.132,150),P("80.5 SERIES","SMALL BEAD","17.5 EB",25,.185,1.0915,150),
- P("92 SERIES","2 TRACK","62T",6,.947,5.587,150),P("92 SERIES","2.5 TRACK","92T",4,1.287,7.596,150),
- P("92 SERIES","3 TRACK","112T",4,1.658,9.785,150),P("92 SERIES","SMALL SASH","59SS",6,.873,5.150,150),
- P("92 SERIES","MEDIUM SASH","67MS",6,.955,5.633,150),P("92 SERIES","BIG SASH","84BS",6,1.213,7.154,150),
- P("92 SERIES","MESH","53M",12,.483,2.85,150),P("92 SERIES","MULLION MESH","62MM",12,.611,3.602,150),
- P("92 SERIES","SMALL BEAD","24.5 ESB",20,.260,1.535,150),P("92 SERIES","BIG BEAD","35CB",20,.347,2.05,150),
- P("92 SERIES","DOUBLE GLAZE BEAD","11.5 DGB",20,.200,1.18,150),P("92 SERIES","INTERLOCK","44IL",20,.206,1.215,150),
+ P("ECO SERIES","2 TRACK","53ET",6,.825,4.867,150),P("ECO SERIES","2.5 TRACK","80ET",6,1.181,6.967,150),
+ P("ECO SERIES","3 TRACK","95ET",4,1.346,7.941,150),P("ECO SERIES","SLIDING SASH","60ESH",8,.776,4.578,150),
+ P("ECO SERIES","INTERLOCK","38IL",20,.192,1.132,150),P("ECO SERIES","SMALL BEAD","17.5 EB",25,.185,1.0915,150),
+ P("PREMIUM SERIES","2 TRACK","62T",6,.947,5.587,150),P("PREMIUM SERIES","2.5 TRACK","92T",4,1.287,7.596,150),
+ P("PREMIUM SERIES","3 TRACK","112T",4,1.658,9.785,150),P("PREMIUM SERIES","SMALL SASH","59SS",6,.873,5.150,150),
+ P("PREMIUM SERIES","MEDIUM SASH","67MS",6,.955,5.633,150),P("PREMIUM SERIES","BIG SASH","84BS",6,1.213,7.154,150),
+ P("PREMIUM SERIES","MESH","53M",12,.483,2.85,150),P("PREMIUM SERIES","MULLION MESH","62MM",12,.611,3.602,150),
+ P("PREMIUM SERIES","SMALL BEAD","24.5 ESB",20,.260,1.535,150),P("PREMIUM SERIES","BIG BEAD","35CB",20,.347,2.05,150),
+ P("PREMIUM SERIES","DOUBLE GLAZE BEAD","11.5 DGB",20,.200,1.18,150),P("PREMIUM SERIES","INTERLOCK","44IL",20,.206,1.215,150),
  P("CASEMENT","SMALL CASEMENT FRAME","42VF",6,.585,3.45,150),P("CASEMENT","CASEMENT OUTER","60OF",6,1.030,6.075,150),
  P("CASEMENT","CASEMENT OUTER","72OF",6,1.246,7.350,150),P("CASEMENT","CASEMENT OUTWARD WINDOW SASH","78OW",6,1.246,7.35,150),
  P("CASEMENT","CASEMENT OUTWARD DOOR SASH","104OD",4,1.559,9.2,150),P("CASEMENT","CASEMENT INWARD DOOR SASH","104ID",4,1.621,9.564,150),
@@ -474,6 +474,18 @@ const canType=t=>can(TYPE_PERM[t]);
 const allowedTypes=()=>["PI","QUOTATION","INVOICE"].filter(canType);
 if(!DB.customProfiles) DB.customProfiles=[];
 if(!DB.profileBrands) DB.profileBrands={};
+function addCustomers(rows){ // rows: [{gstin,name,address,phone,state}] -> {added,skipped,bad}
+  const res={added:[],skipped:[],bad:[]};
+  rows.forEach(r=>{const name=String(r.name||"").trim().toUpperCase().replace(/\s+/g," ");if(!name)return;
+    const g=String(r.gstin||"").toUpperCase().replace(/[^0-9A-Z]/g,""),chk=gstCheck(g);
+    if(g&&DB.customers.some(c=>c.gstin===g)||(!g&&DB.customers.some(c=>c.name===name))){res.skipped.push(name);return}
+    if(g&&!chk.ok)res.bad.push(name);
+    const ph=String(r.phone||"").replace(/\D/g,"").replace(/^91(?=\d{10}$)/,"");
+    DB.customers.push({id:DB.nextCust++,name,gstin:g,state:r.state||(chk.ok?chk.state:""),stateCode:chk.ok?chk.stateCode:(g.slice(0,2)||""),
+      address:String(r.address||"").replace(/\s+/g," ").replace(/,\s*,/g,",").trim(),phone:ph,balance:0,balanceNote:""});res.added.push(name)});
+  return res}
+const SERIES_RENAME={"80.5 SERIES":"ECO SERIES","92 SERIES":"PREMIUM SERIES"};
+DB.customProfiles.forEach(cp=>{if(SERIES_RENAME[cp.series])cp.series=SERIES_RENAME[cp.series]});
 DB.customProfiles.forEach(cp=>{if(!pByCode[cp.code]){const np={...cp,custom:true};PROFILES.push(np);pByCode[cp.code]=np}});
 Object.entries(DB.profileEdits).forEach(([c,e])=>{if(pByCode[c])Object.assign(pByCode[c],e)});
 function refreshSeries(){const s=[...new Set(PROFILES.map(p=>p.series))];SERIES.splice(0,SERIES.length,...s)}
@@ -519,7 +531,7 @@ function bumpCounter(type,no){const m=no.match(/^(.*?)(\d+)$/);
 const due=d=>d.t.grand+(+d.oldBalance||0);
 
 /* ================== UI ================== */
-const S={screen:"login",user:null,tab:"ALL",draft:null,view:null,filter:"92 SERIES",q:"",sheet:null};
+const S={screen:"login",user:null,tab:"ALL",draft:null,view:null,filter:"PREMIUM SERIES",q:"",sheet:null};
 const $app=document.getElementById("app");
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const I={
@@ -770,7 +782,7 @@ docs(){const B=S.dbrand||"",dq=(S.dq||"").trim().toLowerCase(),list=DB.docs.filt
   <div>${list.map(docRow).join("")||'<div class="empty">Nothing here yet</div>'}</div></div>`+nav()},
 
 customers(){const cq=(S.cq||"").trim().toLowerCase(),list=DB.customers.filter(c=>!cq||(c.name+" "+(c.gstin||"")+" "+(c.phone||"")+" "+(c.address||"")).toLowerCase().includes(cq));
- return bar("Customers",DB.customers.length+" saved",{right:can("customers")?`<button class="iconbtn" data-act="addcust" aria-label="Add customer">${I.plus}</button>`:""})+
+ return bar("Customers",DB.customers.length+" saved",{right:can("customers")?`<label class="iconbtn" aria-label="Import customers from Excel or CSV" title="Import from Excel / CSV">${I.down.replace("<svg",'<svg style="transform:rotate(180deg)"')}<input type="file" id="custImport" accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden></label><button class="iconbtn" data-act="addcust" aria-label="Add customer">${I.plus}</button>`:""})+
  `<div class="scroll"><div class="search" style="margin-bottom:12px">${I.search}<input id="cq" placeholder="Search name, GSTIN, phone" value="${esc(S.cq||"")}"></div>
  ${list.length?"":`<div class="empty">${DB.customers.length?"No customer matches":"No customers yet. Tap + to add one."}</div>`}
  ${list.map(c=>`<div class="card" style="margin-bottom:8px">
@@ -957,6 +969,13 @@ function sheetHTML(){
    <div class="dlab" style="margin:4px 0 0">Available in brands</div>
    <div class="chips" style="flex-wrap:wrap">${brands.map(b=>`<label class="chip chk ${sel.includes(b)?"on":""}"><input type="checkbox" name="b_${esc(b)}" ${sel.includes(b)?"checked":""}>${esc(b)}</label>`).join("")}</div>
    <button class="btn">Add profile</button></form>`);}
+ if(S.sheet.kind==="importres"){const r=S.sheet.res;
+  return sheet(`<h3>Customers imported</h3>
+   <div class="stats" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:12px"><div class="stat"><div class="muted">Added</div><b style="color:var(--ok)">${r.added.length}</b></div>
+   <div class="stat"><div class="muted">Already saved</div><b>${r.skipped.length}</b></div><div class="stat"><div class="muted">GSTIN to check</div><b style="color:${r.bad.length?"var(--danger)":"var(--ink)"}">${r.bad.length}</b></div></div>
+   ${r.added.length?`<div class="muted" style="line-height:1.6">${r.added.map(esc).join(" · ")}</div>`:""}
+   ${r.bad.length?`<p style="font-size:13px;color:var(--danger)">Check the GST number of: ${r.bad.map(esc).join(", ")} (tap the customer to edit).</p>`:""}
+   <button class="btn" data-close style="margin-top:14px">Done</button>`);}
  if(S.sheet.kind==="rmvar")return sheet(`<h3>Remove ${S.sheet.isB?"brand":"finish"} ${esc(S.sheet.v)}?</h3><p style="font-size:14px;margin:0 0 16px">Its rates${S.sheet.isB?", logo and PDF design":""} will be removed. It isn't used in any document or stock.</p>
    <div class="two"><button class="btn ghost" data-close>Cancel</button><button class="btn" style="background:var(--danger)" data-act="dormvar">Remove</button></div>`);
  if(S.sheet.kind==="discard")return sheet(`<h3>Discard this ${LABEL[S.draft.type].toLowerCase()}?</h3><p style="font-size:14px;margin:0 0 16px">${S.draft.items.length} line(s) will be removed. This can't be undone.</p>
@@ -1386,6 +1405,9 @@ $app.addEventListener("change",e=>{
      if(key==="company")DB.logos.company=url;else DB.logos.brands[key.slice(6)]=url;
      if(!save()){if(key==="company")DB.logos.company=prev;else DB.logos.brands[key.slice(6)]=prev;return}
      toast("Logo saved");render()};im.onerror=()=>toast("Could not read this image");im.src=rd.result};rd.readAsDataURL(file);return}
+ if(e.target.id==="custImport"){const file=e.target.files&&e.target.files[0];e.target.value="";if(!file)return;
+   if(!can("customers")){toast("Not allowed");return}
+   importCustomersFile(file).then(res=>{save();S.sheet={kind:"importres",res};render()}).catch(err=>{console.error(err);toast(err.message||"Could not read this file")});return}
  if(e.target.id==="restoreIn"){const file=e.target.files&&e.target.files[0];if(!file)return;const rd=new FileReader();
    rd.onload=()=>{try{const j=JSON.parse(rd.result),d=j.data||j;if(!d||!Array.isArray(d.docs)||!Array.isArray(d.customers))throw 0;
      S.sheet={kind:"restore",data:d,at:j.at||""};render()}catch(err){toast("Not a valid backup file")}};rd.readAsText(file);return}
@@ -1882,6 +1904,31 @@ async function sharePDF(d,btn){busy(btn,async()=>{
   await saveFile(name,blob);
   toast("PDF saved: attach it in WhatsApp with 📎");
 })}
+
+/* ---------- customer import (Excel .xlsx or .csv; headers like GST NO, PARTY, ADDRESS, M.NUMBER) ---------- */
+function parseCSV(t){const rows=[];let row=[],cell="",q=false;t=t.replace(/^\uFEFF/,"");
+  for(let i=0;i<t.length;i++){const ch=t[i];
+    if(q){if(ch==='"'){if(t[i+1]==='"'){cell+='"';i++}else q=false}else cell+=ch}
+    else if(ch==='"')q=true;else if(ch===","){row.push(cell);cell=""}else if(ch==="\n"||ch==="\r"){if(ch==="\r"&&t[i+1]==="\n")i++;row.push(cell);rows.push(row);row=[];cell=""}else cell+=ch}
+  if(cell||row.length){row.push(cell);rows.push(row)}return rows}
+async function importCustomersFile(file){
+  let rows;
+  if(/\.csv$/i.test(file.name)||file.type==="text/csv")rows=parseCSV(await file.text());
+  else{await needLibs("xlsx");const wb=new ExcelJS.Workbook();await wb.xlsx.load(await file.arrayBuffer());const ws=wb.worksheets[0];rows=[];
+    ws.eachRow({includeEmpty:false},r=>{const a=[];r.eachCell({includeEmpty:true},(c,i)=>{let v=c.value;if(v&&typeof v==="object")v=v.text||v.result||(v.richText?v.richText.map(x=>x.text).join(""):"");a[i-1]=v==null?"":String(v)});rows.push(a)})}
+  const find=(hdr,re)=>hdr.findIndex(h=>re.test(String(h||"").trim()));
+  let hi=-1,col={};
+  for(let i=0;i<Math.min(rows.length,15);i++){const h=rows[i];
+    const g=find(h,/^(gst|gstin)\b|gst\s*(no|number|in)/i),n=find(h,/^(party|party\s*name|customer|customer\s*name|name|firm|firm\s*name|company|company\s*name)$/i),
+      a=find(h,/^addr/i),p=find(h,/^(mob|mobile|phone|ph|m\.?\s*no\.?|m\.?\s*number|contact|contact\s*no|cell)/i);
+    if(n>=0&&[g,a,p].filter(x=>x>=0).length>=1){hi=i;col={g,n,a,p,s:find(h,/^state$/i)};break}}
+  if(hi<0)throw new Error("No PARTY / NAME column found in this file");
+  const out=[];
+  rows.slice(hi+1).forEach(r=>{const name=(r[col.n]||"").trim(),addr=col.a>=0?(r[col.a]||"").trim():"";
+    if(!name){if(addr&&out.length)out[out.length-1].address+=", "+addr;return}      // wrapped address line
+    out.push({gstin:col.g>=0?r[col.g]:"",name,address:addr,phone:col.p>=0?r[col.p]:"",state:col.s>=0?r[col.s]:""})});
+  if(!out.length)throw new Error("No customers found in this file");
+  return addCustomers(out)}
 
 function exportRegister(btn){busy(btn,async()=>{
   await needLibs("xlsx");
