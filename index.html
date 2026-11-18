@@ -2035,6 +2035,9 @@ function applyDerived(){
   DB.customProfiles.forEach(cp=>{if(!pByCode[cp.code]){const np={...cp,custom:true};PROFILES.push(np);pByCode[cp.code]=np}});
 }
 /* ---- start ---- */
+const APP_HOME=FB_CFG?"https://"+FB_CFG.authDomain+"/":"";
+const OLD_HOST=CL.on&&location.hostname!==(FB_CFG.authDomain||"")&&!/^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+if(CL.on&&location.hostname===FB_CFG.projectId+".web.app")location.replace(APP_HOME+location.search);
 async function cloudBoot(){
   try{await Promise.all(["firebase-app-compat.js"].map(f=>loadScript(FB_CDN+f)));
     await Promise.all(["firebase-auth-compat.js","firebase-firestore-compat.js"].map(f=>loadScript(FB_CDN+f)))}
@@ -2052,6 +2055,7 @@ function authMsg(e){const c=e&&e.code||"";
   return "Sign-in failed: "+(e.message||c)}
 async function cloudSignIn(){CL.err="";const p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({prompt:"select_account"});
   CL.phase="signing";render();
+  if(location.hostname===FB_CFG.authDomain){try{await CL.auth.signInWithRedirect(p);return}catch(e){}}
   try{await CL.auth.signInWithPopup(p)}
   catch(e){const c=e.code||"";
     if(c.includes("popup-blocked")||c.includes("operation-not-supported")){try{await CL.auth.signInWithRedirect(p);return}catch(e2){e=e2}}
@@ -2195,10 +2199,22 @@ async function cloudOut(why){CL.unsub.forEach(f=>f());CL.unsub.length=0;CL.membe
   location.reload()}
 /* ---- screens ---- */
 const GLOGO=`<svg viewBox="0 0 48 48" width="20" height="20"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.6 5.4 2.6 13.3l7.8 6C12.3 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.8c4.3-4 6.9-9.9 6.9-17.2z"/><path fill="#FBBC05" d="M10.4 28.7c-.5-1.4-.8-3-.8-4.7s.3-3.2.8-4.7l-7.8-6C1 16.6 0 20.2 0 24s1 7.4 2.6 10.7l7.8-6z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.4-5.8c-2.1 1.4-4.8 2.3-8.5 2.3-6.3 0-11.7-4.1-13.6-9.8l-7.8 6C6.6 42.6 14.6 48 24 48z"/></svg>`;
+function movedCard(){const L=(()=>{try{return JSON.parse(localStorage.getItem("rr-quote-v1")||"null")}catch(e){return null}})();
+  const n=L?(L.customers||[]).length+(L.docs||[]).length:0;
+  return `<div class="info" style="font-size:14px;line-height:1.55"><b>The app has a new address.</b> Everyone signs in with Gmail there and sees the same live data.</div>
+   <a class="btn" href="${APP_HOME}" style="text-align:center;text-decoration:none">Open the new app</a>
+   <div class="muted" style="text-align:center;word-break:break-all">${APP_HOME}</div>
+   ${n>1?`<div class="dlab" style="margin-top:6px">Bring the data saved on this device</div>
+   <div class="muted" style="line-height:1.5">1. Tap <b>Save backup file</b>.<br>2. Open the new app as admin and choose <b>Restore from backup file</b>.</div>
+   <button class="btn ghost" data-act="backup">Save backup file (${(L.customers||[]).length} customers · ${(L.docs||[]).length} documents)</button>`:""}`}
 function cloudLogin(){const em=CL.user?esc(CL.user.email):"",ph=CL.phase;
   const msg={waiting:`<b>${em}</b> is not added yet.<br>Ask the admin to add this Gmail in <b>Settings → Users &amp; roles</b>, then tap <b>Check again</b>.`,
     disabled:`<b>${em}</b> has been switched off by the admin.`,notready:`The admin has not finished setting up the app yet. Try again in a few minutes.`,
     nolib:"Cannot load sign-in. Check internet and reopen the app.",error:esc(CL.err)}[ph];
+  if(OLD_HOST)return `<div class="login cl"><div style="color:#fff;margin-bottom:26px"><div class="logo">RR</div>
+   <div style="font-size:24px;font-weight:800;letter-spacing:-.4px">Raviraja Quotations</div>
+   <div style="opacity:.75;font-size:14px;margin-top:4px">Quotation · Purchase Order · Tax Invoice</div></div>
+   <div class="card stack" style="padding:20px;box-shadow:0 12px 30px rgba(15,37,48,.12)">${movedCard()}</div></div>`;
   const busy={boot:"Starting…",signing:"Opening Google…",checking:"Checking your access…",loading:"Loading company data…"}[ph];
   return `<div class="login cl">
   <div style="color:#fff;margin-bottom:26px"><div class="logo">RR</div>
@@ -2236,6 +2252,7 @@ function memberSheet(){const u=CL.members.find(x=>x.email===S.sheet.email),role=
 function setupSheet(){const L=CL.local||{customers:[],docs:[]},nc=(L.customers||[]).length,nd=(L.docs||[]).length;
  return sheet(`<h3>Set up the shared data</h3><p style="font-size:14px;margin:0 0 12px;line-height:1.5">The cloud is empty. Everyone you add will see what you put here.</p>
   <div class="stack">${nc>1||nd?`<button class="btn" data-act="cl-upload">Upload this device's data<br><span style="font-weight:500;font-size:12.5px;opacity:.85">${nc} customers · ${nd} documents · prices, stock, PDF design</span></button>`:""}
+  <label class="btn ghost" style="text-align:center">Restore from backup file<input type="file" accept=".json,application/json" id="restoreIn" hidden></label>
   <button class="btn ${nc>1||nd?"ghost":""}" data-act="cl-fresh">Start fresh</button></div>`).replace(/ data-close/g,"").replace(/<button type="button" class="sx"[^>]*>✕<\/button>/,"")}
 /* ---- hook into the app ---- */
 if(CL.on){
@@ -2246,7 +2263,7 @@ if(CL.on){
   SCREENS.setusers=()=>cloudUsers();
   SCREENS.home=()=>_home().replace('<span class="rolechip">',cloudDot()+' <span class="rolechip">');
   if(_settings)SCREENS.settings=()=>_settings().replace(/Signed in as ([^<(]*)\(/,(m,n)=>`Signed in as ${n}· ${esc(S.uid||"")} (`);
-  sheetHTML=function(){if(S.sheet&&S.sheet.kind==="member")return memberSheet();if(S.sheet&&S.sheet.kind==="cloudsetup")return setupSheet();return _sheet()};
+  sheetHTML=function(){if(!S.sheet&&CL.empty&&CL.phase==="live"&&S.role==="admin")S.sheet={kind:"cloudsetup"};if(S.sheet&&S.sheet.kind==="member")return memberSheet();if(S.sheet&&S.sheet.kind==="cloudsetup")return setupSheet();const h=_sheet();return S.sheet&&S.sheet.kind==="restore"?h.replace(/This replaces all data on this phone[^<]*/,"This puts the backup into the cloud for everyone: documents, customers, stock, prices and settings."):h};
   document.addEventListener("click",e=>{const el=e.target.closest("[data-act^='cl-'],[data-member],[data-mrole],[data-act='logout'],[data-act='dorestore']");if(!el)return;
     const ds=el.dataset;
     if(ds.member){e.stopImmediatePropagation();S.sheet={kind:"member",email:ds.member};render();return}
@@ -2275,7 +2292,7 @@ if(CL.on){
     const data={email:em,name:f.name.value.trim()||em.split("@")[0],role,perms,active,...(u?{}:{addedAt:new Date().toISOString(),addedBy:S.uid})};
     CL.fs.collection("members").doc(em).set(data,{merge:true}).then(()=>toast(u?"Saved":"Added: "+em+" can now sign in")).catch(()=>toast("Could not save (admin only)"));
     S.sheet=null;render()},true);
-  CL.phase="boot";cloudBoot();
+  CL.phase="boot";if(!OLD_HOST)cloudBoot();
 }
 
 render();
