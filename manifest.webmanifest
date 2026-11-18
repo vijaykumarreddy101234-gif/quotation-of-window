@@ -1,7 +1,7 @@
 {
   "name": "Raviraja Quotations",
   "short_name": "Raviraja",
-  "description": "Quotations, proforma and tax invoices for Raviraja Industries",
+  "description": "Quotations, purchase order and tax invoices for Raviraja Industries",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
