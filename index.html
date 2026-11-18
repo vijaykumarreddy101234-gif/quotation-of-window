@@ -276,6 +276,52 @@ button,.chip,.tile,.qa,label.tile,.nav button{touch-action:manipulation;-webkit-
 @media (max-height:760px){.dpreview{max-height:34vh}.designer{scroll-padding-top:calc(34vh + 16px)}}
 @media (max-height:620px){.dpreview{max-height:28vh}.designer{scroll-padding-top:calc(28vh + 16px)}}
 .phone.wide .designer{scroll-padding-top:0}
+/* ===== tablet & laptop layouts ===== */
+@media (min-width:700px){
+  html,body{background:var(--bg)}
+  .phone{max-width:none;box-shadow:none}
+  .phone.wide{max-width:none}
+  .top{padding-left:max(20px,calc((100% - 1120px)/2));padding-right:max(20px,calc((100% - 1120px)/2))}
+  .scroll{padding-left:max(20px,calc((100% - 1120px)/2));padding-right:max(20px,calc((100% - 1120px)/2))}
+  .dgrid,.scroll div:has(> .prof){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 12px;align-items:start}
+  .dgrid>.empty{grid-column:1/-1}
+  .dgrid>*{margin:0!important}.dgrid>.doc+.doc{margin-top:0}
+  .stats{grid-template-columns:repeat(4,minmax(0,1fr))}.stat.hero{grid-column:span 2}
+  .qagrid{grid-template-columns:repeat(4,minmax(0,170px));justify-content:start;gap:12px}
+  .qa{padding:16px 6px;font-size:13px}
+  .tiles{max-width:760px}
+  .sheet-bg{align-items:center;justify-content:center;padding:24px}
+  .sheet{max-width:560px;border-radius:20px;max-height:min(88vh,820px);padding-bottom:20px;animation:pop .18s ease-out}
+  .sheet .grab{display:none}
+  .sumbar{left:50%;right:auto;transform:translateX(-50%);width:min(720px,calc(100% - 40px))}
+  .nav{justify-content:center}.nav button{flex:0 0 120px}
+  .phone.wide .nav{max-width:none;border-radius:0;border-width:1px 0 0}
+  .login{align-items:center}.login>*{width:min(440px,100%)}
+}
+@keyframes pop{from{transform:scale(.97);opacity:0}to{transform:none;opacity:1}}
+@media (min-width:1024px){
+  :root{--side:232px}
+  #app:has(> .nav){padding-left:var(--side)}
+  .nav{top:0;bottom:0;right:auto;width:var(--side);flex-direction:column;justify-content:flex-start;align-items:stretch;gap:4px;padding:22px 14px;border-top:0;border-right:1px solid var(--line);z-index:9}
+  .phone.wide .nav{max-width:none;margin:0;border-radius:0;border-width:0 1px 0 0}
+  .nav::before{content:"Raviraja Quotations";order:-2;font-weight:800;font-size:16.5px;letter-spacing:-.3px;color:var(--brand);padding:2px 12px 18px}
+  .nav button{flex:none;flex-direction:row;justify-content:flex-start;gap:12px;font-size:14px;padding:11px 12px;border-radius:12px;color:var(--ink2)}
+  .nav button:hover{background:#f1f5f7}
+  .nav button.on{background:var(--info-bg);color:var(--brand)}
+  .nav .fab{order:-1;flex:none;margin:0 0 12px;padding:0}
+  .nav .fab span{margin:0;width:100%;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:800;font-size:14.5px;box-shadow:0 4px 12px rgba(242,163,58,.35)}
+  .nav .fab span::after{content:"New document"}
+  .nav .fab:hover{background:none}
+  .scroll{padding-bottom:40px}
+  #app:has(> .nav) .sumbar{left:calc(var(--side) + (100% - var(--side))/2);bottom:24px;width:min(760px,calc(100% - var(--side) - 48px))}
+  .dgrid,.scroll div:has(> .prof){grid-template-columns:repeat(2,minmax(0,1fr))}
+  .top{padding-top:16px;padding-bottom:16px}
+}
+@media (min-width:1440px){
+  .dgrid,.scroll div:has(> .prof){grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (hover:hover){.doc:hover,.prof:hover,.tile:hover{filter:brightness(.985)}}
+
 .scroll{scroll-padding-bottom:110px}
 .printopts{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:11px 14px;margin-bottom:12px}
 .nav{z-index:9}.sumbar{z-index:8}.toast{z-index:40}.sheet-bg{z-index:30}
@@ -677,7 +723,7 @@ home(){const docs=DB.docs, month=today().slice(0,7);
   ${!INST.standalone()&&(INST.prompt||!hideInst())?`<div class="instbanner"><button class="ibmain" data-go="install"><span class="ibicon">RR</span><span class="grow"><b>${INST.prompt?"Install this app":"Get the phone app"}</b><span class="muted">${INST.prompt?"Add to home screen · works offline":"Install on Android & iPhone · download"}</span></span><span class="go">${INST.prompt?"Install":"Open"} ›</span></button><button class="ibx" data-act="hideinst" aria-label="Hide">✕</button></div>`:""}
   <div class="qagrid">${canType("QUOTATION")?qa('data-act="new"',"plus","New quotation"):canType("PI")?qa('data-act="newpi"',"plus","New PO"):""}${canType("INVOICE")?qa('data-act="newinv"',"docs","New invoice"):canType("PI")&&canType("QUOTATION")?qa('data-act="newpi"',"docs","New PO"):""}
    ${qa('data-go="profiles"',"box","Stock")}${qa('data-go="customers"',"users","Customers")}</div>
-  <div class="h2">Recent</div>${docs.slice(0,6).map(docRow).join("")||'<div class="empty">No documents yet. Tap + to make your first quotation.</div>'}
+  <div class="h2">Recent</div><div class="dgrid">${docs.slice(0,6).map(docRow).join("")||'<div class="empty">No documents yet. Tap + to make your first quotation.</div>'}</div>
  </div>`+nav()},
 
 install(){const st=INST.standalone(),fr=INST.inFrame(),step=(n,t,sub)=>`<div class="istep"><span class="n">${n}</span><div class="grow"><b>${t}</b>${sub?`<div class="muted">${sub}</div>`:""}</div></div>`;
@@ -820,20 +866,20 @@ docs(){const B=S.dbrand||"",dq=(S.dq||"").trim().toLowerCase(),list=DB.docs.filt
   <div class="search" style="margin-top:10px">${I.search}<input id="dq" placeholder="Search number or customer" value="${esc(S.dq||"")}"></div>
   <div class="chips" style="margin-top:10px"><button class="chip ${!B?"on":""}" data-dbrand="">All brands</button>${DB.prices.brands.map(b=>`<button class="chip ${B===b?"on":""}" data-dbrand="${esc(b)}">${esc(b)}</button>`).join("")}</div>
   <div class="listsum"><span>${list.length} document${list.length===1?"":"s"}</span><b class="num">₹${inr(list.reduce((s,d)=>s+d.t.grand,0),0)}</b></div>
-  <div>${list.map(docRow).join("")||'<div class="empty">Nothing here yet</div>'}</div></div>`+nav()},
+  <div class="dgrid">${list.map(docRow).join("")||'<div class="empty">Nothing here yet</div>'}</div></div>`+nav()},
 
 customers(){const cq=(S.cq||"").trim().toLowerCase(),list=DB.customers.filter(c=>!cq||(c.name+" "+(c.gstin||"")+" "+(c.phone||"")+" "+(c.address||"")).toLowerCase().includes(cq));
  return bar("Customers",DB.customers.length+" saved",{right:can("customers")?`<label class="iconbtn" aria-label="Import customers from Excel or CSV" title="Import from Excel / CSV">${I.down.replace("<svg",'<svg style="transform:rotate(180deg)"')}<input type="file" id="custImport" accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden></label><button class="iconbtn" data-act="addcust" aria-label="Add customer">${I.plus}</button>`:""})+
  `<div class="scroll"><div class="search" style="margin-bottom:12px">${I.search}<input id="cq" placeholder="Search name, GSTIN, phone" value="${esc(S.cq||"")}"></div>
  ${list.length?"":`<div class="empty">${DB.customers.length?"No customer matches":"No customers yet. Tap + to add one."}</div>`}
- ${list.map(c=>`<div class="card" style="margin-bottom:8px">
+ <div class="dgrid">${list.map(c=>`<div class="card" style="margin-bottom:8px">
    <div class="row"><button class="grow custhead" data-editcust="${c.id}"><b style="font-size:14px">${esc(c.name)}</b> ${can("customers")?`<span class="editlink">${I.edit}</span>`:""}
    <div class="muted" style="margin-top:3px">${esc(c.address)}</div>
    <div class="row" style="margin-top:8px;gap:6px;flex-wrap:wrap"><span class="code">${esc(c.gstin||"No GSTIN")}</span>
    <span class="pill ${c.stateCode===COMPANY.stateCode?"p-INVOICE":"p-PI"}">${c.stateCode===COMPANY.stateCode?"CGST + SGST":"IGST 18%"}</span>${c.phone?`<span class="muted">· ${esc(c.phone)}</span>`:""}</div></button></div>
    <button class="balrow" data-act="editbal" data-id="${c.id}"><span class="grow">Old balance${c.balanceNote?` <span class="muted">· ${esc(c.balanceNote)}</span>`:""}</span>
      <b class="num" style="color:${bal(c)>0?"var(--danger)":bal(c)<0?"var(--ok)":"var(--ink3)"}">${bal(c)?"₹"+inr(Math.abs(bal(c)))+(bal(c)<0?" Cr":""):"Nil"}</b>${can("balance")?'<span style="color:var(--brand2);font-weight:700;font-size:12px">Edit</span>':""}</button>
-   ${allowedTypes().length?`<button class="btn ghost" style="margin-top:10px;padding:10px" data-act="quotefor" data-id="${c.id}">New ${LABEL[canType("QUOTATION")?"QUOTATION":allowedTypes()[0]].toLowerCase()}</button>`:""}</div>`).join("")}</div>`+nav()},
+   ${allowedTypes().length?`<button class="btn ghost" style="margin-top:10px;padding:10px" data-act="quotefor" data-id="${c.id}">New ${LABEL[canType("QUOTATION")?"QUOTATION":allowedTypes()[0]].toLowerCase()}</button>`:""}</div>`).join("")}</div></div>`+nav()},
 
 profiles(){const P=DB.prices;S.sb=S.sb||P.brands[0];S.sf=S.sf||P.finishes[0];
  const ql=(S.sq||"").trim().toLowerCase();
