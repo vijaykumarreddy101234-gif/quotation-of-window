@@ -351,6 +351,8 @@ const variantLabel=it=>{if(!it.brand)return "";const p=pByCode[it.code];
   if(p&&CAT(p)==="REINF")return it.brand;return `${it.brand} · ${it.finish}${it.shade?` (${it.shade})`:""}`};
 const sameVariant=(a,b)=>a.brand===b.brand&&a.finish===b.finish&&(a.shade||"")===(b.shade||"");
 
+function sortLines(ls){return ls.map((l,i)=>[lineKey(l,i),l]).sort((a,b)=>cmpKey(a[0],b[0])).map(x=>x[1])}
+function orderedLines(d){return sortLines(d.lines)}
 function calcLine(it){
   const p=pByCode[it.code]||{};
   const lpp=it.lpp??p.lpp??0, packets=it.packets||0;
@@ -430,7 +432,7 @@ const APP_MODE="clean";   // "clean" in the online copy: starts with no sample c
 function seed(){return {customers:[{id:1,name:"CASH CUSTOMER",address:"",gstin:"",state:"Telangana",stateCode:"36",phone:"",balance:0,balanceNote:""}],
   docs:[],next:{QUOTATION:400,PI:1,INVOICE:1},nextId:1,nextCust:2}}
 function mkDoc(type,no,date,cust,items,sourceId=null){
-  const lines=items.map(calcLine).map(l=>l.baked||!l.variant?l:{...l,series:`${l.series} — ${l.variant}`.toUpperCase(),baked:true});
+  const lines=sortLines(items.map(calcLine)).map(l=>l.baked||!l.variant?l:{...l,series:`${l.series} — ${l.variant}`.toUpperCase(),baked:true});
   return {id:1,type,no,date,customerId:cust.id,lines,t:totals(lines,cust.stateCode),status:"DRAFT",sourceId,transport:"By Road"};
 }
 let DB; try{DB=JSON.parse(localStorage.getItem("rr-quote-v1"))}catch(e){}
@@ -498,6 +500,15 @@ const finishesFor=b=>{const r=DB.finishRules.brands[b];const all=DB.prices.finis
 const seriesFinishOK=(series,f)=>{const r=DB.finishRules.series[series];return !r||!f||r.includes(f)};
 const sold=(p,b,f)=>inBrand(p,b)&&(CAT(p)==="REINF"||(finishesFor(b).includes(f)&&seriesFinishOK(p.series,f)));
 const seriesFor=(b,f)=>SERIES.filter(x=>PROFILES.some(p=>p.series===x&&(f?sold(p,b,f):inBrand(p,b))));
+/* line order on every document: ECO, PREMIUM, CASEMENT, (other series), AUXILIARIES, REINFORCEMENT */
+function seriesRank(series,code){const p=pByCode[code],c=p?CAT(p):"",b=String(series||(p&&p.series)||"").split(" — ")[0].toUpperCase();
+  if(c==="REINF"||/REINFORC/.test(b))return 5;if(c==="AUX"||/AUXIL/.test(b))return 4;
+  if(/ECO|80\.5/.test(b))return 0;if(/PREMIUM|PRIMIUM|92/.test(b))return 1;if(/CAS(E)?MENT/.test(b))return 2;return 3}
+function lineKey(l,i){const P=globalThis.__RR_PRICES||{brands:[],finishes:[]},bi=P.brands.indexOf(l.brand),fi=P.finishes.indexOf(l.finish),pi=PROFILES.findIndex(x=>x.code===l.code);
+  return [seriesRank(l.series,l.code),String(l.series||"").split(" — ")[0],bi<0?99:bi,fi<0?99:fi,l.shade||"",pi<0?999:pi,i]}
+function cmpKey(a,b){for(let k=0;k<a.length;k++){if(a[k]<b[k])return -1;if(a[k]>b[k])return 1}return 0}
+globalThis.__RR_PRICES=DB.prices;
+function sortItems(items){const s2=sortLines(items);items.splice(0,items.length,...s2)}
 const fixFinish=o=>{const fl=finishesFor(o.b);if(!fl.includes(o.f))o.f=fl[0];return o.f};
 const STD_LEN=5.9;   // metres per length (from the weight sheet: kg/length = kg/m × 5.9)
 const stockKey=(code,brand,finish)=>{const p=pByCode[code];return `${code}|${brand}|${p&&CAT(p)==="REINF"?"-":finish}`};
@@ -906,7 +917,7 @@ new(){const d=S.draft, c=cust(d.customerId);
 
 view(){const d=DB.docs.find(x=>x.id===S.view), c=cust(d.customerId);
  let lastSec=null;
- const rows=d.lines.map((l,i)=>{const sec=l.series!==lastSec?`<div class="sec">${esc(l.series)}</div>`:"";lastSec=l.series;
+ const rows=orderedLines(d).map((l,i)=>{const sec=l.series!==lastSec?`<div class="sec">${esc(l.series)}</div>`:"";lastSec=l.series;
   return sec+`<div class="li"><div class="n">${i+1}</div><div class="d">${esc(l.desc)}</div><div class="a num">₹${inr(l.amount)}</div>
   <div class="x"><span class="code">${esc(l.code)}</span> HSN ${l.hsn} · ${l.packets?`${l.packets} pkt × ${l.lpp} = `:""}<b>${l.lengths}</b> len · <b>${kg(l.weight)}</b> kg × ₹${l.rate}/kg</div></div>`}).join("");
  const src=d.sourceId&&DB.docs.find(x=>x.id===d.sourceId), kids=DB.docs.filter(x=>x.sourceId===d.id).sort((a,b)=>a.id-b.id);
@@ -1152,7 +1163,7 @@ function setQty(code,n){const d=S.draft,p=pByCode[code];n=Math.max(0,Math.floor(
  const i=d.items.findIndex(x=>x.code===code&&sameVariant(x,d));
  if(!n){if(i>=0)d.items.splice(i,1);return}
  const key=p.series==="REINFORCEMENT"?"lengths":"packets";
- if(i>=0){d.items[i][key]=n;d.items[i].weight=null} else d.items.push({code,[key]:n,brand:d.brand,finish:d.finish,shade:/^white$/i.test(d.finish)?"":(d.shade||"")});
+ if(i>=0){d.items[i][key]=n;d.items[i].weight=null} else {d.items.push({code,[key]:n,brand:d.brand,finish:d.finish,shade:/^white$/i.test(d.finish)?"":(d.shade||"")});sortItems(d.items)}
 }
 const clone=o=>JSON.parse(JSON.stringify(o));
 function itemsFromDoc(doc){
@@ -1168,7 +1179,7 @@ function itemsFromDoc(doc){
     if(!l.brand||l.rate!==rateFor(l.code,l.brand,l.finish))it.rate=l.rate;
     return it});
 }
-function startEdit(doc){const it=itemsFromDoc(doc),first=it.find(x=>x.brand)||{};
+function startEdit(doc){const it=sortLines(itemsFromDoc(doc)),first=it.find(x=>x.brand)||{};
   S.draft={editId:doc.id,type:doc.type,customerId:doc.customerId,items:it,no:doc.no,noEdited:true,date:doc.date,tr:clone(trOf(doc)),showTr:doc.type!=="QUOTATION"||trList(doc).length>0,
     addOld:!!doc.oldBalance,hideRate:!!doc.hideRate,hideWeight:!!doc.hideWeight,brand:first.brand||DB.prices.brands[0],finish:first.finish||DB.prices.finishes[0],shade:first.shade||""};
   S.q="";go("new");}
@@ -1350,7 +1361,7 @@ $app.addEventListener("click",e=>{
   case"stockxls":exportStock(el);break;
   case"copy":{const d=DB.docs.find(x=>x.id===S.view),c=cust(d.customerId);
    const txt=`${LABEL[d.type]} ${d.no} (${fmtDate(d.date)})\n${COMPANY.name}\nTo: ${c.name}\n`+(trList(d).length?`Transport: ${trOf(d).mode} · `+trList(d).map(([k,v])=>k+": "+v).join(" · ")+"\n":"")+`\n`+
-    d.lines.map((l,i)=>`${i+1}. ${l.desc} [${l.code}] ${l.lengths} len, ${kg(l.weight)} kg x Rs${l.rate} = Rs${inr(l.amount)}`).join("\n")+
+    orderedLines(d).map((l,i)=>`${i+1}. ${l.desc} [${l.code}] ${l.lengths} len, ${kg(l.weight)} kg x Rs${l.rate} = Rs${inr(l.amount)}`).join("\n")+
     `\n\nTaxable: Rs${inr(d.t.taxable)}\n${d.t.igst?`IGST 18%: Rs${inr(d.t.igst)}`:`CGST 9%: Rs${inr(d.t.cgst)}\nSGST 9%: Rs${inr(d.t.sgst)}`}\nTOTAL: Rs${inr(d.t.grand,0)}\n${d.t.words}`+(d.oldBalance?`\nOld balance: Rs${inr(d.oldBalance)}\nTOTAL DUE: Rs${inr(due(d),0)}`:"");
    navigator.clipboard.writeText(txt).then(()=>toast("Copied for WhatsApp"),()=>toast("Copy not allowed here"));break}
  }
@@ -1539,7 +1550,7 @@ $app.addEventListener("submit",e=>{e.preventDefault();const f=Object.fromEntries
   if(it.brand&&p&&!sold(p,f.brand,f.finish)){toast(`${p.code} is not sold in ${f.brand} · ${f.finish}`);return}
   if(it.brand){it.rate=f.rate===""?null:(+f.rate||null);it.brand=f.brand;it.finish=f.finish;it.shade=/^white$/i.test(f.finish)?"":f.shade.trim()}
   else it.rate=+f.rate||p.rate;
-  it.weight=f.weight===""?null:+f.weight;it.note=f.note;S.sheet=null;render()}
+  it.weight=f.weight===""?null:+f.weight;it.note=f.note;sortItems(S.draft.items);S.sheet=null;render()}
 });
 
 /* ================== EXPORT: PDF + EXCEL ================== */
@@ -1733,7 +1744,7 @@ function drawDoc(R,d,cfg,imgs){
   const brk=(need)=>{if(y+need>BOT){R.addPage();y=12;R.font(false,F(7));R.color(GR);R.text(`${d.no} (continued)`,M,y-3);head()}};
   head();
   let last=null;
-  d.lines.forEach((l,i)=>{
+  orderedLines(d).forEach((l,i)=>{
     if(l.series!==last){brk(12);R.font(true,F(7.4));const sh=5.2;R.rect(M,y,CW,sh,AL,LN,.15);R.color(A);R.text(l.series,W/2,y+3.7,"center");y+=sh;last=l.series}
     R.font(false,F(7.6));
     const vals={sl:i+1,desc:l.desc+(l.note?`\n(${l.note})`:""),hsn:l.hsn||"",code:l.code||"",pk:l.packets||"",lpp:l.packets?l.lpp:"",len:l.lengths,
@@ -1835,7 +1846,7 @@ function exportXLSX(d,btn){busy(btn,async()=>{
     cell.fill={type:"pattern",pattern:"solid",fgColor:{argb:navy}};cell.alignment={horizontal:"center",vertical:"middle",wrapText:true};cell.border=box});
   ws.getRow(H).height=30;
   let r=H+1,last=null;const first=r;
-  d.lines.forEach((l,i)=>{
+  orderedLines(d).forEach((l,i)=>{
     if(l.series!==last){ws.mergeCells(`A${r}:J${r}`);const cc=ws.getCell("A"+r);cc.value=l.series;cc.font={bold:true,color:{argb:navy},size:9};
       cc.alignment={horizontal:"center"};cc.fill={type:"pattern",pattern:"solid",fgColor:{argb:light}};cc.border=box;last=l.series;r++}
     const row=ws.getRow(r);
@@ -1911,7 +1922,7 @@ function waText(d,withItems){const c=cust(d.customerId),T=d.t,t=trOf(d),L=[];
   L.push(`*${COMPANY.name}*`,"",`Dear ${c.name},`,"");
   L.push(d.type==="QUOTATION"?`Please find our *Quotation ${d.no}* dated ${fmtDate(d.date)}.`:
          d.type==="PI"?`Please find our *Purchase Order ${d.no}* dated ${fmtDate(d.date)}.`:`Please find *Tax Invoice ${d.no}* dated ${fmtDate(d.date)}.`);
-  if(withItems){L.push("");d.lines.forEach((l,i)=>L.push(`${i+1}. ${l.desc} (${l.code})${l.variant?" - "+l.variant:""}: ${l.packets?l.packets+" pkt / ":""}${l.lengths} len${d.hideWeight?"":", "+kg(l.weight)+" kg"}${d.hideRate?"":" @ Rs "+l.rate+"/kg"} = Rs ${inr(l.amount)}`))}
+  if(withItems){L.push("");orderedLines(d).forEach((l,i)=>L.push(`${i+1}. ${l.desc} (${l.code})${l.variant?" - "+l.variant:""}: ${l.packets?l.packets+" pkt / ":""}${l.lengths} len${d.hideWeight?"":", "+kg(l.weight)+" kg"}${d.hideRate?"":" @ Rs "+l.rate+"/kg"} = Rs ${inr(l.amount)}`))}
   L.push("",d.hideWeight?`Total lengths: ${T.lengths}`:`Total weight: ${kg(T.weight)} kg (${T.lengths} lengths)`,`Taxable value: Rs ${inr(T.taxable)}`);
   if(T.igst)L.push(`IGST 18%: Rs ${inr(T.igst)}`);else L.push(`CGST 9%: Rs ${inr(T.cgst)}`,`SGST 9%: Rs ${inr(T.sgst)}`);
   L.push(`*${d.type==="INVOICE"?"Invoice":"Total"} amount: Rs ${inr(T.grand,0)}*`);

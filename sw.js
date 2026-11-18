@@ -1,5 +1,5 @@
 /* Offline support for the installed app: keeps the app and its PDF/Excel tools on the phone */
-const CACHE = "raviraja-v5";
+const CACHE = "raviraja-v6";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon-180.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => {
