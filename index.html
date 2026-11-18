@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f3b4c">
+<title>Raviraja Quotations</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Raviraja">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0f2530; --ink2:#4a5d66; --ink3:#8a9aa2; --line:#e3e9ec; --bg:#f3f6f7; --card:#fff;
+  --brand:#0f3b4c; --brand2:#16566e; --accent:#f2a33a; --accent-ink:#5a3600;
+  --ok:#1f8a5b; --ok-bg:#e6f5ee; --warn-bg:#fff4e2; --info-bg:#e7f1f6; --danger:#c2412d;
+  --r:14px; --safe-t:env(safe-area-inset-top,0px); --safe-b:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overscroll-behavior-y:none;background:#d9e2e6;font-family:"Plus Jakarta Sans",system-ui,sans-serif;color:var(--ink)}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+input,select{font:inherit;color:inherit}
+.phone{max-width:440px;height:100%;height:100dvh;margin:0 auto;background:var(--bg);display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(15,37,48,.15)}
+.top{background:var(--brand);color:#fff;padding:calc(14px + var(--safe-t)) 18px 14px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.top h1{font-size:18px;font-weight:700;margin:0;flex:1;letter-spacing:-.2px}
+.top .sub{font-size:12px;opacity:.7;font-weight:500}
+.iconbtn{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:rgba(255,255,255,.1)}
+.iconbtn svg{width:20px;height:20px}
+.scroll{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:16px 16px calc(96px + var(--safe-b))}
+.nav{position:absolute;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:flex;padding:8px 6px calc(8px + var(--safe-b))}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;color:var(--ink3);padding:4px 0}
+.nav button svg{width:22px;height:22px}
+.nav button.on{color:var(--brand)}
+.nav .fab{flex:0 0 64px}
+.nav .fab span{width:52px;height:52px;margin-top:-26px;border-radius:16px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;box-shadow:0 6px 16px rgba(242,163,58,.45)}
+.card{background:var(--card);border-radius:var(--r);padding:14px;border:1px solid var(--line)}
+.stack>*+*{margin-top:12px}
+.h2{font-size:13px;font-weight:700;color:var(--ink2);text-transform:uppercase;letter-spacing:.6px;margin:20px 2px 10px}
+.row{display:flex;align-items:center;gap:10px}
+.grow{flex:1;min-width:0}
+.muted{color:var(--ink3);font-size:12.5px}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:"JetBrains Mono",monospace;font-size:12px}
+.pill{font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;white-space:nowrap}
+.p-QUOTATION{background:var(--info-bg);color:var(--brand2)}
+.p-PI{background:var(--warn-bg);color:#9a5b00}
+.p-INVOICE{background:var(--ok-bg);color:var(--ok)}
+.p-CONVERTED{background:#eef0f1;color:var(--ink3)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+.stat b{display:block;font-size:20px;font-weight:800;margin-top:4px;letter-spacing:-.4px}
+.stat.hero{grid-column:1/-1;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:0}
+.stat.hero .muted{color:rgba(255,255,255,.7)}
+.stat.hero b{font-size:26px}
+.doc{display:flex;gap:12px;align-items:center;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);width:100%;text-align:left}
+.doc+.doc{margin-top:8px}
+.doc .amt{font-weight:700;text-align:right}
+.tabs{display:flex;gap:6px;background:#e6ecef;padding:4px;border-radius:12px}
+.tabs button{flex:1;padding:8px 4px;border-radius:9px;font-size:12.5px;font-weight:700;color:var(--ink2)}
+.tabs button.on{background:#fff;color:var(--brand);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.field{display:block}
+.field label{display:block;font-size:12px;font-weight:700;color:var(--ink2);margin:0 0 6px 2px}
+.field input,.field select{width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font-size:15px;outline:none}
+.field input:focus,.field select:focus{border-color:var(--brand2)}
+.btn{width:100%;padding:14px;border-radius:13px;font-weight:700;font-size:15px;background:var(--brand);color:#fff}
+.btn.accent{background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:#fff;color:var(--brand);border:1.5px solid var(--line)}
+.btn:disabled{opacity:.45}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{padding:7px 12px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-size:12.5px;font-weight:600;white-space:nowrap;color:var(--ink2)}
+.chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.prof{display:flex;align-items:center;gap:10px;padding:11px 12px;background:#fff;border:1px solid var(--line);border-radius:12px}
+.prof+.prof{margin-top:7px}
+.prof.sel{border-color:var(--brand2);background:#f5fafc;box-shadow:inset 3px 0 0 var(--brand2)}
+.code{font-family:"JetBrains Mono",monospace;font-size:11.5px;background:#eef3f5;color:var(--brand2);padding:2px 6px;border-radius:6px}
+.stepper{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:11px;overflow:hidden;flex-shrink:0}
+.stepper button{width:40px;height:40px;font-size:18px;font-weight:700;color:var(--brand)}
+.stepper input{width:38px;text-align:center;border:0;font-weight:700;font-size:15px;padding:0;outline:none;-moz-appearance:textfield}
+.stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none}
+.calcline{font-size:11.5px;color:var(--ink2);margin-top:3px}
+.calcline b{color:var(--ink)}
+.sumbar{position:absolute;left:12px;right:12px;bottom:calc(84px + var(--safe-b));background:var(--ink);color:#fff;border-radius:16px;padding:12px 12px 12px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 24px rgba(15,37,48,.3)}
+.sumbar .btn{width:auto;padding:11px 16px;font-size:14px}
+.search{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:0 12px}
+.search input{border:0;outline:none;padding:11px 0;flex:1;font-size:15px;background:none}
+.search svg{width:18px;height:18px;color:var(--ink3)}
+/* document view */
+.paper{background:#fff;border-radius:var(--r);border:1px solid var(--line);overflow:hidden}
+.paper .hd{background:var(--brand);color:#fff;padding:14px 16px}
+.paper .hd .t{font-size:11px;letter-spacing:2px;font-weight:700;color:var(--accent)}
+.paper .hd .co{font-weight:800;font-size:15px;margin-top:4px}
+.paper .hd .ad{font-size:11px;opacity:.75;margin-top:3px;line-height:1.45}
+.meta{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line)}
+.meta div{padding:10px 16px;font-size:12px}
+.meta div:nth-child(odd){border-right:1px solid var(--line)}
+.meta div+div+div{border-top:1px solid var(--line)}
+.meta b{display:block;font-size:13.5px;margin-top:2px}
+.billto{padding:12px 16px;border-bottom:1px solid var(--line);font-size:12px}
+.billto b{font-size:14px;display:block;margin:3px 0}
+.sec{padding:8px 16px;background:#f3f7f9;font-size:11px;font-weight:800;letter-spacing:1px;color:var(--brand2);border-bottom:1px solid var(--line)}
+.li{padding:10px 16px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:22px 1fr auto;gap:2px 8px}
+.li .n{color:var(--ink3);font-size:12px;padding-top:1px}
+.li .d{font-weight:700;font-size:13.5px}
+.li .a{font-weight:700;text-align:right;font-size:13.5px}
+.li .x{grid-column:2/4;font-size:11.5px;color:var(--ink2)}
+.tot{padding:12px 16px}
+.tot .r{display:flex;justify-content:space-between;font-size:13px;padding:3px 0}
+.tot .g{border-top:2px solid var(--ink);margin-top:8px;padding-top:10px;font-size:17px;font-weight:800}
+.words{margin:0 16px 14px;padding:10px 12px;background:var(--warn-bg);border-radius:10px;font-size:12px;font-weight:600;color:#7a4a00}
+.bank{padding:12px 16px;border-top:1px solid var(--line);font-size:11.5px;color:var(--ink2);line-height:1.6}
+.sheet-bg{position:absolute;inset:0;background:rgba(15,37,48,.45);display:flex;align-items:flex-end;z-index:20;animation:fade .15s}
+.sheet{background:#fff;width:100%;border-radius:20px 20px 0 0;padding:8px 18px calc(20px + var(--safe-b));max-height:88%;overflow-y:auto;animation:up .2s ease-out}
+.sheet .grab{width:40px;height:4px;background:var(--line);border-radius:4px;margin:4px auto 14px}
+.sheet h3{margin:0 0 14px;font-size:17px}
+.sheet-bg.still,.sheet-bg.still .sheet{animation:none}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+@keyframes fade{from{opacity:0}}
+.toast{position:absolute;left:50%;top:calc(76px + var(--safe-t));transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:13.5px;font-weight:600;z-index:30;animation:fade .2s;white-space:nowrap}
+.login{flex:1;display:flex;flex-direction:column;justify-content:center;padding:28px 26px calc(28px + var(--safe-b));background:linear-gradient(180deg,var(--brand) 0 38%,var(--bg) 38%)}
+.logo{width:58px;height:58px;border-radius:17px;background:var(--accent);display:grid;place-items:center;color:var(--accent-ink);font-weight:800;font-size:22px;margin-bottom:14px}
+.err{background:#fdecea;color:var(--danger);padding:10px 12px;border-radius:10px;font-size:13px;font-weight:600}
+.empty{text-align:center;padding:40px 20px;color:var(--ink3)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.exp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.exp button{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:13px;font-weight:700;font-size:14px;background:#fff;border:1.5px solid var(--line)}
+.exp button svg{width:20px;height:20px}
+.exp .pdf{color:#b3261e}.exp .xls{color:#1d6f42}
+.exp button:disabled{opacity:.5}
+.ptab{width:100%;border-collapse:collapse;margin-top:8px}
+.ptab th{font-size:11px;color:var(--ink3);font-weight:700;text-align:center;padding:4px}
+.ptab td{padding:4px;font-size:13.5px;font-weight:600}
+.ptab td:first-child{width:34%}
+.pin{width:100%;padding:9px 10px;border:1.5px solid var(--line);border-radius:10px;font-size:15px;font-weight:700;text-align:center;outline:none;background:#fff}
+.pin:focus{border-color:var(--brand2)}
+.pin.saved{border-color:var(--ok);background:var(--ok-bg)}
+.balrow{display:flex;align-items:center;gap:10px;width:100%;margin-top:12px;padding:10px 12px;border-radius:11px;background:#f6f8f9;border:1px dashed var(--line);font-size:13px;font-weight:600;text-align:left}
+.trbox{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;padding:10px 16px 12px;border-bottom:1px solid var(--line);background:#fafbfc}
+.trbox span{display:block;font-size:10.5px;color:var(--ink3);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+.trbox b{font-size:13px;word-break:break-word}
+.wabtn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:14px;border-radius:13px;background:#25d366;color:#05371b;font-weight:800;font-size:15px;margin-bottom:10px}
+.wabtn svg{width:22px;height:22px}
+a.wabtn{text-decoration:none}
+.wamsg{white-space:pre-wrap;font-size:12.5px;line-height:1.45;background:#e7fbe9;border-radius:12px;padding:12px;max-height:210px;overflow:auto;border:1px solid #c8efcf}
+.wastep{display:flex;gap:10px;align-items:center}
+.wastep .n{width:26px;height:26px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;flex-shrink:0}
+.delbtn{margin-top:22px;color:var(--danger);border-color:#f3c9c2;display:flex;align-items:center;justify-content:center;gap:8px}
+.delbtn svg{width:19px;height:19px}
+.stickybrand{position:sticky;top:-16px;z-index:5;margin:0 -16px;padding:10px 16px 10px;background:rgba(243,246,247,.96);backdrop-filter:blur(6px);display:flex;flex-direction:column;gap:7px}
+.chip.ser{border-radius:9px;background:#e9eff2;border-color:#e9eff2;font-weight:700;color:var(--brand2)}
+.chip.ser.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.stickybrand.stuck{box-shadow:0 6px 12px -8px rgba(15,37,48,.35);border-bottom:1px solid var(--line)}
+.editnote{background:var(--warn-bg);color:#7a4a00;padding:10px 12px;border-radius:11px;font-size:13px;line-height:1.45}
+
+/* ---------- home ---------- */
+.hometop{padding-bottom:16px}
+.avatar{width:42px;height:42px;border-radius:13px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:800;font-size:15px;flex-shrink:0}
+.avatar.sm{width:38px;height:38px;border-radius:11px;font-size:13px;background:#e6eef1;color:var(--brand)}
+.rolechip{background:rgba(255,255,255,.16);padding:1px 8px;border-radius:999px;font-weight:700;font-size:11px;letter-spacing:.3px}
+.qagrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.qa{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;border-radius:14px;background:#fff;border:1px solid var(--line);font-size:11.5px;font-weight:700;color:var(--ink2);text-align:center;transition:transform .12s}
+.qa svg{width:22px;height:22px;color:var(--brand2)}
+.qa:active{transform:scale(.96)}
+/* ---------- settings ---------- */
+.tiles{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.tile{display:flex;align-items:center;gap:12px;width:100%;padding:13px 14px;text-align:left;cursor:pointer}
+.tile+.tile{border-top:1px solid var(--line)}
+.tile b{display:block;font-size:14.5px}
+.tile .muted{display:block;margin-top:2px}
+.ti{width:38px;height:38px;border-radius:11px;background:var(--info-bg);color:var(--brand2);display:grid;place-items:center;flex-shrink:0}
+.ti svg{width:20px;height:20px}
+.chev{color:var(--ink3);font-size:22px;font-weight:300}
+.btn.sm{width:auto;padding:8px 14px;font-size:13px;display:inline-flex;align-items:center;cursor:pointer}
+.logocard{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:12px;margin-bottom:10px}
+.logobox{width:96px;height:64px;border-radius:10px;border:1.5px dashed var(--line);display:grid;place-items:center;flex-shrink:0;overflow:hidden;
+  background:repeating-conic-gradient(#f3f6f7 0 25%,#fff 0 50%) 0 0/12px 12px}
+.logobox img{max-width:88px;max-height:56px;object-fit:contain}
+.usercard{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:12px;margin-bottom:8px}
+.role-admin{background:#efe7ff;color:#5b21b6}.role-accounts{background:var(--ok-bg);color:var(--ok)}.role-sales{background:var(--info-bg);color:var(--brand2)}
+.roleinfo{display:flex;gap:10px;align-items:center;padding:6px 2px}
+.roleinfo .pill{min-width:72px;text-align:center}
+.rolepick{display:block;width:100%;text-align:left;padding:11px 13px;border:1.5px solid var(--line);border-radius:12px;background:#fff}
+.rolepick b{display:block;font-size:14px}
+.rolepick.on{border-color:var(--brand2);background:#f1f8fb;box-shadow:inset 3px 0 0 var(--brand2)}
+.linkbtn{font-size:12.5px;font-weight:700;color:var(--brand2);margin-left:auto}
+/* ---------- PDF designer + preview ---------- */
+.pv{display:flex;flex-direction:column;gap:12px}
+.pvpage{width:100%;height:auto;border-radius:6px;box-shadow:0 2px 10px rgba(15,37,48,.14),0 0 0 1px rgba(15,37,48,.06);background:#fff}
+.pvload{height:240px;display:grid;place-items:center;color:var(--ink3);font-size:13px;background:#fff;border-radius:8px;border:1px dashed var(--line)}
+.pvhead{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.pvhead select{flex:1;min-width:0;padding:8px 10px;border-radius:10px;border:1.5px solid var(--line);background:#fff;font-size:13px;font-weight:600}
+.dpreview{position:sticky;top:-16px;z-index:4;margin:-16px -16px 14px;padding:12px 16px;background:#e4ebee;max-height:46vh;overflow-y:auto;border-bottom:1px solid var(--line);box-shadow:0 8px 14px -12px rgba(15,37,48,.4)}
+.dcontrols{display:flex;flex-direction:column;gap:12px}
+.dsec{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+.dlab{display:flex;align-items:center;font-size:12px;font-weight:800;color:var(--ink2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+.sublab{font-size:12px;font-weight:700;color:var(--ink3);margin:12px 0 7px}
+.seg button{font-size:12px}
+.laygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.laycard{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 6px 9px;border:1.5px solid var(--line);border-radius:12px;background:#fff;font-size:12px;font-weight:700;color:var(--ink2)}
+.laycard svg{width:100%;height:auto;border-radius:6px;background:#fff;border:1px solid #eef2f4}
+.laycard.on{border-color:var(--brand2);color:var(--brand);box-shadow:0 0 0 3px rgba(22,86,110,.12)}
+.swatches{display:flex;flex-wrap:wrap;gap:9px}
+.swatch{width:34px;height:34px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1.5px var(--line);cursor:pointer;position:relative}
+.swatch.on{box-shadow:0 0 0 2.5px var(--ink)}
+.swatch.custom{background:conic-gradient(red,#ff0,lime,cyan,blue,#f0f,red);overflow:hidden}
+.swatch.custom input{opacity:0;width:100%;height:100%;cursor:pointer}
+.toggrid{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px}
+.tog{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:13.5px;font-weight:600;text-align:left;color:var(--ink)}
+.tog .sw{width:36px;height:21px;border-radius:999px;background:#cfd8dc;position:relative;flex-shrink:0;transition:background .15s}
+.tog .sw::after{content:"";position:absolute;top:2.5px;left:2.5px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+.tog.on .sw{background:var(--ok)}
+.tog.on .sw::after{transform:translateX(15px)}
+.pvscroll{padding-bottom:calc(150px + var(--safe-b))}
+.pvbar{position:absolute;left:0;right:0;bottom:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 14px calc(12px + var(--safe-b));background:#fff;border-top:1px solid var(--line);z-index:6}
+.pvbar .btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px}
+/* wide screens: designer side by side */
+.designer.pvbig .dpreview{max-height:none;position:relative;top:0}
+.phone.wide .pvexp{display:none}
+.phone.wide{max-width:1180px}
+.phone.wide .designer{display:grid;grid-template-columns:400px 1fr;gap:20px;align-items:start}
+.phone.wide .dpreview{order:2;position:sticky;top:0;margin:0;max-height:calc(100vh - 170px);border-radius:14px;border:1px solid var(--line)}
+.phone.wide .dcontrols{order:1}
+.phone.wide .pvscroll .pv{max-width:820px;margin:0 auto}
+.phone.wide .nav{max-width:440px;margin:0 auto;border-radius:16px 16px 0 0;border:1px solid var(--line)}
+.phone.wide .pvbar{max-width:560px;margin:0 auto;border-radius:16px 16px 0 0;border:1px solid var(--line)}
+.btag{font-size:10px;font-weight:800;letter-spacing:.3px;padding:2px 6px;border-radius:6px;background:#fff4e2;color:#8a5200;border:1px solid #f6dfb7}
+.listsum{display:flex;justify-content:space-between;align-items:center;margin:12px 2px 8px;font-size:12.5px;color:var(--ink3);font-weight:600}
+.listsum b{color:var(--ink);font-size:14px}
+.splitbox{background:#fff8ec;border:1px solid #f6dfb7;border-radius:12px;padding:11px 12px}
+.splitlist{margin-top:8px;display:flex;flex-direction:column;gap:6px}
+.ticks{display:flex;gap:11px;align-items:flex-start;margin-top:12px;padding:11px 12px;background:#fff;border:1px solid var(--line);border-radius:12px;cursor:pointer}
+.ticks input{width:20px;height:20px;accent-color:var(--brand);margin:1px 0 0;flex-shrink:0}
+.ticks b{display:block;font-size:13.5px}
+.chip.chk{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.chip.chk input{width:15px;height:15px;accent-color:#fff;margin:0}
+.chip.ser.addser{background:#fff;border:1.5px dashed var(--brand2);color:var(--brand2)}
+.forsec{border-color:#f6dfb7;background:#fffbf3}
+.shead{position:sticky;top:-8px;z-index:3;display:flex;justify-content:flex-end;align-items:center;margin:-8px -18px 2px;padding:8px 12px 4px;background:#fff;border-radius:20px 20px 0 0}
+.shead .grab{position:absolute;left:50%;top:10px;transform:translateX(-50%);margin:0}
+.sx{width:34px;height:34px;border-radius:50%;background:#eef2f4;color:var(--ink2);font-size:16px;font-weight:700;display:grid;place-items:center;line-height:1}
+.sx:active{background:#dfe6e9}
+.sheet h3{padding-right:6px;margin-top:-6px}
+.unsaved{display:flex;align-items:center;gap:10px;background:#fff4e2;color:#7a4a00;border:1px solid #f6dfb7;padding:9px 12px;border-radius:11px;font-size:12.5px;margin-bottom:12px}
+.unsaved button{font-weight:800;color:var(--danger);font-size:13px}
+.resumecard{display:flex;align-items:center;gap:10px;width:100%;text-align:left;margin-top:12px;padding:13px 14px;border-radius:14px;background:#fff4e2;border:1px solid #f6dfb7}
+.resumecard b{display:block;font-size:14px;color:#7a4a00}.resumecard .go{font-weight:800;color:var(--brand2);font-size:13px}
+.custhead{text-align:left;display:block;width:100%}
+.editlink svg{width:14px;height:14px;vertical-align:-2px;color:var(--brand2)}
+.chipx{margin-left:4px;color:var(--danger);font-weight:800;font-size:12px}
+button,.chip,.tile,.qa,label.tile,.nav button{touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.sheet{overscroll-behavior:contain;will-change:transform}
+.chip{min-height:34px}
+.stepper input{width:44px}
+.sx{width:38px;height:38px}
+@media (pointer:coarse){
+  input,select,textarea{font-size:16px!important}            /* stops iPhone zooming into a field */
+  .chips{scroll-snap-type:x proximity}.chips>*{scroll-snap-align:start}
+  .iconbtn{width:42px;height:42px}
+  body.kb .nav,body.kb .sumbar,body.kb .pvbar{display:none}   /* keyboard open: give the field the room */
+  body.kb .scroll{padding-bottom:24px}
+}
+@media (max-width:360px){.hide-s{display:none}.top .sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.top .grow{min-width:0}.qagrid{gap:6px}.qa{font-size:10.5px;padding:10px 2px}.top h1{font-size:16.5px}}
+.designer{scroll-padding-top:calc(46vh + 16px)}
+@media (max-height:760px){.dpreview{max-height:34vh}.designer{scroll-padding-top:calc(34vh + 16px)}}
+@media (max-height:620px){.dpreview{max-height:28vh}.designer{scroll-padding-top:calc(28vh + 16px)}}
+.phone.wide .designer{scroll-padding-top:0}
+.scroll{scroll-padding-bottom:110px}
+.printopts{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:11px 14px;margin-bottom:12px}
+.nav{z-index:9}.sumbar{z-index:8}.toast{z-index:40}.sheet-bg{z-index:30}
+.permbox{border:1px solid var(--line);border-radius:12px;padding:4px 12px;background:#fafbfc}
+.permbox.isadmin{opacity:.7}
+.permrow{display:flex;gap:10px;align-items:center;padding:8px 0;font-size:14px;font-weight:600;border-bottom:1px solid #eef2f4;cursor:pointer}
+.permrow input{width:19px;height:19px;accent-color:var(--brand);margin:0}
+.permnote{font-size:12px;color:var(--ink3);padding:8px 0 6px}
+.permsum{font-size:11.5px;color:var(--brand2);margin-top:3px;line-height:1.4}
+.instbanner{display:flex;align-items:stretch;margin-top:12px;border-radius:14px;background:linear-gradient(135deg,#fff4e2,#ffe9c7);border:1px solid #f6dfb7;overflow:hidden}
+.ibmain{flex:1;display:flex;align-items:center;gap:11px;padding:11px 12px;text-align:left;min-width:0}
+.ibmain b{display:block;font-size:14px;color:#5a3600}.ibmain .go{font-weight:800;color:var(--brand2);font-size:13px;white-space:nowrap}
+.ibicon{width:38px;height:38px;border-radius:10px;background:var(--brand);color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:14px;flex-shrink:0}
+.ibx{width:40px;color:#9a6a2a;font-weight:800}
+.instcard{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.instcard img{width:56px;height:56px;border-radius:14px;flex-shrink:0}
+.instcard b{font-size:16px}
+.okbox{margin-top:14px;background:var(--ok-bg);color:var(--ok);padding:12px 14px;border-radius:12px;font-weight:700}
+.warnbox{margin-top:14px;background:#fff4e2;color:#7a4a00;padding:12px 14px;border-radius:12px;font-size:13.5px;line-height:1.5;border:1px solid #f6dfb7}
+.istep{display:flex;gap:11px;align-items:flex-start}
+.istep .n{width:24px;height:24px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px;flex-shrink:0;margin-top:1px}
+.istep b{font-size:13.5px;font-weight:600}
+.cartrow{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed var(--line)}
+</style>
+</head>
+<body>
+<div class="phone" id="phone"><div id="app" style="display:flex;flex-direction:column;height:100%"></div></div>
+
+<script>
+/* ================== DATA (from your files) ================== */
+const COMPANY={name:"RAVIRAJA INDUSTRIES PRIVATE LIMITED",short:"Raviraja Industries",
+ reg:"H No. 3-9-388/P51 Saraswathi Nagar, Old Check Post, Hyderabad, Rangareddy 500074, Telangana",
+ factory:"Plot no: 488, TIF MSME Green Park, Dandu Malkapuram Vill - 508252",phone:"8985587373",
+ gstin:"36AALCR2439Q1ZN",pan:"AALCR2439Q",state:"Telangana",stateCode:"36",
+ bank:"UNION BANK",acc:"138915010000003",ifsc:"UBIN0813893",branch:"IBRAHIMPATNAM",terms:"This Quotation Valid Only For 7 days."};
+
+const P=(s,d,c,l,m,w,r)=>({series:s,desc:d,code:c,lpp:l,mw:m,lw:w,rate:r,hsn:s==="REINFORCEMENT"?"72255010":"39162099"});
+const PROFILES=[
+ P("80.5 SERIES","2 TRACK","53ET",6,.825,4.867,150),P("80.5 SERIES","2.5 TRACK","80ET",6,1.181,6.967,150),
+ P("80.5 SERIES","3 TRACK","95ET",4,1.346,7.941,150),P("80.5 SERIES","SLIDING SASH","60ESH",8,.776,4.578,150),
+ P("80.5 SERIES","INTERLOCK","38IL",20,.192,1.132,150),P("80.5 SERIES","SMALL BEAD","17.5 EB",25,.185,1.0915,150),
+ P("92 SERIES","2 TRACK","62T",6,.947,5.587,150),P("92 SERIES","2.5 TRACK","92T",4,1.287,7.596,150),
+ P("92 SERIES","3 TRACK","112T",4,1.658,9.785,150),P("92 SERIES","SMALL SASH","59SS",6,.873,5.150,150),
+ P("92 SERIES","MEDIUM SASH","67MS",6,.955,5.633,150),P("92 SERIES","BIG SASH","84BS",6,1.213,7.154,150),
+ P("92 SERIES","MESH","53M",12,.483,2.85,150),P("92 SERIES","MULLION MESH","62MM",12,.611,3.602,150),
+ P("92 SERIES","SMALL BEAD","24.5 ESB",20,.260,1.535,150),P("92 SERIES","BIG BEAD","35CB",20,.347,2.05,150),
+ P("92 SERIES","DOUBLE GLAZE BEAD","11.5 DGB",20,.200,1.18,150),P("92 SERIES","INTERLOCK","44IL",20,.206,1.215,150),
+ P("CASEMENT","SMALL CASEMENT FRAME","42VF",6,.585,3.45,150),P("CASEMENT","CASEMENT OUTER","60OF",6,1.030,6.075,150),
+ P("CASEMENT","CASEMENT OUTER","72OF",6,1.246,7.350,150),P("CASEMENT","CASEMENT OUTWARD WINDOW SASH","78OW",6,1.246,7.35,150),
+ P("CASEMENT","CASEMENT OUTWARD DOOR SASH","104OD",4,1.559,9.2,150),P("CASEMENT","CASEMENT INWARD DOOR SASH","104ID",4,1.621,9.564,150),
+ P("CASEMENT","Z-MULLION","74ZM",6,1.109,6.545,150),P("CASEMENT","SASH MULLION","42SM",6,.744,4.389,150),
+ P("CASEMENT","T-MULLION","74TM",6,1.069,6.308,150),P("CASEMENT","FLY MULLION","60FM",6,.895,5.283,150),
+ P("AUXILIARIES","CORNER JOINT COUPLER (60-112)","112CJC",4,.443,2.612,170),P("AUXILIARIES","CORNER JOINT COUPLER (60-90)","92 CJC",6,.347,2.046,170),
+ P("AUXILIARIES","GEORGIAN BAR","10GB",20,.137,.808,170),P("AUXILIARIES","PANEL BOARD","12PB",8,.526,3.106,170),
+ P("AUXILIARIES","OPENABLE MESH","68OM",6,.866,5.111,170),P("AUXILIARIES","BAYPOLE (60-60)","60B",4,.703,4.15,170),
+ P("AUXILIARIES","BAYPOLE (60-92)","92 B",4,.904,5.332,170),P("AUXILIARIES","TRACK CONNECTOR","38TC",12,.389,2.295,170),
+ P("AUXILIARIES","ADD ON TRACK","50 AT",16,.492,2.9,170),P("AUXILIARIES","MESH CONNECTOR","11MC",20,.134,.791,170),
+ P("AUXILIARIES","SLIDING SASH CONNECTOR","22 SC",20,.364,2.15,170),P("AUXILIARIES","H-COUPLER","HC",50,.119,.7,170),
+ P("REINFORCEMENT","3 TRACK (ECO)","13X28X13",1,null,2.139,95),P("REINFORCEMENT","2 TRACK","14X30X14",1,null,2.319,95),
+ P("REINFORCEMENT","SMALL SASH","17X30X17",1,null,2.579,95),P("REINFORCEMENT","BIG SASH 84","28X28X28",1,null,3.158,95),
+ P("REINFORCEMENT","CASEMENT OUTER","24X27X24",1,null,3.086,95),P("REINFORCEMENT","78 WINDOW","13X34X25",1,null,2.162,95),
+ P("REINFORCEMENT","T MULLION","20X25X20",1,null,2.162,95),P("REINFORCEMENT","CASEMENT 104 OD","50X34X39",1,null,8.6,95),
+ P("REINFORCEMENT","SMALL CASEMENT FRAME","8X22X8",1,null,1.413,95)];
+const SERIES=[...new Set(PROFILES.map(p=>p.series))];
+const pByCode=Object.fromEntries(PROFILES.map(p=>[p.code,p]));
+
+/* ================== CALC (same as calc.py) ================== */
+const r2=x=>Math.round((x+Number.EPSILON)*100)/100, r3=x=>Math.round((x+Number.EPSILON)*1000)/1000;
+/* Brands × finishes price list (Rs per kg). Profiles & auxiliaries priced per brand+finish, reinforcement per brand. */
+const CAT=p=>p.cat||(p.series==="REINFORCEMENT"?"REINF":p.series==="AUXILIARIES"?"AUX":"UPVC");
+const CAT_LABEL={UPVC:"Profiles",AUX:"Auxiliaries",REINF:"Reinforcement"};
+function defaultPrices(){return {brands:["S-CRAFT","SMART"],finishes:["White","Colour","Laminate"],
+  rates:{"S-CRAFT|White|UPVC":150,"S-CRAFT|White|AUX":170,"S-CRAFT|REINF":95,"SMART|REINF":95}}}
+const priceKey=(cat,brand,finish)=>cat==="REINF"?`${brand}|REINF`:`${brand}|${finish}|${cat}`;
+function rateFor(code,brand,finish){const p=pByCode[code];if(!p||!brand)return null;
+  const v=+DB.prices.rates[priceKey(CAT(p),brand,finish)];return v>0?v:null}
+const variantLabel=it=>{if(!it.brand)return "";const p=pByCode[it.code];
+  if(p&&CAT(p)==="REINF")return it.brand;return `${it.brand} · ${it.finish}${it.shade?` (${it.shade})`:""}`};
+const sameVariant=(a,b)=>a.brand===b.brand&&a.finish===b.finish&&(a.shade||"")===(b.shade||"");
+
+function calcLine(it){
+  const p=pByCode[it.code]||{};
+  const lpp=it.lpp??p.lpp??0, packets=it.packets||0;
+  const lengths=it.lengths||packets*lpp;
+  const weight=r3(it.weight!=null&&it.weight!==""?+it.weight:lengths*(p.lw||0));
+  const rate=it.brand?+(it.rate||rateFor(it.code,it.brand,it.finish)||0):+(it.rate??p.rate??0);
+  return {...it,variant:variantLabel(it),series:it.series||p.series,desc:it.desc||p.desc,hsn:it.hsn||p.hsn,lpp,packets,lengths,weight,rate,amount:r2(weight*rate)};
+}
+function totals(lines,custState){
+  const taxable=r2(lines.reduce((s,l)=>s+l.amount,0));
+  const same=custState===COMPANY.stateCode;
+  const igst=same?0:r2(taxable*.18), cgst=same?r2(taxable*.09):0, sgst=cgst;
+  const exact=taxable+igst+cgst+sgst, grand=Math.round(exact);
+  return {taxable,igst,cgst,sgst,round:r2(grand-exact),grand,
+    lengths:lines.reduce((s,l)=>s+l.lengths,0),weight:r3(lines.reduce((s,l)=>s+l.weight,0)),words:words(grand)};
+}
+const ONES="Zero One Two Three Four Five Six Seven Eight Nine Ten Eleven Twelve Thirteen Fourteen Fifteen Sixteen Seventeen Eighteen Nineteen".split(" ");
+const TENS=",,Twenty,Thirty,Forty,Fifty,Sixty,Seventy,Eighty,Ninety".split(",");
+const two=n=>n<20?ONES[n]:TENS[Math.floor(n/10)]+(n%10?" "+ONES[n%10]:"");
+const three=n=>[Math.floor(n/100)?ONES[Math.floor(n/100)]+" Hundred":"",n%100?two(n%100):""].filter(Boolean).join(" ");
+function words(a){let n=Math.floor(a);const ps=Math.round((a-n)*100),out=[];
+  const cr=Math.floor(n/1e7);n%=1e7;const lk=Math.floor(n/1e5);n%=1e5;const th=Math.floor(n/1e3);n%=1e3;
+  if(cr)out.push(three(cr)+" Crore");if(lk)out.push(two(lk)+" Lakh");if(th)out.push(two(th)+" Thousand");if(n)out.push(three(n));
+  return (out.join(" ")||"Zero")+" Rupees and "+two(ps)+" Paise Only";}
+const inr=(x,d=2)=>Number(x).toLocaleString("en-IN",{minimumFractionDigits:d,maximumFractionDigits:d});
+const kg=x=>Number(x).toLocaleString("en-IN",{maximumFractionDigits:3});
+
+/* ================== SERVER (when opened from the Flask server) ================== */
+let SERVER=false, TOKEN=null;
+fetch("/api/health",{cache:"no-store"}).then(r=>r.ok?r.json():null)
+  .then(j=>{SERVER=!!(j&&j.status==="ok");if(SERVER&&S.screen==="login")render()}).catch(()=>{});
+async function api(path,opts={}){
+  const r=await fetch(path,{...opts,headers:{"Content-Type":"application/json",...(TOKEN?{Authorization:"Bearer "+TOKEN}:{}),...(opts.headers||{})}});
+  let j={};try{j=await r.json()}catch(e){}
+  return {status:r.status,ok:r.ok,data:j};
+}
+
+/* ================== INSTALL AS PHONE APP ================== */
+const hideInst=()=>{try{return localStorage.getItem("rr-hideinst")==="1"}catch(e){return false}};
+const INST={prompt:null,
+  standalone:()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone===true,
+  inFrame:()=>{try{return window.top!==window}catch(e){return true}},
+  ios:()=>/iphone|ipad|ipod/i.test(navigator.userAgent),
+  android:()=>/android/i.test(navigator.userAgent)};
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();INST.prompt=e;if(S.user&&(S.screen==="home"||S.screen==="install"))render()});
+window.addEventListener("appinstalled",()=>{INST.prompt=null;toast("App installed on this phone");if(S.user)render()});
+if("serviceWorker" in navigator&&/^https?:/.test(location.protocol)&&!INST.inFrame()){
+  window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
+async function appSource(){
+  try{const r=await fetch(location.href.split("#")[0],{cache:"no-store"});const t=await r.text();if(r.ok&&t.includes("Raviraja Quotations")&&t.includes("<script"))return t}catch(e){}
+  return "<!DOCTYPE html>\n"+document.documentElement.outerHTML.replace(/<script src="https:\/\/cdnjs[^"]*"><\/script>/g,"")}
+
+const MANIFEST_TXT="{\n  \"name\": \"Raviraja Quotations\",\n  \"short_name\": \"Raviraja\",\n  \"description\": \"Quotations, proforma and tax invoices for Raviraja Industries\",\n  \"start_url\": \"./index.html\",\n  \"scope\": \"./\",\n  \"display\": \"standalone\",\n  \"orientation\": \"portrait\",\n  \"background_color\": \"#0f3b4c\",\n  \"theme_color\": \"#0f3b4c\",\n  \"icons\": [\n    {\"src\": \"icon-192.png\", \"sizes\": \"192x192\", \"type\": \"image/png\", \"purpose\": \"any maskable\"},\n    {\"src\": \"icon-512.png\", \"sizes\": \"512x512\", \"type\": \"image/png\", \"purpose\": \"any maskable\"}\n  ]\n}\n", SW_TXT="/* Offline support for the installed app: keeps the app and its PDF/Excel tools on the phone */\nconst CACHE = \"raviraja-v1\";\nconst SHELL = [\"./\", \"./index.html\", \"./manifest.webmanifest\", \"./icon-192.png\", \"./icon-512.png\", \"./icon-180.png\"];\nself.addEventListener(\"install\", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });\nself.addEventListener(\"activate\", e => {\n  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));\n});\nself.addEventListener(\"fetch\", e => {\n  const req = e.request, url = new URL(req.url);\n  if (req.method !== \"GET\" || url.pathname.startsWith(\"/api/\")) return;            // never cache server data\n  if (req.mode === \"navigate\") {                                                    // app page: network first, offline fallback\n    e.respondWith(fetch(req).then(r => { const c = r.clone(); caches.open(CACHE).then(x => x.put(\"./index.html\", c)); return r; })\n      .catch(() => caches.match(\"./index.html\")));\n    return;\n  }\n  e.respondWith(caches.match(req).then(hit => {                                     // libraries, fonts, icons: cache first\n    const net = fetch(req).then(r => { if (r.ok || r.type === \"opaque\") { const c = r.clone(); caches.open(CACHE).then(x => x.put(req, c)); } return r; }).catch(() => hit);\n    return hit || net;\n  }));\n});\n", PKG_README="RAVIRAJA QUOTATIONS - phone app package\n==========================================\nThis folder is the complete app. Put it online once, then install it on every phone.\n\n1. PUT IT ONLINE (free, about 2 minutes)\n   - On a computer, open https://app.netlify.com/drop\n   - Sign up with your Gmail (ravirajaindustries@gmail.com)\n   - Drag this \"mobile_app\" folder onto the page\n   - You get a link such as https://raviraja-quotations.netlify.app\n     (Site settings > Change site name to choose the name)\n\n2. INSTALL ON PHONES\n   Android: open the link in Chrome > tap the menu (3 dots) > Install app\n   iPhone : open the link in Safari > Share > Add to Home Screen\n\n3. YOUR DATA\n   Data is stored on each phone. To move data from one phone to another:\n   Settings > Backup (old phone)  then  Settings > Restore backup (new phone).\n\n4. LOGIN\n   First login: admin / Admin@1234 - change it at Settings > Users & roles.\n\n5. ANDROID APK (optional, for Play Store or sharing an .apk)\n   After step 1, open https://www.pwabuilder.com, paste your link,\n   choose Android > Download. It makes an installable .apk from this app.\n";
+function iconBlob(sz){const c=document.createElement("canvas");c.width=c.height=sz;const x=c.getContext("2d");x.fillStyle="#0f3b4c";x.fillRect(0,0,sz,sz);
+  const m=sz*.14;x.fillStyle="#f2a33a";x.beginPath();x.roundRect?x.roundRect(m,m,sz-2*m,sz-2*m,sz*.16):x.rect(m,m,sz-2*m,sz-2*m);x.fill();
+  x.fillStyle="#0f3b4c";x.font=`bold ${sz*.34}px Arial`;x.textAlign="center";x.textBaseline="middle";x.fillText("RR",sz/2,sz/2+sz*.02);
+  return new Promise(ok=>c.toBlob(ok,"image/png"))}
+
+/* ================== GSTIN ================== */
+const STATES={"01":"Jammu & Kashmir","02":"Himachal Pradesh","03":"Punjab","04":"Chandigarh","05":"Uttarakhand","06":"Haryana","07":"Delhi","08":"Rajasthan","09":"Uttar Pradesh","10":"Bihar","11":"Sikkim","12":"Arunachal Pradesh","13":"Nagaland","14":"Manipur","15":"Mizoram","16":"Tripura","17":"Meghalaya","18":"Assam","19":"West Bengal","20":"Jharkhand","21":"Odisha","22":"Chhattisgarh","23":"Madhya Pradesh","24":"Gujarat","26":"Dadra & Nagar Haveli and Daman & Diu","27":"Maharashtra","29":"Karnataka","30":"Goa","31":"Lakshadweep","32":"Kerala","33":"Tamil Nadu","34":"Puducherry","35":"Andaman & Nicobar Islands","36":"Telangana","37":"Andhra Pradesh","38":"Ladakh","97":"Other Territory"};
+const G36="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+function gstCheck(g){
+  g=(g||"").toUpperCase().replace(/\s/g,"");
+  if(g.length<15)return {ok:false,partial:true,g,msg:g.length?`${g.length}/15 characters`:""};
+  if(!/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z][A-Z][0-9A-Z]$/.test(g))return {ok:false,g,msg:"Wrong format. Example: 36AALCR2439Q1ZN"};
+  let sum=0;for(let i=0;i<14;i++){const v=G36.indexOf(g[i])*((i%2)+1);sum+=Math.floor(v/36)+v%36}
+  if(G36[(36-sum%36)%36]!==g[14])return {ok:false,g,msg:"Check digit doesn't match. Please re-check the number"};
+  const st=STATES[g.slice(0,2)];
+  if(!st)return {ok:false,g,msg:"Unknown state code "+g.slice(0,2)};
+  return {ok:true,g,stateCode:g.slice(0,2),state:st,pan:g.slice(2,12)};
+}
+
+/* ================== STORE (demo, saved on this device) ================== */
+const PREFIX={QUOTATION:"RRQT-",PI:"RRPI-",INVOICE:"RRINV-"}, LABEL={QUOTATION:"Quotation",PI:"Proforma Invoice",INVOICE:"Tax Invoice"};
+const APP_MODE="clean";   // "clean" in the online copy: starts with no sample customers or documents
+function seed(){return {customers:[{id:1,name:"CASH CUSTOMER",address:"",gstin:"",state:"Telangana",stateCode:"36",phone:"",balance:0,balanceNote:""}],
+  docs:[],next:{QUOTATION:400,PI:1,INVOICE:1},nextId:1,nextCust:2}}
+function mkDoc(type,no,date,cust,items,sourceId=null){
+  const lines=items.map(calcLine).map(l=>l.baked||!l.variant?l:{...l,series:`${l.series} — ${l.variant}`.toUpperCase(),baked:true});
+  return {id:1,type,no,date,customerId:cust.id,lines,t:totals(lines,cust.stateCode),status:"DRAFT",sourceId,transport:"By Road"};
+}
+let DB; try{DB=JSON.parse(localStorage.getItem("rr-quote-v1"))}catch(e){}
+if(!DB) DB=seed();
+if(!DB.prices) DB.prices=defaultPrices();
+if(!DB.stock) DB.stock={};          // key "code|brand|finish" -> lengths in stock
+if(!DB.moves) DB.moves=[];          // stock movements log
+if(!DB.profileEdits) DB.profileEdits={};
+if(!DB.logos) DB.logos={company:"",brands:{}};
+if(!DB.pdf) DB.pdf={};
+if(!DB.pdfBrand) DB.pdfBrand={};
+if(DB.company) Object.assign(COMPANY,DB.company);
+if(DB.prefix) Object.assign(PREFIX,DB.prefix);
+/* users & roles */
+function sha256(str){const K=[],H=[];let n=2,c=0;const f=x=>(x-Math.floor(x))*4294967296|0;
+  while(c<64){let p=true;for(let i=2;i*i<=n;i++)if(n%i===0){p=false;break}if(p){if(c<8)H[c]=f(Math.pow(n,1/2));K[c]=f(Math.pow(n,1/3));c++}n++}
+  const b=unescape(encodeURIComponent(str)),l=b.length*8,w=[];for(let i=0;i<b.length;i++)w[i>>2]|=b.charCodeAt(i)<<(24-(i%4)*8);
+  w[l>>5]|=0x80<<(24-l%32);w[((l+64>>9)<<4)+15]=l;const h=H.slice();
+  for(let j=0;j<w.length;j+=16){const W=[],a=h.slice();for(let i=0;i<64;i++){
+    if(i<16)W[i]=w[j+i]|0;else{const x=W[i-15],y=W[i-2];W[i]=(((x>>>7|x<<25)^(x>>>18|x<<14)^x>>>3)+W[i-7]+((y>>>17|y<<15)^(y>>>19|y<<13)^y>>>10)+W[i-16])|0}
+    const t1=a[7]+((a[4]>>>6|a[4]<<26)^(a[4]>>>11|a[4]<<21)^(a[4]>>>25|a[4]<<7))+((a[4]&a[5])^(~a[4]&a[6]))+K[i]+W[i]|0;
+    const t2=((a[0]>>>2|a[0]<<30)^(a[0]>>>13|a[0]<<19)^(a[0]>>>22|a[0]<<10))+((a[0]&a[1])^(a[0]&a[2])^(a[1]&a[2]))|0;
+    a.unshift(t1+t2|0);a[4]=a[4]+t1|0;a.pop()}for(let i=0;i<8;i++)h[i]=h[i]+a[i]|0}
+  return h.map(x=>(x>>>0).toString(16).padStart(8,"0")).join("")}
+const pwHash=(u,pw)=>sha256("rr|"+u.toLowerCase()+"|"+pw);
+const ROLES={admin:{label:"Admin",desc:"Everything. Only admin can delete, change settings and manage users"},
+  accounts:{label:"Accounts",desc:"All documents, edit, customers, balances, stock"},
+  sales:{label:"Sales",desc:"Quotations & proformas, edit them, customers"}};
+/* permissions an admin can give each user (delete, settings and users are admin-only) */
+const PERM_LIST=[["quote","Make quotations"],["pi","Make proformas"],["invoice","Make tax invoices"],["edit","Edit saved documents"],
+  ["customers","Add & edit customers"],["balance","Change old balances"],["stock","Change stock & profiles"],["prices","Change price list"]];
+const ROLE_PERMS={admin:PERM_LIST.map(x=>x[0]),accounts:["quote","pi","invoice","edit","customers","balance","stock"],sales:["quote","pi","edit","customers"]};
+const PERM_SHORT={quote:"Quotations",pi:"Proformas",invoice:"Invoices",edit:"Edit",customers:"Customers",balance:"Balances",stock:"Stock",prices:"Prices"};
+const isCustom=u=>u.role!=="admin"&&[...(u.perms||[])].sort().join()!==[...ROLE_PERMS[u.role]].sort().join();
+const ADMIN_ONLY=["delete","settings","users"];
+const TYPE_PERM={QUOTATION:"quote",PI:"pi",INVOICE:"invoice"};
+
+if(!DB.users||!DB.users.length) DB.users=[{id:1,name:"Admin",username:"admin",hash:pwHash("admin","Admin@1234"),role:"admin",active:true,isDefault:true}];
+DB.users.forEach(u=>{if(!Array.isArray(u.perms))u.perms=[...(ROLE_PERMS[u.role]||ROLE_PERMS.sales)]});
+const can=p=>S.role==="admin"||(!ADMIN_ONLY.includes(p)&&(S.perms||[]).includes(p));
+const canType=t=>can(TYPE_PERM[t]);
+const allowedTypes=()=>["PI","QUOTATION","INVOICE"].filter(canType);
+if(!DB.customProfiles) DB.customProfiles=[];
+if(!DB.profileBrands) DB.profileBrands={};
+DB.customProfiles.forEach(cp=>{if(!pByCode[cp.code]){const np={...cp,custom:true};PROFILES.push(np);pByCode[cp.code]=np}});
+Object.entries(DB.profileEdits).forEach(([c,e])=>{if(pByCode[c])Object.assign(pByCode[c],e)});
+function refreshSeries(){const s=[...new Set(PROFILES.map(p=>p.series))];SERIES.splice(0,SERIES.length,...s)}
+refreshSeries();
+const inBrand=(p,b)=>{const l=DB.profileBrands[p.code];return !l||!b||l.includes(b)};
+const seriesFor=b=>SERIES.filter(x=>PROFILES.some(p=>p.series===x&&inBrand(p,b)));
+const STD_LEN=5.9;   // metres per length (from the weight sheet: kg/length = kg/m × 5.9)
+const stockKey=(code,brand,finish)=>{const p=pByCode[code];return `${code}|${brand}|${p&&CAT(p)==="REINF"?"-":finish}`};
+const stockOf=(code,brand,finish)=>+DB.stock[stockKey(code,brand,finish)]||0;
+function fmtStock(code,len){const p=pByCode[code];if(!p||CAT(p)==="REINF"||!p.lpp)return `${len} len`;
+  const neg=len<0,a=Math.abs(len),pk=Math.floor(a/p.lpp),lo=a%p.lpp;
+  return (neg?"− ":"")+(pk?`${pk} pkt`:"")+(pk&&lo?" + ":"")+(lo||!pk?`${lo} len`:"")}
+function moveStock(code,brand,finish,lengths,type,ref,note){
+  const k=stockKey(code,brand,finish);DB.stock[k]=(+DB.stock[k]||0)+lengths;
+  DB.moves.unshift({at:new Date().toISOString(),key:k,lengths,type,ref:ref||"",note:note||"",bal:DB.stock[k]});
+  if(DB.moves.length>2000)DB.moves.length=2000;
+}
+function deductForInvoice(doc){let n=0;
+  doc.lines.forEach(l=>{if(l.brand&&pByCode[l.code]){moveStock(l.code,l.brand,l.finish,-l.lengths,"SALE",doc.no);n++}});
+  if(n)doc.stockDeducted=true;}
+let saveWarned=false;
+const save=()=>{try{localStorage.setItem("rr-quote-v1",JSON.stringify(DB));return true}catch(e){if(!saveWarned){saveWarned=true;setTimeout(()=>toast("Phone storage full: remove big logos"),50)}return false}};
+const cust=id=>DB.customers.find(c=>c.id===id);
+const bal=c=>+(c&&c.balance)||0;
+/* transport details */
+const TRF=[["mode","Mode of transport","select",["By Road","By Rail","By Air","Courier","Self Pickup"]],["transporter","Transporter name"],
+  ["vehicle","Vehicle no","TS 09 AB 1234"],["lr","LR / Docket no"],["lrDate","LR date","date"],["eway","E-way bill no","12-digit number"],
+  ["driver","Driver name & phone"],["freight","Freight","select",["","Paid","To Pay"]],["dest","Destination / delivery place"]];
+const trOf=d=>d.tr||{mode:d.transport||"By Road",vehicle:d.vehicle||""};
+const trList=d=>{const t=trOf(d);return TRF.filter(([k])=>k!=="mode"&&t[k]).map(([k,l])=>[l.replace(" name & phone","").replace(" / delivery place",""),k==="lrDate"?fmtDate(t[k]):t[k]])};
+function trFields(t){return `<div class="two">${TRF.map(([k,l,type,opts])=>`<div class="field"${k==="dest"||k==="driver"?' style="grid-column:1/-1"':""}><label>${l}</label>${
+  type==="select"?`<select name="tr_${k}">${opts.map(o=>`<option value="${o}" ${(t[k]||"")===o?"selected":""}>${o||"—"}</option>`).join("")}</select>`
+  :`<input name="tr_${k}" ${type==="date"?'type="date"':""} value="${esc(t[k]||"")}" placeholder="${type&&type!=="date"?type:""}" ${k==="vehicle"?'style="text-transform:uppercase"':""}>`}</div>`).join("")}</div>`}
+const readTr=(form)=>{const t={};TRF.forEach(([k])=>{const el=form.querySelector(`[name=tr_${k}]`);if(el){const v=el.value.trim();if(v)t[k]=k==="vehicle"?v.toUpperCase():v}});if(!t.mode)t.mode="By Road";return t};
+/* document numbers */
+function checkNo(type,no,selfId){no=(no||"").trim().toUpperCase();
+  if(!no)return "Number can't be empty";
+  if(no.length>30)return "Number too long";
+  if(DB.docs.some(x=>x.no===no&&x.id!==selfId))return no+" is already used";
+  return ""}
+function bumpCounter(type,no){const m=no.match(/^(.*?)(\d+)$/);
+  if(m&&m[1]===PREFIX[type]&&+m[2]>=DB.next[type])DB.next[type]=+m[2]+1}
+const due=d=>d.t.grand+(+d.oldBalance||0);
+
+/* ================== UI ================== */
+const S={screen:"login",user:null,tab:"ALL",draft:null,view:null,filter:"92 SERIES",q:"",sheet:null};
+const $app=document.getElementById("app");
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const I={
+ home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
+ docs:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>',
+ plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+ users:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.8c2 .7 3.2 2.5 3.6 5.2"/></svg>',
+ box:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg>',
+ back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
+ search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+ out:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l5-5-5-5M15 12H3"/></svg>',
+ copy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg>',
+ wa:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5 5 0 0 0 1.1 2.7 11.5 11.5 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.2-.2-.5-.3z"/></svg>',
+ trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13M9 7V4h6v3"/></svg>',
+ pdf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2"/><rect x="6" y="14" width="12" height="7" rx="1"/></svg>',
+ xls:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>',
+ gear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
+ img:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>',
+ hash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/></svg>',
+ building:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16M15 9h3a1 1 0 0 1 1 1v11M8 8h3M8 12h3M8 16h3"/></svg>',
+ rupee:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12M6 9h12M14 20 7 13h2a5 5 0 0 0 0-9"/></svg>',
+ brush:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 4 6 6-9 9H5v-6z"/><path d="m12 6 6 6"/></svg>',
+ down:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>',
+ lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+ save:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h11l3 3v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z"/><path d="M8 3v5h7M8 21v-7h8v7"/></svg>',
+ edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>'
+};
+function toast(msg){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast";t.textContent=msg;document.getElementById("phone").appendChild(t);setTimeout(()=>t.remove(),1800)}
+/* Phone back button: every screen and open panel gets a #hash entry, so Back steps back inside the app */
+const NAV={fromHash:false,skip:0};
+const curHash=()=>decodeURIComponent((location.hash||"").slice(1));
+function setScreenHash(screen,prev){if(NAV.fromHash)return;const h="s-"+screen,cur=curHash();
+  try{if(cur.endsWith("-panel")||prev==="login"||screen==="login")location.replace("#"+h);else if(cur!==h)location.hash=h}catch(e){}}
+function go(screen,extra={}){const prev=S.screen;setScreenHash(screen,prev);Object.assign(S,{screen,sheet:null},extra);render();const sc=document.querySelector(".scroll");if(sc)sc.scrollTop=0}
+function syncPanelHash(){if(NAV.fromHash||!S.user)return;const cur=curHash(),isP=cur.endsWith("-panel");
+  try{if(S.sheet&&!isP)location.hash="s-"+S.screen+"-panel";else if(!S.sheet&&isP){NAV.skip++;clearTimeout(NAV.t);NAV.t=setTimeout(()=>NAV.skip=0,900);history.back()}}catch(e){}}
+window.addEventListener("hashchange",()=>{
+  if(NAV.skip>0){NAV.skip--;return}
+  const h=curHash(),m=h.match(/^s-([a-z]+)(-panel)?$/);
+  if(!S.user){if(S.screen!=="login"){S.screen="login";render()}return}
+  if(!m||m[1]==="login")return;
+  const target=m[1],panel=!!m[2];
+  NAV.fromHash=true;
+  try{
+    if(S.sheet&&!panel){if(["pending","leave"].includes(S.sheet.kind)&&target===S.screen){S.sheet=null;render()}else{S.sheet=null;render()}
+      if(target===S.screen)return}
+    if(panel&&!S.sheet){if(target!==S.screen&&SCREENS[target]){S.screen=target;render()}return}
+    if(target!==S.screen&&SCREENS[target]){
+      if(S.screen==="new"&&S.draft&&S.draft.editId){NAV.fromHash=false;location.hash="s-new";S.sheet={kind:"leave",to:target};render();return}
+      if((target==="view"||target==="pdfview")&&!DB.docs.find(x=>x.id===S.view)){S.screen="docs"}else S.screen=target;
+      S.sheet=null;render();const sc=document.querySelector(".scroll");if(sc)sc.scrollTop=0}
+  }finally{NAV.fromHash=false}
+});
+
+function bar(title,sub,{back,right}={}){
+  return `<div class="top">${back?`<button class="iconbtn" data-go="${back}" aria-label="Back">${I.back}</button>`:""}
+  <div class="grow"><h1>${esc(title)}</h1>${sub?`<div class="sub">${esc(sub)}</div>`:""}</div>${right||""}</div>`;
+}
+function nav(){
+  const b=(k,ic,l)=>`<button class="${S.screen===k||(k==="profiles"&&S.screen==="prices")?"on":""}" data-go="${k}">${I[ic]}${l}</button>`;
+  return `<div class="nav">${b("home","home","Home")}${b("docs","docs","Documents")}
+  <button class="fab" data-act="new" aria-label="New quotation"><span>${I.plus}</span></button>
+  ${b("customers","users","Customers")}${b("profiles","box","Stock")}</div>`;
+}
+function docRow(d){const c=cust(d.customerId);
+  return `<button class="doc" data-open="${d.id}"><div class="grow">
+   <div class="row" style="gap:8px"><b class="mono" style="font-size:13px">${d.no}</b><span class="pill p-${d.status==="CONVERTED"?"CONVERTED":d.type}">${d.status==="CONVERTED"?"Converted":LABEL[d.type]}</span>${docBrands(d).map(b=>`<span class="btag">${esc(b)}</span>`).join("")}</div>
+   <div style="font-weight:600;font-size:13.5px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(c?.name)}</div>
+   <div class="muted">${fmtDate(d.date)} · ${kg(d.t.weight)} kg${d.sentAt?' · <span style="color:#1a9e4f;font-weight:700">✓ WhatsApp sent</span>':""}</div></div>
+   <div class="amt num">₹${inr(d.t.grand,0)}</div></button>`;}
+const fmtDate=s=>new Date(s+"T00:00").toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"});
+const today=()=>{const d=new Date(Date.now()+5.5*3600e3);return d.toISOString().slice(0,10)};
+
+const SCREENS={
+login(){return `<div class="login">
+  <div style="color:#fff;margin-bottom:26px"><div class="logo">RR</div>
+   <div style="font-size:24px;font-weight:800;letter-spacing:-.4px">Raviraja Quotations</div>
+   <div style="opacity:.75;font-size:14px;margin-top:4px">Quotation · Proforma · Tax Invoice</div></div>
+  <form class="card stack" id="loginForm" style="padding:20px;box-shadow:0 12px 30px rgba(15,37,48,.12)">
+   <div class="field"><label>Username</label><input name="u" autocomplete="username" value="admin"></div>
+   <div class="field"><label>Password</label><input name="p" type="password" autocomplete="current-password" placeholder="Password"></div>
+   <div id="loginErr"></div>
+   <button class="btn" type="submit">Log in</button>
+   <div class="muted" style="text-align:center">${SERVER?"Connected to your server":DB.users.some(u=>u.isDefault)?"First login: <b>admin</b> / <b>Admin@1234</b> (change it in Settings)":"Log in with your username"}</div>
+  </form></div>`},
+
+home(){const docs=DB.docs, month=today().slice(0,7);
+ const mq=docs.filter(d=>d.type==="QUOTATION"&&d.date.startsWith(month)), inv=docs.filter(d=>d.type==="INVOICE"&&d.date.startsWith(month));
+ const open=docs.filter(d=>d.type==="QUOTATION"&&d.status!=="CONVERTED");
+ const ini=String(S.user||"?").split(/\s+/).map(x=>x[0]||"").join("").slice(0,2).toUpperCase();
+ const qa=(act,ic,l,extra="")=>`<button class="qa" ${act}>${I[ic]}<span>${l}</span>${extra}</button>`;
+ return `<div class="top hometop"><div class="avatar">${esc(ini)}</div><div class="grow"><h1>Hello, ${esc(S.user)}</h1>
+   <div class="sub">${esc(COMPANY.short||COMPANY.name)} · <span class="rolechip">${ROLES[S.role]?.label||""}</span></div></div>
+   ${can("settings")?`<button class="iconbtn" data-go="settings" aria-label="Settings">${I.gear}</button>`:""}
+   <button class="iconbtn" data-act="logout" aria-label="Log out">${I.out}</button></div>
+ <div class="scroll"><div class="stats">
+   <div class="stat hero"><div class="muted">Open quotations</div><b class="num">₹${inr(open.reduce((s,d)=>s+d.t.grand,0),0)}</b><div class="muted">${open.length} awaiting order</div></div>
+   <div class="stat"><div class="muted">Quotes this month</div><b>${mq.length}</b></div>
+   <div class="stat"><div class="muted">${can("invoice")?"Invoiced this month":"Proformas"}</div><b class="num">${can("invoice")?"₹"+inr(inv.reduce((s,d)=>s+d.t.grand,0),0):docs.filter(d=>d.type==="PI").length}</b></div>
+  </div>
+  ${draftDirty()?`<button class="resumecard" data-act="resume"><span class="grow"><b>Unsaved ${LABEL[S.draft.type].toLowerCase()}</b><span class="muted">${esc((cust(S.draft.customerId)||{}).name||"")} · ${S.draft.items.length} line${S.draft.items.length>1?"s":""}</span></span><span class="go">Continue ›</span></button>`:""}
+  ${!INST.standalone()&&(INST.prompt||!hideInst())?`<div class="instbanner"><button class="ibmain" data-go="install"><span class="ibicon">RR</span><span class="grow"><b>${INST.prompt?"Install this app":"Get the phone app"}</b><span class="muted">${INST.prompt?"Add to home screen · works offline":"Install on Android & iPhone · download"}</span></span><span class="go">${INST.prompt?"Install":"Open"} ›</span></button><button class="ibx" data-act="hideinst" aria-label="Hide">✕</button></div>`:""}
+  <div class="qagrid">${canType("QUOTATION")?qa('data-act="new"',"plus","New quotation"):canType("PI")?qa('data-act="newpi"',"plus","New proforma"):""}${canType("INVOICE")?qa('data-act="newinv"',"docs","New invoice"):canType("PI")&&canType("QUOTATION")?qa('data-act="newpi"',"docs","New proforma"):""}
+   ${qa('data-go="profiles"',"box","Stock")}${qa('data-go="customers"',"users","Customers")}</div>
+  <div class="h2">Recent</div>${docs.slice(0,6).map(docRow).join("")||'<div class="empty">No documents yet. Tap + to make your first quotation.</div>'}
+ </div>`+nav()},
+
+install(){const st=INST.standalone(),fr=INST.inFrame(),step=(n,t,sub)=>`<div class="istep"><span class="n">${n}</span><div class="grow"><b>${t}</b>${sub?`<div class="muted">${sub}</div>`:""}</div></div>`;
+ return bar("Install app","On your phone's home screen",{back:"home"})+`<div class="scroll">
+  <div class="instcard"><img src="icon-192.png" alt="" onerror="this.style.display='none'"><div class="grow"><b>Raviraja Quotations</b><div class="muted">Opens full screen like any app, with its own icon. Works offline after the first open.</div></div></div>
+  ${st?`<div class="okbox">✓ The app is installed and running from your home screen.</div>`
+   :INST.prompt?`<button class="btn accent" data-act="doinstall" style="margin-top:14px">${I.down.replace("<svg",'<svg style="width:20px;height:20px;vertical-align:-5px;margin-right:6px"')}Install app</button>`
+   :fr?`<div class="warnbox"><b>You're viewing the app inside Claude.</b> Phones can only install it from its own web address. Put the app online once (free, 2 minutes, see below), then open that address on each phone.</div>`:""}
+  ${st?"":`<div class="h2">Android (Chrome)</div><div class="card stack">${step(1,"Open the app's web address in Chrome")}${step(2,"Tap ⋮ (top right)")}${step(3,"Tap <b>Install app</b> or <b>Add to Home screen</b>")}</div>
+  <div class="h2">iPhone (Safari)</div><div class="card stack">${step(1,"Open the app's web address in Safari")}${step(2,"Tap the Share button □↑")}${step(3,"Tap <b>Add to Home Screen</b>, then <b>Add</b>")}</div>`}
+  <div class="h2">Put the app online (one time, free)</div><div class="card stack">
+   ${step(1,"Download the app package","Settings → Install app → Download app package (on a computer), or use the zip in your MOBILE APP FOR QUATATIONS folder.")}
+   ${step(2,"Go to app.netlify.com/drop","Sign up free with your Gmail (ravirajaindustries@gmail.com).")}
+   ${step(3,"Drag the mobile_app folder onto the page","You get a link like raviraja.netlify.app: open it on every phone and install.")}</div>
+  <div class="h2">Download</div><div class="tiles">
+   <button class="tile" data-act="dlapp"><span class="ti">${I.down}</span><span class="grow"><b>Download app file</b><span class="muted">One .html file: opens in any browser, even offline</span></span><span class="chev">›</span></button>
+   ${can("settings")?`<button class="tile" data-act="dlpkg"><span class="ti">${I.save}</span><span class="grow"><b>Download app package (.zip)</b><span class="muted">App + icons + offline support, ready to put online</span></span><span class="chev">›</span></button>`:""}
+   ${can("settings")?`<button class="tile" data-act="backup"><span class="ti">${I.save}</span><span class="grow"><b>Backup data</b><span class="muted">Move your documents to the installed app (Restore there)</span></span><span class="chev">›</span></button>`:""}</div>
+  <div class="muted" style="margin-top:12px">Data is kept on each phone. Use Backup and Restore to copy it, until the app is connected to your server.</div>
+ </div>`+nav()},
+
+denied(){return bar("Not allowed","",{back:"home"})+`<div class="scroll"><div class="empty">${I.lock.replace("<svg",'<svg style="width:40px;height:40px;opacity:.5"')}<p>Your role (${ROLES[S.role]?.label||"-"}) can't open this. Ask the admin.</p></div></div>`+nav()},
+
+settings(){if(!can("settings"))return SCREENS.denied();
+ const tile=(go,ic,t,sub)=>`<button class="tile" data-go="${go}"><span class="ti">${I[ic]}</span><span class="grow"><b>${t}</b><span class="muted">${sub}</span></span><span class="chev">›</span></button>`;
+ const L=DB.logos||{brands:{}},nb=Object.keys(L.brands||{}).filter(k=>L.brands[k]).length;
+ return bar("Settings",COMPANY.short||COMPANY.name,{back:"home"})+`<div class="scroll">
+  <div class="h2" style="margin-top:4px">Documents</div><div class="tiles">
+   ${tile("setpdf","brush","PDF designer","Layout, logos, colours, columns · live preview")}
+   ${tile("setlogos","img","Logos & brands",`${L.company?"Company logo set":"No company logo"} · ${nb} brand logo${nb===1?"":"s"}`)}
+   ${tile("setnumbers","hash","Document numbers",`${PREFIX.QUOTATION}${DB.next.QUOTATION} · ${PREFIX.PI}${DB.next.PI} · ${PREFIX.INVOICE}${DB.next.INVOICE}`)}</div>
+  <div class="h2">Business</div><div class="tiles">
+   ${tile("setcompany","building","Company details","Name, address, GSTIN, bank, terms")}
+   ${tile("prices","rupee","Price list",`${DB.prices.brands.length} brands × ${DB.prices.finishes.length} finishes`)}</div>
+  <div class="h2">Team</div><div class="tiles">
+   ${tile("setusers","users","Users & roles",`${DB.users.filter(u=>u.active).length} active · Admin, Accounts, Sales`)}</div>
+  <div class="h2">Phone app</div><div class="tiles">
+   <button class="tile" data-go="install"><span class="ti">${I.down}</span><span class="grow"><b>Install app & download</b><span class="muted">Home-screen app for Android & iPhone, app file, package</span></span><span class="chev">›</span></button></div>
+  <div class="h2">Data on this phone</div><div class="tiles">
+   <button class="tile" data-act="backup"><span class="ti">${I.down}</span><span class="grow"><b>Backup</b><span class="muted">Download all data as a file</span></span><span class="chev">›</span></button>
+   <label class="tile"><span class="ti">${I.save}</span><span class="grow"><b>Restore backup</b><span class="muted">Load a backup file (replaces data here)</span></span><span class="chev">›</span><input type="file" accept=".json,application/json" id="restoreIn" hidden></label></div>
+  <div class="tiles" style="margin-top:18px"><button class="tile" data-act="logout"><span class="ti" style="background:#fdecea;color:var(--danger)">${I.out}</span><span class="grow"><b style="color:var(--danger)">Log out</b><span class="muted">Signed in as ${esc(S.user)} (${ROLES[S.role]?.label||""})</span></span></button></div>
+ </div>`+nav()},
+
+setcompany(){if(!can("settings"))return SCREENS.denied();const C=COMPANY;
+ const f=(k,l,ph="",x="")=>`<div class="field"${x}><label>${l}</label><input name="${k}" value="${esc(C[k]||"")}" placeholder="${ph}"></div>`;
+ return bar("Company details","Printed on every document",{back:"settings"})+`<div class="scroll"><form id="companyForm" class="stack">
+  <div class="card stack">${f("name","Company name")}${f("short","Short name","e.g. Raviraja Industries")}
+   ${f("reg","Registered address")}${f("factory","Factory address (optional)")}
+   <div class="two">${f("phone","Phone")}${f("email","Email (optional)")}</div>
+   <div class="two">${f("gstin","GSTIN","36AALCR2439Q1ZN",' style="grid-column:1/-1"')}</div>
+   <div class="two">${f("pan","PAN")}<div class="field"><label>State (from GSTIN)</label><input value="${esc(C.state)} (${esc(C.stateCode)})" disabled></div></div></div>
+  <div class="h2">Bank</div><div class="card stack">${f("bank","Bank name")}<div class="two">${f("acc","Account no")}${f("ifsc","IFSC")}</div>${f("branch","Branch")}</div>
+  <div class="h2">Quotation terms</div><div class="card stack">${f("terms","Terms & conditions","e.g. Valid for 7 days")}</div>
+  <div class="muted">Your state decides GST: customers in the same state get CGST + SGST, others IGST.</div>
+  <button class="btn">Save company details</button></form></div>`+nav()},
+
+setnumbers(){if(!can("settings"))return SCREENS.denied();
+ return bar("Document numbers","Prefix + next number",{back:"settings"})+`<div class="scroll"><form id="numForm" class="stack">
+  ${["QUOTATION","PI","INVOICE"].map(t=>`<div class="card"><b>${LABEL[t]}</b><div class="two" style="margin-top:10px">
+   <div class="field"><label>Prefix</label><input name="p_${t}" value="${esc(PREFIX[t])}" style="text-transform:uppercase;font-family:'JetBrains Mono',monospace"></div>
+   <div class="field"><label>Next number</label><input name="n_${t}" inputmode="numeric" value="${DB.next[t]}"></div></div>
+   <div class="muted" style="margin-top:8px">Next: <b class="mono">${esc(PREFIX[t])}${DB.next[t]}</b></div></div>`).join("")}
+  <div class="muted">For a new financial year, change the prefix, e.g. RRINV/26-27/ and set the next number to 1.</div>
+  <button class="btn">Save numbering</button></form></div>`+nav()},
+
+setlogos(){if(!can("settings"))return SCREENS.denied();const L=DB.logos;
+ const card=(key,title,sub,src)=>`<div class="logocard"><div class="logobox">${src?`<img src="${src}" alt="${esc(title)} logo">`:`<span class="muted">No logo</span>`}</div>
+   <div class="grow"><b>${esc(title)}</b><div class="muted">${sub}</div><div class="row" style="gap:8px;margin-top:10px">
+   <label class="btn ghost sm">${src?"Change":"Upload"}<input type="file" accept="image/*" data-logo="${esc(key)}" hidden></label>
+   ${src?`<button class="btn ghost sm" style="color:var(--danger)" data-rmlogo="${esc(key)}">Remove</button>`:""}</div></div></div>`;
+ return bar("Logos & brands","Left: company · Right: brands",{back:"settings"})+`<div class="scroll">
+  <div class="h2" style="margin-top:4px">Company logo (left side)</div>${card("company",COMPANY.short||COMPANY.name,"Shown top-left on every PDF",L.company)}
+  <div class="h2">Brand logos (right side)</div>
+  ${DB.prices.brands.map(b=>card("brand:"+b,b,"Shown top-right when this brand is in the document",(L.brands||{})[b])).join("")}
+  <div class="muted" style="margin-top:12px">PNG with a transparent background looks best. Images are resized automatically. Add more brands in the Price list.</div>
+  <button class="btn ghost" data-go="setpdf" style="margin-top:14px">Open PDF designer</button></div>`+nav()},
+
+setusers(){if(!can("settings"))return SCREENS.denied();
+ return bar("Users & roles",DB.users.length+" users",{back:"settings",right:`<button class="iconbtn" data-act="adduser" aria-label="Add user">${I.plus}</button>`})+`<div class="scroll">
+  ${DB.users.map(u=>`<button class="usercard" data-user="${u.id}"><div class="avatar sm">${esc(u.name.split(/\s+/).map(x=>x[0]||"").join("").slice(0,2).toUpperCase())}</div>
+   <div class="grow"><b>${esc(u.name)}${u.id===S.uid?' <span class="muted">(you)</span>':""}</b><div class="muted">@${esc(u.username)}${u.isDefault?' · <span style="color:var(--danger)">default password</span>':""}</div>
+   <div class="permsum">${u.role==="admin"?"All permissions":PERM_LIST.filter(([k])=>(u.perms||[]).includes(k)).map(([k])=>PERM_SHORT[k]).join(" · ")||"View only"}</div></div>
+   <span class="pill role-${u.role}">${isCustom(u)?"Custom":ROLES[u.role].label}</span>${u.active?"":'<span class="pill p-CONVERTED">Disabled</span>'}</button>`).join("")}
+  <div class="h2">What each role can do</div><div class="muted" style="margin:-4px 2px 8px">Tap a user to tick exactly what they can do. Only admin can delete anything.</div>
+  ${Object.entries(ROLES).map(([k,r])=>`<div class="roleinfo"><span class="pill role-${k}">${r.label}</span><span class="muted">${r.desc}</span></div>`).join("")}
+ </div>`+nav()},
+
+setpdf(){if(!can("settings"))return SCREENS.denied();const eb=editingBrand(),c=pdfCfg(eb),pf=S.pdfFor||"",ownMissing=pf&&!DB.pdfBrand[pf];
+ const seg=(key,opts)=>`<div class="tabs seg">${opts.map(([v,l])=>`<button class="${String(getPath(c,key))===String(v)?"on":""}" data-pset="${key}" data-val="${v}">${l}</button>`).join("")}</div>`;
+ const tog=(key,l)=>`<button class="tog ${getPath(c,key)?"on":""}" data-ptog="${key}"><span class="sw"></span>${l}</button>`;
+ const lay=(v,l,svg)=>`<button class="laycard ${c.layout===v?"on":""}" data-pset="layout" data-val="${v}">${svg}<span>${l}</span></button>`;
+ const sw=["#0F3B4C","#1D4ED8","#0E7C66","#7C2D12","#6D28D9","#B91C1C","#111827","#B45309"];
+ const docs=DB.docs.slice(0,30);const cur=pvDoc();
+ return bar("PDF designer",eb?eb+" design · saves instantly":pf?pf+" · using default":"Default design · saves instantly",{back:"settings",right:`<button class="iconbtn" data-act="pdfsample" aria-label="Download sample">${I.down}</button>`})+`<div class="scroll designer${S.pvBig?" pvbig":""}">
+ <div class="dpreview"><div class="pvhead"><select id="pvDocSel" aria-label="Preview document">${docs.length?docs.map(d=>`<option value="${d.id}" ${cur&&cur.id===d.id?"selected":""}>${d.no} · ${esc((cust(d.customerId)||{}).name||"").slice(0,22)}</option>`).join(""):'<option>Sample</option>'}</select><span id="pvCount" class="muted"></span><button class="linkbtn pvexp" data-act="pvexpand">${S.pvBig?"Smaller":"Enlarge"}</button></div>
+  <div id="pv" class="pv"><div class="pvload">Drawing preview…</div></div></div>
+ <div class="dcontrols">
+  <div class="dsec forsec"><div class="dlab">Design for</div>
+   <div class="chips" style="flex-wrap:wrap"><button class="chip ${!pf?"on":""}" data-act="pdffor" data-val="">Default (all)</button>${DB.prices.brands.map(b=>`<button class="chip ${pf===b?"on":""}" data-act="pdffor" data-val="${esc(b)}">${esc(b)}${DB.pdfBrand[b]?" ✓":""}</button>`).join("")}</div>
+   <div class="muted" style="margin-top:8px">${!pf?"Used for all documents, and for mixed-brand ones. A brand with its own design (✓) uses that when the document has only that brand.":
+     ownMissing?`${esc(pf)} uses the default design now.`:`Editing <b>${esc(pf)}</b> design: used for documents with only ${esc(pf)}.`}</div>
+   ${ownMissing?`<button class="btn" style="margin-top:10px" data-act="brandown">Make a separate design for ${esc(pf)}</button>`:pf?`<button class="linkbtn" style="margin-top:8px" data-act="branddefault">Use default design for ${esc(pf)} instead</button>`:""}</div>
+  ${ownMissing?"":`<div class="dsec"><div class="dlab">Layout</div><div class="laygrid">
+   ${lay("classic","Classic",'<svg viewBox="0 0 60 44"><rect x="18" y="3" width="24" height="3" rx="1" fill="var(--a)"/><rect x="4" y="9" width="52" height="11" rx="1" fill="none" stroke="#c9d3d8"/><rect x="7" y="11" width="8" height="7" rx="1" fill="#c9d3d8"/><rect x="44" y="11" width="9" height="5" rx="1" fill="#c9d3d8"/><rect x="4" y="23" width="52" height="4" fill="var(--a)"/><rect x="4" y="29" width="52" height="2" fill="#e3e9ec"/><rect x="4" y="33" width="52" height="2" fill="#e3e9ec"/></svg>')}
+   ${lay("band","Banner",'<svg viewBox="0 0 60 44"><rect x="0" y="0" width="60" height="14" fill="var(--a)"/><rect x="4" y="3" width="8" height="8" rx="1" fill="#fff"/><rect x="15" y="4" width="20" height="2.5" rx="1" fill="#fff"/><rect x="15" y="8" width="16" height="1.5" rx=".7" fill="#fff" opacity=".7"/><rect x="47" y="4" width="9" height="6" rx="1" fill="#fff"/><rect x="18" y="17" width="24" height="3" rx="1" fill="var(--a)"/><rect x="4" y="23" width="52" height="4" fill="var(--a)"/><rect x="4" y="29" width="52" height="2" fill="#e3e9ec"/><rect x="4" y="33" width="52" height="2" fill="#e3e9ec"/></svg>')}
+   ${lay("centered","Centered",'<svg viewBox="0 0 60 44"><rect x="4" y="3" width="8" height="7" rx="1" fill="#c9d3d8"/><rect x="48" y="3" width="8" height="5" rx="1" fill="#c9d3d8"/><rect x="18" y="3" width="24" height="3" rx="1" fill="var(--a)"/><rect x="21" y="8" width="18" height="1.5" rx=".7" fill="#c9d3d8"/><rect x="4" y="13" width="52" height=".8" fill="var(--a)"/><rect x="18" y="16" width="24" height="3" rx="1" fill="var(--a)"/><rect x="4" y="23" width="52" height="4" fill="var(--a)"/><rect x="4" y="29" width="52" height="2" fill="#e3e9ec"/><rect x="4" y="33" width="52" height="2" fill="#e3e9ec"/></svg>')}
+  </div></div>
+  <div class="dsec"><div class="dlab">Title position</div>${seg("titleAlign",[["left","Left"],["center","Centre"],["right","Right"]])}</div>
+  <div class="dsec"><div class="dlab">Colour</div><div class="swatches">${sw.map(x=>`<button class="swatch ${c.accent.toLowerCase()===x.toLowerCase()?"on":""}" style="background:${x}" data-pset="accent" data-val="${x}" aria-label="Colour ${x}"></button>`).join("")}
+   <label class="swatch custom" aria-label="Custom colour"><input type="color" id="pColor" value="${esc(c.accent)}"></label></div></div>
+  <div class="dsec"><div class="dlab">Logos <button class="linkbtn" data-go="setlogos">Upload logos ›</button></div>
+   ${tog("leftLogo","Company logo on the left")}
+   <div class="sublab">Brand logos on the right</div>${seg("rightLogos",[["used","Brands in document"],["all","All brands"],["none","None"]])}
+   <div class="sublab">Logo size</div>${seg("logoSize",[["S","Small"],["M","Medium"],["L","Large"]])}
+   ${c.layout==="classic"?tog("show.box","Border around company block"):""}</div>
+  <div class="dsec"><div class="dlab">Text size</div>${seg("font",[["small","Small"],["normal","Normal"],["large","Large"]])}</div>
+  <div class="dsec"><div class="dlab">Table columns</div><div class="toggrid">${tog("cols.hsn","HSN")}${tog("cols.code","Profile code")}${tog("cols.packets","Packets")}${tog("cols.lpp","Lengths / pkt")}</div></div>
+  <div class="dsec"><div class="dlab">Show on PDF</div><div class="toggrid">${tog("show.transport","Transport")}${tog("show.words","Amount in words")}${tog("show.bank","Bank details")}${tog("show.terms","Terms (quotes)")}${tog("show.sign","Signature")}${tog("show.pageno","Page numbers")}</div></div>
+  <div class="dsec"><div class="dlab">Text</div>
+   <div class="field"><label>Footer note</label><input id="pFooter" value="${esc(c.footer)}" maxlength="140" placeholder="e.g. Subject to Hyderabad jurisdiction"></div>
+   <div class="field" style="margin-top:10px"><label>Signature label</label><input id="pSign" value="${esc(c.signLabel)}" maxlength="40"></div></div>
+  <div class="two"><button class="btn ghost" data-act="pdfreset">${eb?"Reset to default":"Reset design"}</button><button class="btn" data-act="pdfsample">${I.down.replace("<svg",'<svg style="width:18px;height:18px;vertical-align:-4px;margin-right:4px"')}Sample PDF</button></div>`}
+ </div></div>`+nav()},
+
+pdfview(){const d=DB.docs.find(x=>x.id===S.view);if(!d)return SCREENS.docs();
+ return bar(d.no,"PDF preview · "+LABEL[d.type],{back:"view",right:can("settings")?`<button class="iconbtn" data-act="designpdf" aria-label="Customise design">${I.brush}</button>`:""})+
+ `<div class="scroll pvscroll"><div class="printopts"><div class="dlab" style="margin:0 0 6px">Print options · ${LABEL[d.type]}</div>
+   <div class="toggrid"><button class="tog ${d.hideWeight?"":"on"}" data-act="togwt"><span class="sw"></span>Show weight (kg)</button>
+   <button class="tog ${d.hideRate?"":"on"}" data-act="tograte"><span class="sw"></span>Show rate per kg</button></div>
+   <div class="muted" style="margin-top:4px">${d.hideRate&&d.hideWeight?"PDF shows lengths and amount only.":d.hideRate?"PDF shows weight and amount, no rate.":d.hideWeight?"PDF shows rate and amount, no weight.":"PDF shows weight, rate per kg and amount."} Saved for this ${LABEL[d.type].toLowerCase()}.</div></div>
+  <div class="pvhead"><span class="muted">A4 · <span id="pvCount">…</span></span>
+${can("settings")?`<button class="linkbtn" data-act="designpdf">Design ›</button>`:""}</div>
+  <div id="pv" class="pv"><div class="pvload">Drawing preview…</div></div></div>
+ <div class="pvbar"><button class="btn ghost" data-act="pdf">${I.down.replace("<svg",'<svg style="width:19px;height:19px;vertical-align:-4px;margin-right:6px"')}Download PDF</button><button class="btn wabtn" style="margin:0" data-act="wa">${I.wa}WhatsApp</button></div>`},
+
+docs(){const B=S.dbrand||"",dq=(S.dq||"").trim().toLowerCase(),list=DB.docs.filter(d=>(S.tab==="ALL"||d.type===S.tab)&&(!B||docBrands(d).includes(B))&&(!dq||(d.no+" "+((cust(d.customerId)||{}).name||"")).toLowerCase().includes(dq)));
+ const t=(k,l)=>`<button class="${S.tab===k?"on":""}" data-tab="${k}">${l}</button>`;
+ return bar("Documents",DB.docs.length+" total",{right:`<button class="iconbtn" data-act="register" aria-label="Export list to Excel">${I.xls}</button>`})+`<div class="scroll">
+  <div class="tabs">${t("ALL","All")}${t("PI","PI")}${t("QUOTATION","Quotes")}${t("INVOICE","Invoices")}</div>
+  <div class="search" style="margin-top:10px">${I.search}<input id="dq" placeholder="Search number or customer" value="${esc(S.dq||"")}"></div>
+  <div class="chips" style="margin-top:10px"><button class="chip ${!B?"on":""}" data-dbrand="">All brands</button>${DB.prices.brands.map(b=>`<button class="chip ${B===b?"on":""}" data-dbrand="${esc(b)}">${esc(b)}</button>`).join("")}</div>
+  <div class="listsum"><span>${list.length} document${list.length===1?"":"s"}</span><b class="num">₹${inr(list.reduce((s,d)=>s+d.t.grand,0),0)}</b></div>
+  <div>${list.map(docRow).join("")||'<div class="empty">Nothing here yet</div>'}</div></div>`+nav()},
+
+customers(){const cq=(S.cq||"").trim().toLowerCase(),list=DB.customers.filter(c=>!cq||(c.name+" "+(c.gstin||"")+" "+(c.phone||"")+" "+(c.address||"")).toLowerCase().includes(cq));
+ return bar("Customers",DB.customers.length+" saved",{right:can("customers")?`<button class="iconbtn" data-act="addcust" aria-label="Add customer">${I.plus}</button>`:""})+
+ `<div class="scroll"><div class="search" style="margin-bottom:12px">${I.search}<input id="cq" placeholder="Search name, GSTIN, phone" value="${esc(S.cq||"")}"></div>
+ ${list.length?"":`<div class="empty">${DB.customers.length?"No customer matches":"No customers yet. Tap + to add one."}</div>`}
+ ${list.map(c=>`<div class="card" style="margin-bottom:8px">
+   <div class="row"><button class="grow custhead" data-editcust="${c.id}"><b style="font-size:14px">${esc(c.name)}</b> ${can("customers")?`<span class="editlink">${I.edit}</span>`:""}
+   <div class="muted" style="margin-top:3px">${esc(c.address)}</div>
+   <div class="row" style="margin-top:8px;gap:6px;flex-wrap:wrap"><span class="code">${esc(c.gstin||"No GSTIN")}</span>
+   <span class="pill ${c.stateCode===COMPANY.stateCode?"p-INVOICE":"p-PI"}">${c.stateCode===COMPANY.stateCode?"CGST + SGST":"IGST 18%"}</span>${c.phone?`<span class="muted">· ${esc(c.phone)}</span>`:""}</div></button></div>
+   <button class="balrow" data-act="editbal" data-id="${c.id}"><span class="grow">Old balance${c.balanceNote?` <span class="muted">· ${esc(c.balanceNote)}</span>`:""}</span>
+     <b class="num" style="color:${bal(c)>0?"var(--danger)":bal(c)<0?"var(--ok)":"var(--ink3)"}">${bal(c)?"₹"+inr(Math.abs(bal(c)))+(bal(c)<0?" Cr":""):"Nil"}</b>${can("balance")?'<span style="color:var(--brand2);font-weight:700;font-size:12px">Edit</span>':""}</button>
+   ${allowedTypes().length?`<button class="btn ghost" style="margin-top:10px;padding:10px" data-act="quotefor" data-id="${c.id}">New ${LABEL[canType("QUOTATION")?"QUOTATION":allowedTypes()[0]].toLowerCase()}</button>`:""}</div>`).join("")}</div>`+nav()},
+
+profiles(){const P=DB.prices;S.sb=S.sb||P.brands[0];S.sf=S.sf||P.finishes[0];
+ const ql=(S.sq||"").trim().toLowerCase();
+ const BS=seriesFor(S.sb);if(!BS.includes(S.filter)&&BS.length)S.filter=BS[0];
+ const list=PROFILES.filter(p=>inBrand(p,S.sb)&&(ql?(p.code+" "+p.desc).toLowerCase().includes(ql):p.series===S.filter));
+ const all=PROFILES.filter(p=>inBrand(p,S.sb)).map(p=>({p,len:stockOf(p.code,S.sb,S.sf)}));
+ const kgTot=all.reduce((t,x)=>t+Math.max(0,x.len)*x.p.lw,0), out=all.filter(x=>x.len<=0).length, low=all.filter(x=>x.len>0&&CAT(x.p)!=="REINF"&&x.len<2*x.p.lpp).length;
+ return bar("Stock",`${S.sb} · ${S.sf}`,{right:`${can("stock")?`<button class="iconbtn addprof" data-act="newprof" aria-label="Add profile">${I.plus}</button>`:""}<button class="iconbtn" data-act="stockxls" aria-label="Stock to Excel">${I.xls}</button><button class="iconbtn" data-go="prices" aria-label="Price list" style="width:auto;padding:0 12px;font-weight:700;font-size:13px">₹<span class="hide-s"> Prices</span></button>`})+`<div class="scroll">
+  <div class="stats" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:12px">
+   <div class="stat"><div class="muted">In stock</div><b class="num" style="font-size:17px">${kg(r3(kgTot))} kg</b></div>
+   <div class="stat"><div class="muted">Low (&lt;2 pkt)</div><b style="font-size:17px;color:#b26a00">${low}</b></div>
+   <div class="stat"><div class="muted">Nil stock</div><b style="font-size:17px;color:var(--danger)">${out}</b></div></div>
+  <div class="stickybrand">
+  <div class="chips">${P.brands.map(b=>`<button class="chip ${S.sb===b?"on":""}" data-sb="${esc(b)}">${esc(b)}</button>`).join("")}</div>
+  <div class="chips">${P.finishes.map(f=>`<button class="chip ${S.sf===f?"on":""}" data-sf="${esc(f)}">${esc(f)}</button>`).join("")}</div>
+  <div class="chips">${seriesFor(S.sb).map(x=>`<button class="chip ser ${S.filter===x&&!ql?"on":""}" data-filter="${esc(x)}">${esc(x.replace(" SERIES",""))}</button>`).join("")}${can("stock")?`<button class="chip ser addser" data-act="newprof" aria-label="Add profile or series">+ Add</button>`:""}</div>
+  </div>
+  <div class="search" style="margin-top:10px">${I.search}<input id="sq" placeholder="Search code or name" value="${esc(S.sq||"")}"></div>
+
+  <div style="margin-top:12px">${list.map(p=>{const len=stockOf(p.code,S.sb,S.sf),reinf=CAT(p)==="REINF";
+    const col=len<=0?"var(--danger)":(!reinf&&len<2*p.lpp)?"#b26a00":"var(--ink)";
+    return `<button class="prof" data-stock="${esc(p.code)}" style="width:100%;text-align:left"><div class="grow"><div class="row" style="gap:7px"><span class="code">${esc(p.code)}</span><b style="font-size:13.5px">${esc(p.desc)}</b></div>
+     <div class="calcline">${reinf?"":p.lpp+" len/pkt · "}${p.lw} kg/len${len>0?` · <b>${len} len · ${kg(r3(len*p.lw))} kg</b>`:""}</div></div>
+     <div style="text-align:right;flex-shrink:0"><b class="num" style="font-size:15px;color:${col}">${len?fmtStock(p.code,len):"Nil"}</b></div></button>`}).join("")}</div></div>`+nav()},
+
+prices(){const P=DB.prices;
+ const inp=(key)=>{const v=P.rates[key];return `<input class="pin" inputmode="decimal" data-price="${esc(key)}" value="${v>0?v:""}" placeholder="—" ${can("prices")?"":"disabled"}>`};
+ return bar("Price list","Rs per kg · brand × finish",{back:S.priceBack||"profiles"})+`<div class="scroll">
+  <div class="muted" style="margin:0 2px 12px">Set the rate for each brand and finish. Empty = not sold / not set (the app won't let you quote it). Changes apply to new quotations only.</div>
+  ${P.brands.map(b=>`<div class="card" style="margin-bottom:12px;padding:12px 14px">
+   <div class="row"><b style="font-size:16px" class="grow">${esc(b)}</b>${can("delete")&&P.brands.length>1?`<button class="linkbtn" style="color:var(--danger)" data-rmbrand="${esc(b)}">Remove</button>`:""}</div>
+   <table class="ptab"><thead><tr><th></th><th>Profiles</th><th>Auxiliaries</th></tr></thead><tbody>
+    ${P.finishes.map(f=>`<tr><td>${esc(f)}</td><td>${inp(priceKey("UPVC",b,f))}</td><td>${inp(priceKey("AUX",b,f))}</td></tr>`).join("")}
+    <tr><td>Reinforcement<div class="muted" style="font-size:10.5px">any finish</div></td><td>${inp(priceKey("REINF",b))}</td><td></td></tr>
+   </tbody></table></div>`).join("")}
+  ${can("prices")?`<div class="h2">Finishes</div><div class="chips" style="flex-wrap:wrap">${P.finishes.map(f=>`<span class="chip">${esc(f)}${P.finishes.length>1&&can("delete")?` <button class="chipx" data-rmfinish="${esc(f)}" aria-label="Remove ${esc(f)}">✕</button>`:""}</span>`).join("")}</div>`:""}
+  ${can("prices")?"":"<!--"}<div class="h2">Add more</div>
+  <div class="card stack" style="padding:12px">
+   <div class="row"><input id="newBrand" class="pin" style="flex:1;text-align:left" placeholder="New brand name"><button class="btn" style="width:auto;padding:10px 14px;font-size:13px" data-act="addbrand">Add brand</button></div>
+   <div class="row"><input id="newFinish" class="pin" style="flex:1;text-align:left" placeholder="New finish, e.g. Laminate Both Side"><button class="btn" style="width:auto;padding:10px 14px;font-size:13px" data-act="addfinish">Add finish</button></div>
+  </div>${can("prices")?"":"-->"}</div>`+nav()},
+
+new(){const d=S.draft, c=cust(d.customerId);
+ const lines=d.items.map(calcLine), t=totals(lines,c?.stateCode);
+ const qty=code=>d.items.find(i=>i.code===code&&sameVariant(i,d));
+ const ql=S.q.trim().toLowerCase();
+ const DS=seriesFor(d.brand);if(!DS.includes(S.filter)&&DS.length)S.filter=DS[0];
+ const list=PROFILES.filter(p=>inBrand(p,d.brand)&&(ql?(p.code+" "+p.desc).toLowerCase().includes(ql):p.series===S.filter));
+ const t2=(k,l)=>`<button class="${d.type===k?"on":""}" data-dtype="${k}">${l}</button>`;
+ return bar(d.editId?"Edit "+d.no:"New "+LABEL[d.type],d.editId?"Change profiles, quantities, rates":"Pick customer, then tap + on profiles",{back:d.editId?"view":"home"})+`<div class="scroll" style="padding-bottom:180px">
+  ${d.editId?`<div class="editnote">Editing ${LABEL[d.type].toLowerCase()} <b class="mono">${esc(DB.docs.find(x=>x.id===d.editId)?.no||"")}</b>. Tap <b>Update</b> to save the changes.${DB.docs.find(x=>x.id===d.editId)?.stockDeducted?" Stock will be corrected automatically.":""}</div>`
+   :`${d.items.length?`<div class="unsaved"><span class="grow"><b>Not saved yet</b> · it stays here if you leave this screen</span><button data-act="askdiscard">Discard</button></div>`:""}<div class="tabs">${canType("PI")?t2("PI","Proforma"):""}${canType("QUOTATION")?t2("QUOTATION","Quotation"):""}${canType("INVOICE")?t2("INVOICE","Invoice"):""}</div>`}
+  <div class="two" style="margin-top:14px"><div class="field"><label>${LABEL[d.type]} No</label><input id="docNo" value="${esc(d.no||PREFIX[d.type]+DB.next[d.type])}" style="font-family:'JetBrains Mono',monospace;font-weight:700;text-transform:uppercase"></div>
+   <div class="field"><label>Date</label><input id="docDate" type="date" value="${d.date||today()}"></div></div>
+  <div class="field" style="margin-top:12px"><label>Customer</label>
+   <select id="custSel">${DB.customers.map(x=>`<option value="${x.id}" ${x.id===d.customerId?"selected":""}>${esc(x.name)}</option>`).join("")}</select>
+   ${c?`<div class="muted" style="margin:6px 2px 0">${c.stateCode===COMPANY.stateCode?"Same state → CGST 9% + SGST 9%":"Other state ("+esc(c.state)+") → IGST 18%"}</div>`:""}
+   ${bal(c)?`<label class="balrow" style="cursor:pointer"><input type="checkbox" id="oldChk" ${d.addOld!==false?"checked":""} style="width:20px;height:20px;accent-color:var(--brand)">
+     <span class="grow">Add old balance${c.balanceNote?` <span class="muted">· ${esc(c.balanceNote)}</span>`:""}</span><b class="num" style="white-space:nowrap;margin-left:6px">${bal(c)<0?"− ":""}₹${inr(Math.abs(bal(c)))}</b></label>`:""}</div>
+  <label class="ticks"><input type="checkbox" id="wtChk" ${d.hideWeight?"":"checked"}><span><b>Show weight (kg) on PDF</b><span class="muted">Untick to hide the weight column</span></span></label>
+  <label class="ticks"><input type="checkbox" id="rateChk" ${d.hideRate?"":"checked"}><span><b>Show rate per kg on PDF</b><span class="muted">Untick to print weight and amount only</span></span></label>
+  ${!d.editId&&d.type!=="QUOTATION"&&brandGroups(d.items).length>1?`<label class="ticks"><input type="checkbox" id="splitDraft" ${d.split!==false?"checked":""}><span><b>Separate ${d.type==="INVOICE"?"invoice":"proforma"} for each brand</b><span class="muted">${brandGroups(d.items).map(([b])=>b||"No brand").join(" · ")} → ${brandGroups(d.items).length} documents</span></span></label>`:""}
+  ${d.type!=="QUOTATION"||d.showTr?`<div class="h2">Transport details</div><form id="trDraft" class="card" style="padding:12px" onsubmit="return false">${trFields(d.tr||{})}</form>`
+   :`<button class="muted" data-act="showtr" style="margin:12px 2px 0;font-weight:700;color:var(--brand2)">+ Add transport details</button>`}
+  <div class="h2">Brand &amp; finish</div>
+  <div class="stickybrand">
+   <div class="chips">${DB.prices.brands.map(b=>`<button class="chip ${d.brand===b?"on":""}" data-brand="${esc(b)}">${esc(b)}</button>`).join("")}</div>
+   <div class="chips">${DB.prices.finishes.map(f=>`<button class="chip ${d.finish===f?"on":""}" data-finish="${esc(f)}">${esc(f)}</button>`).join("")}</div>
+   <div class="chips">${seriesFor(d.brand).map(x=>`<button class="chip ser ${S.filter===x&&!ql?"on":""}" data-filter="${esc(x)}">${esc(x.replace(" SERIES",""))}</button>`).join("")}${can("stock")?`<button class="chip ser addser" data-act="newprof" aria-label="Add profile or series">+ Add</button>`:""}</div>
+  </div>
+  <div class="card stack" style="padding:12px;margin-top:8px">
+   ${/^white$/i.test(d.finish)?"":`<div class="field"><input id="shadeIn" value="${esc(d.shade||"")}" placeholder="${/lam/i.test(d.finish)?"Shade, e.g. Golden Oak, Walnut":"Colour, e.g. Ivory, Grey, Brown"}" style="padding:10px 12px;font-size:14px"></div>`}
+   <div class="row" style="flex-wrap:wrap;gap:6px">${["UPVC","AUX","REINF"].map(cat=>{const v=+DB.prices.rates[priceKey(cat,d.brand,d.finish)];
+     return `<span class="pill" style="background:${v>0?"var(--info-bg)":"#fdecea"};color:${v>0?"var(--brand2)":"var(--danger)"}">${CAT_LABEL[cat]} ${v>0?"₹"+v+"/kg":"no rate"}</span>`}).join("")}
+     <button data-go="prices" style="font-size:12px;font-weight:700;color:var(--brand2);margin-left:auto">Price list ›</button></div>
+   <div class="muted">New profiles you add use this brand &amp; finish. Change it to mix brands or finishes in one ${LABEL[d.type].toLowerCase()}.</div>
+  </div>
+  ${lines.length?`<div class="h2">In this ${LABEL[d.type].toLowerCase()} (${lines.length})</div><div class="card" style="padding:4px 14px">${lines.map((l,i)=>`
+   <div class="cartrow" ${i===lines.length-1?'style="border:0"':""}><div class="grow"><div class="row" style="gap:6px"><span class="code">${esc(l.code)}</span><b style="font-size:13px">${esc(l.desc)}</b></div>
+   ${l.variant?`<div class="calcline" style="color:var(--brand2);font-weight:700">${esc(l.variant)}</div>`:""}
+   ${l.brand&&l.lengths>stockOf(l.code,l.brand,l.finish)?`<div class="calcline" style="color:var(--danger);font-weight:600">⚠ Only ${fmtStock(l.code,stockOf(l.code,l.brand,l.finish))} in stock</div>`:""}
+   <div class="calcline">${l.packets?`${l.packets} pkt × ${l.lpp} = `:""}<b>${l.lengths} lengths</b> · ${kg(l.weight)} kg × ${l.rate?"₹"+l.rate:'<b style="color:var(--danger)">no rate</b>'}${d.items[i].weight!=null&&d.items[i].weight!==""?" · <i>weighed</i>":""}</div></div>
+   <div style="text-align:right"><b class="num" style="font-size:13.5px">₹${inr(l.amount)}</b><br><button class="muted" data-editline="${i}" style="font-weight:700;color:var(--brand2);padding:4px 0">Edit</button></div></div>`).join("")}</div>`:""}
+  <div class="h2">Add profiles</div>
+  <div class="search">${I.search}<input id="q" placeholder="Search code or name (e.g. 59SS, sash)" value="${esc(S.q)}"></div>
+
+  <div style="margin-top:10px">${list.map(p=>{const it=qty(p.code),rt=rateFor(p.code,d.brand,d.finish),stk=stockOf(p.code,d.brand,d.finish),n=it?(p.series==="REINFORCEMENT"?it.lengths:it.packets):0;
+   const lab=p.series==="REINFORCEMENT"?"lengths":"pkts";
+   return `<div class="prof ${n?"sel":""}"><div class="grow"><div class="row" style="gap:7px"><span class="code">${esc(p.code)}</span><b style="font-size:13px">${esc(p.desc)}</b></div>
+   <div class="calcline">${n?`${p.series==="REINFORCEMENT"?"":n+" × "+p.lpp+" = "}<b>${n*(p.series==="REINFORCEMENT"?1:p.lpp)} lengths · ${kg(r3(n*(p.series==="REINFORCEMENT"?1:p.lpp)*p.lw))} kg</b>`:`${p.series==="REINFORCEMENT"?"":p.lpp+"/pkt · "}${p.lw} kg/len · ${rt?"₹"+rt+"/kg":'<span style="color:var(--danger)">no rate</span>'}`}</div>
+   <div class="calcline" style="color:${stk<=0?"var(--danger)":"var(--ink3)"}">Stock: ${stk?fmtStock(p.code,stk):"Nil"}</div></div>
+   <div class="stepper"><button data-step="${esc(p.code)}" data-d="-1" aria-label="Less">−</button><input inputmode="numeric" data-qty="${esc(p.code)}" value="${n||""}" placeholder="0" aria-label="${lab}"><button data-step="${esc(p.code)}" data-d="1" aria-label="More">+</button></div></div>`}).join("")}</div>
+ </div>
+ ${lines.length?`<div class="sumbar"><div class="grow"><div style="font-size:11.5px;opacity:.7">${t.lengths} lengths · ${kg(t.weight)} kg · incl. GST${bal(c)&&d.addOld!==false?` + old bal ₹${inr(bal(c),0)}`:""}</div><b class="num" style="font-size:19px">₹${inr(t.grand+(d.addOld!==false?bal(c):0),0)}</b></div><button class="btn accent" data-act="savedraft">${d.editId?"Update":"Save"}</button></div>`:""}`+nav()},
+
+view(){const d=DB.docs.find(x=>x.id===S.view), c=cust(d.customerId);
+ let lastSec=null;
+ const rows=d.lines.map((l,i)=>{const sec=l.series!==lastSec?`<div class="sec">${esc(l.series)}</div>`:"";lastSec=l.series;
+  return sec+`<div class="li"><div class="n">${i+1}</div><div class="d">${esc(l.desc)}</div><div class="a num">₹${inr(l.amount)}</div>
+  <div class="x"><span class="code">${esc(l.code)}</span> HSN ${l.hsn} · ${l.packets?`${l.packets} pkt × ${l.lpp} = `:""}<b>${l.lengths}</b> len · <b>${kg(l.weight)}</b> kg × ₹${l.rate}/kg</div></div>`}).join("");
+ const src=d.sourceId&&DB.docs.find(x=>x.id===d.sourceId), kids=DB.docs.filter(x=>x.sourceId===d.id).sort((a,b)=>a.id-b.id);
+ const T=d.t;
+ return bar(d.no,LABEL[d.type]+(d.status==="CONVERTED"?" · converted":""),{back:"docs",right:`${can("edit")&&canType(d.type)?`<button class="iconbtn" data-act="editdoc" aria-label="Edit number, date, transport">${I.edit}</button>`:""}<button class="iconbtn" data-act="copy" aria-label="Copy as text">${I.copy}</button>`})+
+ `<div class="scroll"><button class="wabtn" data-act="wa">${I.wa}Send on WhatsApp</button>
+ <div class="exp"><button class="pdf" data-act="pdf">${I.pdf}PDF / Print</button><button class="xls" data-act="xlsx">${I.xls}Excel</button></div>
+ <button class="btn ghost" data-act="edititems" ${can("edit")&&canType(d.type)?"":"hidden"} style="margin:-4px 0 14px;display:flex;align-items:center;justify-content:center;gap:8px">${I.edit.replace("<svg",'<svg style="width:18px;height:18px"')}Edit profiles &amp; quantities</button><div class="paper">
+  <div class="hd"><div class="t">${LABEL[d.type].toUpperCase()}</div><div class="co">${COMPANY.name}</div>
+   <div class="ad">${COMPANY.reg}<br>GSTIN ${COMPANY.gstin} · PAN ${COMPANY.pan} · Ph ${COMPANY.phone}</div></div>
+  <div class="meta"><div>${LABEL[d.type]} No<b class="mono">${d.no}</b></div><div>Date<b>${fmtDate(d.date)}</b></div>
+   <div>Place of supply<b>${COMPANY.state}</b></div><div>Transport<b>${esc(trOf(d).mode)}</b></div></div>
+  <div class="billto"><span class="muted">BILLED & DELIVERED TO</span><b>${esc(c.name)}</b>${esc(c.address)}<br><span class="mono">GST ${esc(c.gstin)}</span></div>
+  ${trList(d).length?`<div class="trbox">${trList(d).map(([k,v])=>`<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join("")}</div>`:""}
+  ${rows}
+  <div class="tot">
+   <div class="r muted"><span>Total lengths / weight</span><span class="num">${T.lengths} · ${kg(T.weight)} kg</span></div>
+   <div class="r"><span>Taxable value</span><span class="num">₹${inr(T.taxable)}</span></div>
+   ${T.igst?`<div class="r"><span>IGST @ 18%</span><span class="num">₹${inr(T.igst)}</span></div>`:`<div class="r"><span>CGST @ 9%</span><span class="num">₹${inr(T.cgst)}</span></div><div class="r"><span>SGST @ 9%</span><span class="num">₹${inr(T.sgst)}</span></div>`}
+   ${T.round?`<div class="r muted"><span>Round off</span><span class="num">${T.round>0?"+":""}${inr(T.round)}</span></div>`:""}
+   <div class="r g"><span>Total</span><span class="num">₹${inr(T.grand,0)}</span></div>
+   ${d.oldBalance?`<div class="r" style="margin-top:6px"><span>Old balance${d.oldBalanceNote?` <span class="muted">(${esc(d.oldBalanceNote)})</span>`:""}</span><span class="num">${d.oldBalance<0?"− ":""}₹${inr(Math.abs(d.oldBalance))}</span></div>
+   <div class="r g" style="color:var(--danger);border-color:var(--danger)"><span>Total amount due</span><span class="num">₹${inr(due(d),0)}</span></div>`:""}</div>
+  <div class="words">${T.words}</div>
+  <div class="bank">${d.type==="QUOTATION"?`<b>Terms:</b> ${COMPANY.terms}<br>`:""}Cheque payable to "${COMPANY.name}"<br>A/c ${COMPANY.acc} · ${COMPANY.bank} · IFSC ${COMPANY.ifsc} · ${COMPANY.branch}</div>
+ </div>
+ ${src?`<div class="muted" style="margin:12px 4px">Made from <button data-open="${src.id}" style="color:var(--brand2);font-weight:700">${src.no}</button></div>`:""}
+ ${kids.length?`<div class="muted" style="margin:12px 4px">Converted to ${kids.map(k=>`<button data-open="${k.id}" style="color:var(--brand2);font-weight:700">${k.no}${k.splitBrand?" ("+esc(k.splitBrand)+")":""}</button>`).join(", ")}</div>`:""}
+ ${d.stockDeducted?`<div class="muted" style="margin:12px 4px">✓ Stock deducted for this invoice</div>`:""}
+ ${can("delete")?"":"<!--"}<button class="btn ghost delbtn" data-act="askdel">${I.trash}Delete ${LABEL[d.type].toLowerCase()}</button>${can("delete")?"":"-->"}
+ ${d.type!=="INVOICE"&&d.status!=="CONVERTED"?`<div class="two" style="margin-top:14px">${d.type==="QUOTATION"&&canType("PI")?`<button class="btn ghost" data-convert="PI">Make Proforma</button>`:""}${can("invoice")?`<button class="btn accent" data-convert="INVOICE" ${d.type==="PI"?'style="grid-column:1/-1"':""}>Convert to Invoice</button>`:""}</div>`:""}
+ </div>`+nav()}
+};
+
+/* ---------- sheets ---------- */
+function sheet(html){const first=!S.sheet.shown;S.sheet.shown=true;return `<div class="sheet-bg${first?"":" still"}" data-close><div class="sheet" role="dialog" aria-modal="true"><div class="shead"><div class="grab"></div><button type="button" class="sx" data-close aria-label="Close">✕</button></div>${html}</div></div>`}
+function sheetHTML(){
+ if(!S.sheet)return"";
+ if(S.sheet.kind==="cust"){const ec=S.sheet.id&&cust(S.sheet.id),v=k=>esc(ec?ec[k]||"":""),used=ec&&DB.docs.some(d=>d.customerId===ec.id);
+  return sheet(`<h3>${ec?"Edit customer":"Add customer"}</h3><form id="custForm" class="stack" autocomplete="off">
+   <div class="field"><label>GST number</label><input name="gstin" id="gstIn" maxlength="15" value="${v("gstin")}" placeholder="Type 15-digit GSTIN" style="text-transform:uppercase;font-family:'JetBrains Mono',monospace;letter-spacing:1px">
+   <div id="gstInfo" style="margin:7px 2px 0;font-size:12.5px"></div></div>
+   <div class="field"><label>Name</label><input name="name" id="cName" value="${v("name")}" required></div>
+   <div class="field"><label>Address</label><input name="address" id="cAddr" value="${v("address")}"></div>
+   <div class="two"><div class="field"><label>State</label><input name="state" id="cState" value="${v("state")}"></div><div class="field"><label>Phone</label><input name="phone" inputmode="tel" value="${v("phone")}"></div></div>
+   ${ec?"":`<div class="field"><label>Old balance ₹ (optional)</label><input name="balance" inputmode="decimal" placeholder="Amount customer already owes"></div>`}
+   <button class="btn">${ec?"Save changes":"Save customer"}</button>
+   ${ec&&can("delete")?(used?`<div class="muted">This customer has documents, so they can't be deleted. Changes here also show on their existing documents.</div>`
+     :`<button type="button" class="btn ghost" style="color:var(--danger)" data-act="delcust">Delete customer</button>`):""}</form>`);}
+ if(S.sheet.kind==="line"){const it=S.draft.items[S.sheet.i], l=calcLine(it), p=pByCode[it.code]||{};
+  return sheet(`<h3>${esc(l.desc)} <span class="code">${esc(l.code)}</span></h3><form id="lineForm" class="stack">
+   <div class="two"><div class="field"><label>${p.series==="REINFORCEMENT"?"Lengths":"Packets"}</label><input name="n" inputmode="numeric" value="${p.series==="REINFORCEMENT"?l.lengths:l.packets}"></div>
+   <div class="field"><label>Rate ₹/kg</label><input name="rate" inputmode="decimal" value="${it.brand?(it.rate||""):l.rate}" placeholder="${it.brand?(rateFor(it.code,it.brand,it.finish)?"List ₹"+rateFor(it.code,it.brand,it.finish):"Not set"):""}"></div></div>
+   ${it.brand?`<div class="two"><div class="field"><label>Brand</label><select name="brand">${DB.prices.brands.map(b=>`<option ${b===it.brand?"selected":""}>${esc(b)}</option>`).join("")}</select></div>
+   <div class="field"><label>Finish</label><select name="finish">${DB.prices.finishes.map(f=>`<option ${f===it.finish?"selected":""}>${esc(f)}</option>`).join("")}</select></div></div>
+   <div class="field"><label>Colour / shade</label><input name="shade" value="${esc(it.shade||"")}" placeholder="e.g. Golden Oak"></div>
+   <div class="muted">Leave rate empty to use the price list rate for the brand &amp; finish.</div>`:""}
+   <div class="field"><label>Actual weight (kg), optional</label><input name="weight" inputmode="decimal" value="${it.weight??""}" placeholder="Calculated: ${kg(r3(l.lengths*(p.lw||0)))} kg"></div>
+   <div class="field"><label>Note</label><input name="note" value="${esc(it.note||"")}" placeholder="e.g. WITHOUT GASKET"></div>
+   <div class="muted">Leave weight empty to use ${l.lengths} lengths × ${p.lw} kg. Enter the weighed figure to override it.</div>
+   <div class="two"><button type="button" class="btn ghost" data-act="rmline" style="color:var(--danger)">Remove</button><button class="btn">Update</button></div></form>`);}
+ if(S.sheet.kind==="newprof"){const st=S.sheet,brands=DB.prices.brands,sel=st.brands||[S.screen==="new"&&S.draft?S.draft.brand:S.sb||brands[0]];
+  const cat=st.cat||"UPVC",cats=[["UPVC","Profile"],["AUX","Auxiliary"],["REINF","Reinforcement"]];
+  const ser=SERIES.filter(x=>PROFILES.some(p=>p.series===x&&CAT(p)===cat));
+  return sheet(`<h3>Add profile</h3><form id="newProfForm" class="stack" autocomplete="off">
+   <div class="tabs">${cats.map(([k,l])=>`<button type="button" class="${cat===k?"on":""}" data-pcat="${k}">${l}</button>`).join("")}</div>
+   <div class="field"><label>Series</label><select name="series" id="npSeries">${ser.map(x=>`<option ${(st.series||S.filter)===x?"selected":""}>${esc(x)}</option>`).join("")}<option value="__new" ${st.series==="__new"||!ser.length?"selected":""}>+ New series…</option></select></div>
+   ${st.series==="__new"||!ser.length?`<div class="field"><label>New series name</label><input name="newSeries" placeholder="e.g. 60 SERIES, SLIDING PREMIUM" style="text-transform:uppercase"></div>`:""}
+   <div class="two"><div class="field"><label>Profile code</label><input name="code" placeholder="e.g. 70ET" style="text-transform:uppercase;font-family:'JetBrains Mono',monospace"></div>
+    <div class="field"><label>HSN</label><input name="hsn" value="${cat==="REINF"?"72255010":"39162099"}" inputmode="numeric"></div></div>
+   <div class="field"><label>Description</label><input name="desc" placeholder="e.g. 2 TRACK" style="text-transform:uppercase"></div>
+   <div class="two">${cat==="REINF"?"":`<div class="field"><label>Lengths per packet</label><input name="lpp" inputmode="numeric" placeholder="6"></div>`}
+    <div class="field"><label>Weight kg / metre</label><input name="mw" id="npMw" inputmode="decimal" placeholder="optional"></div>
+    <div class="field"><label>Weight kg / length</label><input name="lw" id="npLw" inputmode="decimal" placeholder="e.g. 4.867"></div></div>
+   <div class="muted" style="margin-top:-4px">Enter kg/metre and kg/length fills in automatically (× ${STD_LEN} m).</div>
+   <div class="dlab" style="margin:4px 0 0">Available in brands</div>
+   <div class="chips" style="flex-wrap:wrap">${brands.map(b=>`<label class="chip chk ${sel.includes(b)?"on":""}"><input type="checkbox" name="b_${esc(b)}" ${sel.includes(b)?"checked":""}>${esc(b)}</label>`).join("")}</div>
+   <button class="btn">Add profile</button></form>`);}
+ if(S.sheet.kind==="rmvar")return sheet(`<h3>Remove ${S.sheet.isB?"brand":"finish"} ${esc(S.sheet.v)}?</h3><p style="font-size:14px;margin:0 0 16px">Its rates${S.sheet.isB?", logo and PDF design":""} will be removed. It isn't used in any document or stock.</p>
+   <div class="two"><button class="btn ghost" data-close>Cancel</button><button class="btn" style="background:var(--danger)" data-act="dormvar">Remove</button></div>`);
+ if(S.sheet.kind==="discard")return sheet(`<h3>Discard this ${LABEL[S.draft.type].toLowerCase()}?</h3><p style="font-size:14px;margin:0 0 16px">${S.draft.items.length} line(s) will be removed. This can't be undone.</p>
+   <div class="two"><button class="btn ghost" data-close>Keep</button><button class="btn" style="background:var(--danger)" data-act="discard">Discard</button></div>`);
+ if(S.sheet.kind==="pending"){const d=S.draft,t=totals(d.items.map(calcLine),(cust(d.customerId)||{}).stateCode);
+  return sheet(`<h3>Unsaved ${LABEL[d.type].toLowerCase()}</h3><p style="font-size:14px;margin:0 0 16px">You have an unsaved ${LABEL[d.type].toLowerCase()} for <b>${esc((cust(d.customerId)||{}).name||"")}</b> with ${d.items.length} line${d.items.length>1?"s":""} (₹${inr(t.grand,0)}).</p>
+   <div class="stack"><button class="btn" data-act="resume">Continue it</button><button class="btn ghost" style="color:var(--danger)" data-act="newfresh">Discard it and start new</button></div>`);}
+ if(S.sheet.kind==="leave"){
+  return sheet(`<h3>Leave without saving?</h3><p style="font-size:14px;margin:0 0 16px">Your changes to <b class="mono">${esc(S.draft.no||"")}</b> are not saved yet.</p>
+   <div class="two"><button class="btn ghost" data-close>Keep editing</button><button class="btn" style="background:var(--danger)" data-act="leavego">Leave</button></div>`);}
+ if(S.sheet.kind==="user"){const u=DB.users.find(x=>x.id===S.sheet.id),role=S.sheet.role||(u?u.role:"sales");
+  return sheet(`<h3>${u?"Edit user":"Add user"}</h3><form id="userForm" class="stack" autocomplete="off">
+   <div class="field"><label>Name</label><input name="name" value="${esc(u?u.name:"")}" placeholder="e.g. Suresh"></div>
+   ${u?`<div class="muted">Username: <b>@${esc(u.username)}</b></div>`:`<div class="field"><label>Username</label><input name="username" autocapitalize="none" placeholder="e.g. suresh"></div>`}
+   <div class="field"><label>${u?"New password (leave empty to keep)":"Password"}</label><input name="pw" type="password" autocomplete="new-password" placeholder="At least 6 characters"></div>
+   <div class="dlab" style="margin-top:4px">Role</div>
+   ${Object.entries(ROLES).map(([k,r])=>`<button type="button" class="rolepick ${role===k?"on":""}" data-role="${k}"><b>${r.label}</b><span class="muted">${r.desc}</span></button>`).join("")}
+   <div class="dlab" style="margin-top:6px">Permissions</div>
+   <div class="permbox ${role==="admin"?"isadmin":""}">${PERM_LIST.map(([k,l])=>{const on=role==="admin"||(S.sheet.perms||(u?u.perms:ROLE_PERMS[role])).includes(k);
+     return `<label class="permrow"><input type="checkbox" name="perm_${k}" ${on?"checked":""} ${role==="admin"?"disabled":""}><span>${l}</span></label>`}).join("")}
+     <div class="permnote">${I.lock.replace("<svg",'<svg style="width:13px;height:13px;vertical-align:-2px"')} Delete, settings and users: admin only</div></div>
+   ${u?`<label class="row" style="gap:10px;font-weight:600;font-size:14px"><input type="checkbox" id="uActive" ${u.active?"checked":""} style="width:20px;height:20px;accent-color:var(--brand)">Account active (can log in)</label>`:""}
+   <button class="btn">${u?"Save user":"Add user"}</button>
+   ${u&&u.id!==S.uid?`<button type="button" class="btn ghost" style="color:var(--danger)" data-act="deluser">Remove user</button>`:""}</form>`);}
+ if(S.sheet.kind==="restore"){const d=S.sheet.data;
+  return sheet(`<h3>Restore backup?</h3><p style="font-size:14px;margin:0 0 10px">Backup${S.sheet.at?" from "+esc(new Date(S.sheet.at).toLocaleString("en-IN")):""}: <b>${d.docs.length}</b> documents, <b>${d.customers.length}</b> customers.</p>
+   <p class="muted" style="margin:0 0 16px">This replaces all data on this phone (documents, customers, stock, prices, settings, users). You will be logged out.</p>
+   <div class="two"><button class="btn ghost" data-close>Cancel</button><button class="btn" style="background:var(--danger)" data-act="dorestore">Restore</button></div>`);}
+ if(S.sheet.kind==="del"){const d=DB.docs.find(x=>x.id===S.view),src=d.sourceId&&DB.docs.find(x=>x.id===d.sourceId),child=DB.docs.find(x=>x.sourceId===d.id);
+  const notes=[];
+  if(d.stockDeducted)notes.push(`Stock for ${d.lines.filter(l=>l.brand).length} line(s) will be <b>added back</b>.`);
+  if(src)notes.push(`${src.no} will become open again, so it can be converted again.`);
+  if(child)notes.push(`${child.no} (made from this) will be kept.`);
+  if(d.no===PREFIX[d.type]+(DB.next[d.type]-1))notes.push(`Number <b class="mono">${d.no}</b> will be used again for the next ${LABEL[d.type].toLowerCase()}.`);
+  return sheet(`<h3 style="color:var(--danger)">Delete ${d.no}?</h3>
+   <p style="font-size:14px;margin:0 0 6px">${LABEL[d.type]} for <b>${esc(cust(d.customerId)?.name)}</b>, ₹${inr(d.t.grand,0)}. This can't be undone.</p>
+   ${notes.length?`<ul class="muted" style="font-size:13px;line-height:1.6;padding-left:18px;margin:8px 0 16px">${notes.map(n=>`<li>${n}</li>`).join("")}</ul>`:'<div style="height:12px"></div>'}
+   <div class="two"><button class="btn ghost" data-close>Cancel</button><button class="btn" style="background:var(--danger)" data-act="dodel">Delete</button></div>`);}
+ if(S.sheet.kind==="wa"){const d=DB.docs.find(x=>x.id===S.view),c=cust(d.customerId),ph=S.sheet.phone??(c.phone||""),num=waPhone(ph);
+  const txt=waText(d,!!S.sheet.items),link=num?`https://wa.me/${num}?text=${encodeURIComponent(txt)}`:"";
+  return sheet(`<h3>Send ${d.no} on WhatsApp</h3>
+   <div class="field"><label>Customer WhatsApp number</label><input id="waPh" inputmode="tel" value="${esc(ph)}" placeholder="10-digit mobile number"></div>
+   ${ph&&!num?`<div class="muted" style="color:var(--danger);margin-top:6px">Enter a valid mobile number</div>`:""}
+   <label class="row" style="margin:12px 2px;font-size:13.5px;font-weight:600;gap:8px"><input type="checkbox" id="waItems" ${S.sheet.items?"checked":""} style="width:18px;height:18px;accent-color:var(--brand)">Include item list in message</label>
+   <div class="wamsg">${esc(txt)}</div>
+   <div class="stack" style="margin-top:16px">
+    <div class="wastep"><span class="n">1</span><div class="grow"><button class="btn ghost" data-act="wapdf" style="padding:12px">${I.pdf.replace("<svg",'<svg style="width:18px;height:18px;vertical-align:-4px;margin-right:6px"')}Share / save PDF</button></div></div>
+    <div class="wastep"><span class="n">2</span><div class="grow">${num?`<a class="wabtn" style="margin:0" href="${link}" target="_blank" rel="noopener" data-walink="1">${I.wa}Open WhatsApp chat</a>`
+      :`<button class="wabtn" style="margin:0;opacity:.5" disabled>${I.wa}Open WhatsApp chat</button>`}</div></div>
+   </div>
+   <div class="muted" style="margin-top:12px;line-height:1.5">Step 1 shares the PDF straight to WhatsApp where your phone allows it, otherwise it saves the PDF. Step 2 opens the customer's chat with the message typed in: tap 📎 to attach the saved PDF, then send.</div>`);}
+ if(S.sheet.kind==="docedit"){const d=DB.docs.find(x=>x.id===S.view);
+  return sheet(`<h3>Edit ${LABEL[d.type]}</h3><form id="docForm" class="stack">
+   <div class="two"><div class="field"><label>${LABEL[d.type]} No</label><input name="no" value="${esc(d.no)}" style="font-family:'JetBrains Mono',monospace;font-weight:700;text-transform:uppercase"></div>
+   <div class="field"><label>Date</label><input name="date" type="date" value="${d.date}"></div></div>
+   <div class="h2" style="margin:6px 2px 0">Transport details</div>${trFields(trOf(d))}
+   <div class="muted">Next new ${LABEL[d.type].toLowerCase()} number: <b class="mono">${PREFIX[d.type]}${DB.next[d.type]}</b></div>
+   <button class="btn">Save changes</button></form>`);}
+ if(S.sheet.kind==="stock"){const p=pByCode[S.sheet.code],reinf=CAT(p)==="REINF",len=stockOf(p.code,S.sb,S.sf),mode=S.sheet.mode||"in";
+  const k=stockKey(p.code,S.sb,S.sf),mv=DB.moves.filter(m=>m.key===k).slice(0,6);
+  const T=(m,l)=>`<button type="button" class="${mode===m?"on":""}" data-smode="${m}">${l}</button>`;
+  return sheet(`<h3>${esc(p.desc)} <span class="code">${esc(p.code)}</span></h3>
+   <div class="muted" style="margin:-8px 0 12px">${esc(reinf?S.sb:S.sb+" · "+S.sf)}</div>
+   <div class="card row" style="background:#f6f8f9;margin-bottom:14px"><div class="grow"><div class="muted">Current stock</div><b style="font-size:20px;color:${len<=0?"var(--danger)":"var(--ink)"}">${len?fmtStock(p.code,len):"Nil"}</b></div>
+    <div style="text-align:right" class="muted">${len} lengths<br>${kg(r3(Math.max(0,len)*p.lw))} kg</div></div>
+   ${can("stock")?"":`<div class="muted" style="margin-bottom:12px">${I.lock.replace("<svg",'<svg style="width:14px;height:14px;vertical-align:-2px"')} Only Admin / Accounts can change stock.</div>`}
+   <form id="stockForm" class="stack" ${can("stock")?"":"hidden"}>
+    <div class="tabs">${T("in","+ Add")}${T("out","− Remove")}${T("set","Set count")}</div>
+    <div class="two">${reinf?"":`<div class="field"><label>Packets</label><input name="pk" inputmode="numeric" placeholder="0"></div>`}
+     <div class="field" ${reinf?'style="grid-column:1/-1"':""}><label>${reinf?"Lengths":"Loose lengths"}</label><input name="lo" inputmode="numeric" placeholder="0"></div></div>
+    <div class="field"><label>Note</label><input name="note" placeholder="${mode==="in"?"e.g. Supplier bill 4521":mode==="out"?"e.g. Damaged / sample":"e.g. Physical count 18-Nov"}"></div>
+    <button class="btn ${mode==="out"?"ghost":""}" style="${mode==="out"?"color:var(--danger)":""}">${mode==="in"?"Add to stock":mode==="out"?"Remove from stock":"Set stock to this count"}</button>
+   </form>
+   ${mv.length?`<div class="h2" style="margin-top:18px">Recent movements</div>${mv.map(m=>`<div class="row" style="padding:7px 0;border-bottom:1px solid var(--line);font-size:12.5px">
+     <span class="pill ${m.lengths>=0?"p-INVOICE":"p-PI"}" style="min-width:46px;text-align:center">${m.type}</span>
+     <span class="grow">${new Date(m.at).toLocaleDateString("en-IN",{day:"2-digit",month:"short"})}${m.ref?" · "+esc(m.ref):""}${m.note?` <span class="muted">${esc(m.note)}</span>`:""}</span>
+     <b class="num" style="color:${m.lengths>=0?"var(--ok)":"var(--danger)"}">${m.lengths>0?"+":""}${m.lengths}</b></div>`).join("")}`:""}
+   ${can("stock")?'<div class="h2" style="margin-top:18px">Profile details (all brands)</div>':""}
+   <form id="profForm" class="stack" ${can("stock")?"":"hidden"}><div class="two">
+    ${reinf?"":`<div class="field"><label>Lengths per packet</label><input name="lpp" inputmode="numeric" value="${p.lpp}"></div>`}
+    <div class="field" ${reinf?'style="grid-column:1/-1"':""}><label>Weight kg per length</label><input name="lw" inputmode="decimal" value="${p.lw}"></div></div>
+    <div class="dlab" style="margin:4px 0 0">Available in brands</div>
+    <div class="chips" style="flex-wrap:wrap">${DB.prices.brands.map(b=>`<label class="chip chk ${inBrand(p,b)?"on":""}"><input type="checkbox" name="b_${esc(b)}" ${inBrand(p,b)?"checked":""}>${esc(b)}</label>`).join("")}</div>
+    <button class="btn ghost">Save profile details</button>
+    ${p.custom&&can("delete")?`<button type="button" class="btn ghost" style="color:var(--danger)" data-act="delprof">Delete this profile</button>`:""}
+    <div class="muted">Used for new quotations. Stock is kept in lengths, so changing packet size doesn't change the stock.</div></form>`);}
+ if(S.sheet.kind==="bal"){const c=cust(S.sheet.id);
+  return sheet(`<h3>Old balance</h3><div class="muted" style="margin:-8px 0 14px">${esc(c.name)}</div><form id="balForm" class="stack">
+   <div class="field"><label>Amount ₹</label><input name="amt" inputmode="decimal" value="${bal(c)?Math.abs(bal(c)):""}" placeholder="0" style="font-size:20px;font-weight:800"></div>
+   <div class="tabs"><button type="button" class="${bal(c)>=0?"on":""}" data-baltype="dr">Customer owes us</button><button type="button" class="${bal(c)<0?"on":""}" data-baltype="cr">Advance (we owe)</button></div>
+   <div class="field"><label>Note (optional)</label><input name="note" value="${esc(c.balanceNote||"")}" placeholder="e.g. As on 31-Oct-2026, bill RRINV-12"></div>
+   <div class="muted">This is printed under the invoice total as "Old Balance" and added to "Total Amount Due". It is not part of the GST invoice value.</div>
+   <button class="btn">Save balance</button></form>`);}
+ if(S.sheet.kind==="confirm"){const d=DB.docs.find(x=>x.id===S.view);
+  const to=S.sheet.to;
+  return sheet(`<h3>Convert ${d.no} to ${LABEL[to]}</h3><p class="muted" style="font-size:13.5px;margin:-6px 0 14px">All ${d.lines.length} lines and the GST are copied. ${d.no} will be marked as converted.${to==="INVOICE"?" Stock will be deducted.":""}</p>
+   <form id="convForm" class="stack" onsubmit="return false">
+    <div class="two"><div class="field"><label>${LABEL[to]} No</label><input name="no" value="${PREFIX[to]}${DB.next[to]}" style="font-family:'JetBrains Mono',monospace;font-weight:700;text-transform:uppercase"></div>
+     <div class="field"><label>Date</label><input name="date" type="date" value="${today()}"></div></div>
+    ${(()=>{const g=brandGroups(d.lines);if(g.length<2)return "";const on=S.sheet.split!==false,c=cust(d.customerId);let n=DB.next[to];
+      return `<div class="splitbox"><label class="row" style="gap:10px;font-weight:700;font-size:14px"><input type="checkbox" id="splitChk" ${on?"checked":""} style="width:20px;height:20px;accent-color:var(--brand)">
+       Separate ${to==="INVOICE"?"invoice":"proforma"} for each brand (${g.length})</label>
+       ${on?`<div class="splitlist">${g.map(([b,ls],i)=>`<div class="row"><span class="btag">${esc(b||"No brand")}</span><span class="grow muted">${i===0?"number above":"next number"} · ${ls.length} line${ls.length>1?"s":""}</span><b class="num">₹${inr(totals(ls,c.stateCode).grand,0)}</b></div>`).join("")}</div>
+       <div class="muted" style="margin-top:6px">Old balance goes on the first one only. Each uses its brand's PDF design.</div>`:""}</div>`})()}
+    <div class="h2" style="margin:8px 2px 0">Transport details</div>
+    ${trFields(trOf(d))}
+    <div class="muted">You can change these later with ✎ on the ${LABEL[to].toLowerCase()}.</div>
+   </form>
+   <div class="two" style="margin-top:16px"><button class="btn ghost" data-close>Cancel</button><button class="btn accent" data-act="doconvert">Create ${brandGroups(d.lines).length>1&&S.sheet.split!==false?brandGroups(d.lines).length+" "+(to==="INVOICE"?"invoices":"proformas"):to==="INVOICE"?"invoice":"proforma"}</button></div>`);}
+ return "";
+}
+
+function brandGroups(items){const g=new Map();items.forEach(it=>{const k=it.brand||"";if(!g.has(k))g.set(k,[]);g.get(k).push(it)});return [...g.entries()]}
+function nextFree(type){while(DB.docs.some(x=>x.no===PREFIX[type]+DB.next[type]))DB.next[type]++;return PREFIX[type]+DB.next[type]++}
+function createDocs(o){
+  const c=o.customer,groups=o.split?brandGroups(o.items):[["",o.items]];
+  const no0=(o.no||"").trim().toUpperCase()||PREFIX[o.type]+DB.next[o.type],err=checkNo(o.type,no0);if(err)return err;
+  if(no0===PREFIX[o.type]+DB.next[o.type])DB.next[o.type]++;else bumpCounter(o.type,no0);
+  const out=[],gid=groups.length>1?Date.now():0;
+  groups.forEach(([b,its],i)=>{const doc=mkDoc(o.type,i===0?no0:nextFree(o.type),o.date||today(),c,its,o.sourceId||null);doc.id=DB.nextId++;
+    doc.tr={mode:"By Road",...(o.tr||{})};
+    doc.oldBalance=i===0&&o.addOld?bal(c):0;doc.oldBalanceNote=doc.oldBalance?(c.balanceNote||""):"";
+    if(o.hideRate)doc.hideRate=true;
+    if(o.hideWeight)doc.hideWeight=true;
+    if(gid){doc.splitBrand=b||"Other";doc.splitGroup=gid}
+    if(o.type==="INVOICE")deductForInvoice(doc);
+    out.push(doc)});
+  DB.docs.unshift(...[...out].reverse());return out}
+const getPath=(o,k)=>k.split(".").reduce((a,x)=>a==null?a:a[x],o);
+const editingBrand=()=>S.pdfFor&&DB.pdfBrand[S.pdfFor]?S.pdfFor:"";
+function setPdf(k,v){const b=editingBrand(),c=pdfCfg(b),ks=k.split(".");let o=c;ks.slice(0,-1).forEach(x=>o=o[x]);o[ks.at(-1)]=v;
+  if(b)DB.pdfBrand[b]=c;else DB.pdf=c;save()}
+function sampleDoc(){const c=DB.customers[0]||{id:0,name:"SAMPLE CUSTOMER",address:"Address line",gstin:"",stateCode:"27"};
+  const b=DB.prices.brands[0]||"S-CRAFT",f=DB.prices.finishes[0]||"White";
+  const d=mkDoc("QUOTATION",PREFIX.QUOTATION+DB.next.QUOTATION,today(),c,[{code:"62T",packets:2,brand:b,finish:f,rate:150},{code:"59SS",packets:3,brand:b,finish:f,rate:150},{code:"HC",packets:1,brand:b,finish:f,rate:170}]);
+  d.id=-1;return d}
+const pvDoc=()=>DB.docs.find(x=>x.id===S.pvDocId)||DB.docs[0]||sampleDoc();
+let pvTimer;const schedulePreview=()=>{clearTimeout(pvTimer);pvTimer=setTimeout(()=>{const el=document.getElementById("pv");if(!el)return;
+  if(S.screen==="pdfview"){const d=DB.docs.find(x=>x.id===S.view);drawPreview(el,d,cfgFor(d))}else drawPreview(el,pvDoc(),pdfCfg(editingBrand()))},180)};
+function render(){
+  syncPanelHash();
+  document.getElementById("phone").classList.toggle("wide",(S.screen==="setpdf"||S.screen==="pdfview")&&window.innerWidth>=900);
+  const old=document.querySelector(".scroll"),keep=old&&S._lastScreen===S.screen?old.scrollTop:0;
+  $app.innerHTML=(SCREENS[S.screen]||SCREENS.home)()+sheetHTML();S._lastScreen=S.screen;
+  const sc=document.querySelector(".scroll");
+  if(sc){if(keep)sc.scrollTop=keep;const sb=sc.querySelector(".stickybrand");
+    if(sb){const upd=()=>sb.classList.toggle("stuck",sb.getBoundingClientRect().top<=sc.getBoundingClientRect().top+1);sc.addEventListener("scroll",upd,{passive:true});upd()}}
+  try{if(draftDirty())localStorage.setItem("rr-draft",JSON.stringify(S.draft))}catch(e){}
+  document.querySelectorAll(".chip.ser.on").forEach(c=>{const r=c.parentNode;if(c.offsetLeft+c.offsetWidth>r.scrollLeft+r.clientWidth||c.offsetLeft<r.scrollLeft)r.scrollLeft=c.offsetLeft-12});
+  const pv=document.getElementById("pv");
+  if(pv&&window.PV_LAST&&PV_LAST.key===S.screen+"|"+(S.screen==="pdfview"?S.view:pvDoc().id)){pv.innerHTML="";PV_LAST.cv.forEach(c=>pv.appendChild(c))}   // keep old page while redrawing
+  if(pv){document.querySelector(".designer")?.style.setProperty("--a",pdfCfg(editingBrand()).accent);schedulePreview()}
+}
+window.addEventListener("resize",()=>{clearTimeout(window._rz);window._rz=setTimeout(()=>{if(document.getElementById("pv"))render()},250)});
+
+/* ---------- events ---------- */
+function setQty(code,n){const d=S.draft,p=pByCode[code];n=Math.max(0,Math.floor(+n||0));
+ const i=d.items.findIndex(x=>x.code===code&&sameVariant(x,d));
+ if(!n){if(i>=0)d.items.splice(i,1);return}
+ const key=p.series==="REINFORCEMENT"?"lengths":"packets";
+ if(i>=0){d.items[i][key]=n;d.items[i].weight=null} else d.items.push({code,[key]:n,brand:d.brand,finish:d.finish,shade:/^white$/i.test(d.finish)?"":(d.shade||"")});
+}
+const clone=o=>JSON.parse(JSON.stringify(o));
+function itemsFromDoc(doc){
+  return doc.lines.map(l=>{const p=pByCode[l.code],it={code:l.code};
+    if(l.brand){it.brand=l.brand;it.finish=l.finish;it.shade=l.shade||""}
+    if(p&&l.packets>0&&!(l.lpp&&l.lpp!==p.lpp))it.packets=l.packets;else{it.lengths=l.lengths;if(l.packets){it.packets=l.packets;it.lpp=l.lpp}}
+    const base=String(l.series||"").split(" — ")[0];
+    if(!p||base!==p.series)it.series=base;
+    if(!p||l.desc!==p.desc)it.desc=l.desc;
+    if(!p||l.hsn!==p.hsn)it.hsn=l.hsn;
+    if(l.note)it.note=l.note;
+    if(!p||Math.abs(l.weight-r3(l.lengths*p.lw))>0.0005)it.weight=l.weight;
+    if(!l.brand||l.rate!==rateFor(l.code,l.brand,l.finish))it.rate=l.rate;
+    return it});
+}
+function startEdit(doc){const it=itemsFromDoc(doc),first=it.find(x=>x.brand)||{};
+  S.draft={editId:doc.id,type:doc.type,customerId:doc.customerId,items:it,no:doc.no,noEdited:true,date:doc.date,tr:clone(trOf(doc)),showTr:doc.type!=="QUOTATION"||trList(doc).length>0,
+    addOld:!!doc.oldBalance,hideRate:!!doc.hideRate,hideWeight:!!doc.hideWeight,brand:first.brand||DB.prices.brands[0],finish:first.finish||DB.prices.finishes[0],shade:first.shade||""};
+  S.q="";go("new");}
+const draftDirty=()=>S.draft&&!S.draft.editId&&S.draft.items.length>0;
+function startDraft(customerId,force){
+  if(!allowedTypes().length){toast("You don't have permission to make documents");return}
+  if(!force&&draftDirty()){if(!customerId||customerId===S.draft.customerId){toast("Continuing your unsaved "+LABEL[S.draft.type].toLowerCase());S.q="";go("new");return}
+    S.sheet={kind:"pending",cid:customerId};render();return}
+  S.draft={type:canType("QUOTATION")?"QUOTATION":allowedTypes()[0],customerId:customerId||DB.customers[0].id,items:[],brand:DB.prices.brands[0],finish:DB.prices.finishes[0],shade:""};S.q="";go("new");}
+
+const isField=el=>el&&(el.tagName==="TEXTAREA"||el.tagName==="SELECT"&&false||(el.tagName==="INPUT"&&!["checkbox","radio","file","color","button","submit"].includes(el.type)));
+document.addEventListener("focusin",e=>{if(isField(e.target)){document.body.classList.add("kb");
+  setTimeout(()=>{if(document.activeElement===e.target)e.target.scrollIntoView({block:"center",behavior:"smooth"})},320)}});
+document.addEventListener("focusout",()=>setTimeout(()=>{if(!isField(document.activeElement))document.body.classList.remove("kb")},120));
+let SW=null;
+$app.addEventListener("touchstart",e=>{const sh=e.target.closest(".sheet");if(!sh||e.touches.length!==1)return;
+  const onHead=!!e.target.closest(".shead");if(!onHead&&sh.scrollTop>0)return;if(isField(e.target))return;
+  SW={sh,y0:e.touches[0].clientY,dy:0,onHead}},{passive:true});
+$app.addEventListener("touchmove",e=>{if(!SW)return;const dy=e.touches[0].clientY-SW.y0;
+  if(dy<=0||(!SW.onHead&&SW.sh.scrollTop>0)){SW.dy=0;SW.sh.style.transform="";return}
+  SW.dy=dy;SW.sh.style.transition="none";SW.sh.style.transform=`translateY(${dy}px)`},{passive:true});
+$app.addEventListener("touchend",()=>{if(!SW)return;const {sh,dy}=SW;SW=null;sh.style.transition="transform .18s ease";
+  if(dy>90&&S.sheet&&!["pending","leave"].includes(S.sheet.kind)){sh.style.transform="translateY(100%)";setTimeout(()=>{S.sheet=null;render()},170)}else sh.style.transform=""});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&S.sheet&&!["pending","leave"].includes(S.sheet.kind)){S.sheet=null;render()}});
+$app.addEventListener("click",e=>{
+ const wl=e.target.closest("[data-walink]");
+ if(wl){const d=DB.docs.find(x=>x.id===S.view),c=cust(d.customerId),ph=document.getElementById("waPh").value.trim();
+   if(ph&&ph!==c.phone){c.phone=ph;save()}if(!d.sentAt){d.sentAt=new Date().toISOString();if(d.status==="DRAFT")d.status="SENT";save()}return}
+ const el=e.target.closest("[data-go],[data-rmbrand],[data-rmfinish],[data-editcust],[data-pcat],[data-dbrand],[data-role],[data-pset],[data-ptog],[data-rmlogo],[data-user],[data-stock],[data-sb],[data-sf],[data-smode],[data-baltype],[data-brand],[data-finish],[data-act],[data-open],[data-tab],[data-filter],[data-step],[data-dtype],[data-editline],[data-convert],[data-close]");
+ if(!el)return;
+ if(el.hasAttribute("data-close")&&el!==e.target&&!el.matches("button"))return;
+ const ds=el.dataset;
+ if(ds.go){if(S.screen==="new"&&S.draft&&S.draft.editId&&ds.go!=="prices"){S.sheet={kind:"leave",to:ds.go};render();return}
+   if(ds.go==="prices")S.priceBack=S.screen;go(ds.go);return}
+ if(ds.rmbrand||ds.rmfinish){if(!can("delete")){toast("Only admin can remove");return}const isB=!!ds.rmbrand,v=ds.rmbrand||ds.rmfinish;
+   const used=DB.docs.some(d=>d.lines.some(l=>isB?l.brand===v:l.finish===v))||Object.entries(DB.stock).some(([k,q])=>q&&k.split("|")[isB?1:2]===v)||(S.draft&&S.draft.items.some(it=>isB?it.brand===v:it.finish===v));
+   if(used){toast(`${v} is used in documents or stock, so it can't be removed`);return}
+   S.sheet={kind:"rmvar",isB,v};render();return}
+ if(ds.editcust){if(!can("customers")){toast("You don't have permission to edit customers");return}S.sheet={kind:"cust",id:+ds.editcust};render();
+   const g=document.getElementById("gstIn");if(g&&g.value)gstLive(g);return}
+ if(ds.pcat){const f=document.getElementById("newProfForm"),keep={};if(f)[...f.elements].forEach(x=>{if(x.name&&x.type!=="checkbox")keep[x.name]=x.value});
+   S.sheet.cat=ds.pcat;S.sheet.series=undefined;render();const g=document.getElementById("newProfForm");if(g)["code","desc","lpp","mw","lw"].forEach(k=>{if(g[k]&&keep[k])g[k].value=keep[k]});return}
+ if("dbrand" in ds){S.dbrand=ds.dbrand;render();return}
+ if(ds.pset){setPdf(ds.pset,ds.val);render();return}
+ if(ds.ptog){setPdf(ds.ptog,!getPath(pdfCfg(),ds.ptog));render();return}
+ if(ds.rmlogo){if(ds.rmlogo==="company")DB.logos.company="";else delete DB.logos.brands[ds.rmlogo.slice(6)];save();toast("Logo removed");render();return}
+ if(ds.user){S.sheet={kind:"user",id:+ds.user};render();return}
+ if(ds.stock){S.sheet={kind:"stock",code:ds.stock,mode:"in"};render();return}
+ if(ds.sb){S.sb=ds.sb;render();return}
+ if(ds.sf){S.sf=ds.sf;render();return}
+ if(ds.smode){S.sheet.mode=ds.smode;render();return}
+ if(ds.role){S.sheet.role=ds.role;S.sheet.perms=[...ROLE_PERMS[ds.role]];const f=document.getElementById("userForm"),keep={name:f.name.value,pw:f.pw.value,username:f.username?f.username.value:""};
+   render();const g=document.getElementById("userForm");g.name.value=keep.name;g.pw.value=keep.pw;if(g.username)g.username.value=keep.username;return}
+ if(ds.baltype){el.parentNode.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b===el));return}
+ if(ds.brand){S.draft.brand=ds.brand;render();return}
+ if(ds.finish){if(S.draft.finish!==ds.finish)S.draft.shade="";S.draft.finish=ds.finish;render();return}
+ if(ds.open){go("view",{view:+ds.open});return}
+ if(ds.tab){S.tab=ds.tab;render();return}
+ if(ds.filter){S.filter=ds.filter;S.q="";S.sq="";render();
+   const sc=document.querySelector(".scroll"),sb=sc&&sc.querySelector(".stickybrand");   // jump to list top if strip is frozen
+   if(sb&&sb.classList.contains("stuck")){const lst=sb.nextElementSibling&&S.screen==="profiles"?sb.nextElementSibling:document.querySelector(".search");
+     if(lst)sc.scrollTop+=lst.getBoundingClientRect().top-sb.getBoundingClientRect().bottom-8}
+   return}
+ if(ds.dtype&&!canType(ds.dtype)){toast("You don't have permission for "+LABEL[ds.dtype]);return}
+ if(ds.dtype){if(!S.draft.noEdited)S.draft.no="";S.draft.type=ds.dtype;render();return}
+ if(ds.step){const it=S.draft.items.find(x=>x.code===ds.step&&sameVariant(x,S.draft)),p=pByCode[ds.step];
+   const cur=it?(p.series==="REINFORCEMENT"?it.lengths:it.packets):0;setQty(ds.step,cur+ +ds.d);render();return}
+ if(ds.editline){S.sheet={kind:"line",i:+ds.editline};render();return}
+ if(ds.convert){if(!canType(ds.convert)){toast("You don't have permission for "+LABEL[ds.convert]);return}S.sheet={kind:"confirm",to:ds.convert};render();return}
+ if("close" in ds){S.sheet=null;render();return}
+ switch(ds.act){
+  case"new":startDraft();break;
+  case"dormvar":{const {isB,v}=S.sheet,P=DB.prices;
+   if(isB){P.brands=P.brands.filter(x=>x!==v);Object.keys(P.rates).forEach(k=>{if(k.split("|")[0]===v)delete P.rates[k]});delete DB.logos.brands[v];delete DB.pdfBrand[v];
+     Object.keys(DB.profileBrands).forEach(c=>{DB.profileBrands[c]=DB.profileBrands[c].filter(x=>x!==v);if(!DB.profileBrands[c].length)delete DB.profileBrands[c]});
+     if(S.sb===v)S.sb=P.brands[0];if(S.dbrand===v)S.dbrand="";if(S.pdfFor===v)S.pdfFor=""}
+   else{P.finishes=P.finishes.filter(x=>x!==v);Object.keys(P.rates).forEach(k=>{if(k.split("|")[1]===v)delete P.rates[k]});if(S.sf===v)S.sf=P.finishes[0]}
+   save();S.sheet=null;toast(v+" removed");render();break}
+  case"askdiscard":S.sheet={kind:"discard"};render();break;
+  case"resume":S.sheet=null;S.q="";go("new");break;
+  case"newfresh":{const cid=S.sheet&&S.sheet.cid;S.sheet=null;try{localStorage.removeItem("rr-draft")}catch(e){}startDraft(cid,true);break}
+  case"discard":S.draft=null;try{localStorage.removeItem("rr-draft")}catch(e){}S.sheet=null;toast("Draft discarded");go("home");break;
+  case"leavego":{const t=S.sheet.to;S.draft=null;S.sheet=null;go(t);break}
+  case"newinv":if(!canType("INVOICE")){toast("You don't have permission to make invoices");break}if(draftDirty()){S.sheet={kind:"pending"};render();break}startDraft();S.draft.type="INVOICE";S.draft.showTr=true;render();break;
+  case"newpi":if(!canType("PI")){toast("You don't have permission to make proformas");break}if(draftDirty()){S.sheet={kind:"pending"};render();break}startDraft();S.draft.type="PI";render();break;
+  case"pvexpand":S.pvBig=!S.pvBig;render();break;
+  case"designpdf":{S.pvDocId=S.view;const bs=docBrands(DB.docs.find(x=>x.id===S.view));S.pdfFor=bs.length===1&&DB.pdfBrand[bs[0]]?bs[0]:"";go("setpdf");break}
+  case"pdfreset":{const b=editingBrand();if(b)DB.pdfBrand[b]={...pdfCfg()};else DB.pdf={};save();toast(b?b+" design reset to default":"Design reset");render();break}
+  case"pdffor":{S.pdfFor=ds.val||"";const d=S.pdfFor&&DB.docs.find(x=>docBrands(x).length===1&&docBrands(x)[0]===S.pdfFor);if(d)S.pvDocId=d.id;render();break}
+  case"brandown":DB.pdfBrand[S.pdfFor]={...pdfCfg()};save();toast(S.pdfFor+" now has its own design");render();break;
+  case"branddefault":delete DB.pdfBrand[S.pdfFor];save();toast(S.pdfFor+" uses the default design");render();break;
+  case"togwt":{const d=DB.docs.find(x=>x.id===S.view);d.hideWeight=!d.hideWeight;save();toast(d.hideWeight?"Weight hidden on PDF":"Weight shown on PDF");render();break}
+  case"tograte":{const d=DB.docs.find(x=>x.id===S.view);d.hideRate=!d.hideRate;save();toast(d.hideRate?"Rate per kg hidden on PDF":"Rate per kg shown on PDF");render();break}
+  case"pdfsample":{if(S.screen==="pdfview"){exportPDF(DB.docs.find(x=>x.id===S.view),el);break}
+   const d=pvDoc(),cfg=pdfCfg(editingBrand());busy(el,async()=>{await saveFile(fname(d)+".pdf",await makePDF(d,cfg))});break}
+  case"dorestore":{const d=S.sheet.data;localStorage.setItem("rr-quote-v1",JSON.stringify(d));location.reload();break}
+  case"newprof":if(!can("stock")){toast("Your role can't add profiles");break}S.sheet={kind:"newprof"};render();break;
+  case"delprof":{if(!can("delete")){toast("Only admin can delete");break}const code=S.sheet.code;
+   if(DB.docs.some(d=>d.lines.some(l=>l.code===code))){toast("Used in documents: untick its brands instead");break}
+   if(Object.entries(DB.stock).some(([k,v])=>k.startsWith(code+"|")&&v)){toast("Has stock: set stock to 0 first");break}
+   DB.customProfiles=DB.customProfiles.filter(x=>x.code!==code);const i=PROFILES.findIndex(x=>x.code===code);if(i>=0)PROFILES.splice(i,1);
+   delete pByCode[code];delete DB.profileBrands[code];refreshSeries();save();S.sheet=null;toast(code+" deleted");render();break}
+  case"adduser":S.sheet={kind:"user",id:0};render();break;
+  case"deluser":{const u=DB.users.find(x=>x.id===S.sheet.id);if(u.id===S.uid){toast("You can't delete yourself");break}
+   if(u.role==="admin"&&DB.users.filter(x=>x.role==="admin"&&x.active).length<=1){toast("Keep at least one admin");break}
+   DB.users=DB.users.filter(x=>x.id!==u.id);save();S.sheet=null;toast("User removed");render();break}
+  case"hideinst":try{localStorage.setItem("rr-hideinst","1")}catch(e){}render();toast("You can install later from Settings or Home ›");break;
+  case"doinstall":if(INST.prompt){INST.prompt.prompt();INST.prompt.userChoice.then(c=>{if(c&&c.outcome==="accepted")toast("Installing…");INST.prompt=null;render()}).catch(()=>{})}break;
+  case"dlapp":busy(el,async()=>{const src=await appSource();await saveFile("Raviraja_Quotations.html",new Blob([src],{type:"text/html"}))});break;
+  case"dlpkg":busy(el,async()=>{await needLibs("zip");const src=await appSource(),z=new JSZip(),f=z.folder("mobile_app");f.file("index.html",src);
+    const files=["manifest.webmanifest","sw.js","icon-192.png","icon-512.png","icon-180.png"];
+    for(const n of files){try{const r=await fetch(n);if(r.ok)f.file(n,await r.blob())}catch(e){}}
+    if(!Object.keys(f.files).some(k=>k.endsWith("sw.js"))){f.file("manifest.webmanifest",MANIFEST_TXT);f.file("sw.js",SW_TXT);for(const sz of [192,512,180])f.file(`icon-${sz}.png`,await iconBlob(sz))}
+    f.file("README.txt",PKG_README);
+    await saveFile("Raviraja_Quotations_app.zip",await z.generateAsync({type:"blob"}))});break;
+  case"backup":{const blob=new Blob([JSON.stringify({app:"raviraja-quotations",v:1,at:new Date().toISOString(),data:DB},null,1)],{type:"application/json"});
+   saveFile(`Raviraja_backup_${today()}.json`,blob);break}
+  case"quotefor":startDraft(+ds.id);break;
+  case"logout":S.user=null;S.role=null;S.uid=null;S.perms=[];TOKEN=null;go("login");break;
+  case"addcust":if(!can("customers")){toast("You don't have permission to add customers");break}S.sheet={kind:"cust"};render();break;
+  case"delcust":{if(!can("delete")){toast("Only admin can delete");break}const id=S.sheet.id;if(DB.docs.some(d=>d.customerId===id)){toast("Has documents: can't delete");break}
+   if(DB.customers.length<=1){toast("Keep at least one customer");break}
+   DB.customers=DB.customers.filter(c=>c.id!==id);if(S.draft&&S.draft.customerId===id)S.draft.customerId=DB.customers[0].id;save();S.sheet=null;toast("Customer deleted");render();break}
+  case"editbal":if(!can("balance")){toast("Your role can't change balances");break}S.sheet={kind:"bal",id:+ds.id};render();break;
+  case"rmline":S.draft.items.splice(S.sheet.i,1);S.sheet=null;render();break;
+  case"showtr":S.draft.showTr=true;render();break;
+  case"editdoc":{const d=DB.docs.find(x=>x.id===S.view);if(!can("edit")||!canType(d.type)){toast("You don't have permission to edit this");break}S.sheet={kind:"docedit"};render();break}
+  case"addbrand":case"addfinish":{if(!can("prices")){toast("You don't have permission to change the price list");break}const inp=document.getElementById(ds.act==="addbrand"?"newBrand":"newFinish"),v=inp.value.trim();
+   const list=ds.act==="addbrand"?DB.prices.brands:DB.prices.finishes;
+   if(!v)break;if(list.some(x=>x.toLowerCase()===v.toLowerCase())){toast("Already in the list");break}
+   list.push(ds.act==="addbrand"?v.toUpperCase():v);save();toast("Added "+v);render();break}
+  case"savedraft":{const d=S.draft,c=cust(d.customerId);
+   const miss=d.items.map(calcLine).find(l=>!(l.rate>0));
+   if(miss){toast("No rate for "+(miss.variant||miss.code)+": set it in Price list");break}
+   if(d.editId){const doc=DB.docs.find(x=>x.id===d.editId),no=(d.no||doc.no).trim().toUpperCase(),err=checkNo(doc.type,no,doc.id);
+     if(err){toast(err);break}
+     const hadStock=doc.stockDeducted;
+     if(hadStock)doc.lines.forEach(l=>{if(l.brand&&pByCode[l.code])moveStock(l.code,l.brand,l.finish,l.lengths,"EDIT",doc.no,"Invoice edited: old qty back")});
+     if(no!==doc.no){DB.moves.forEach(m=>{if(m.ref===doc.no)m.ref=no});bumpCounter(doc.type,no)}
+     const nd=mkDoc(doc.type,no,d.date||doc.date,c,d.items,doc.sourceId);
+     const ob=d.addOld!==false?(doc.customerId===c.id&&doc.oldBalance?doc.oldBalance:bal(c)):0;
+     Object.assign(doc,{no,date:nd.date,customerId:c.id,lines:nd.lines,t:nd.t,tr:d.tr&&Object.keys(d.tr).length?{mode:"By Road",...d.tr}:trOf(doc),
+       oldBalance:ob,oldBalanceNote:ob?(doc.oldBalanceNote||c.balanceNote||""):"",editedAt:new Date().toISOString(),stockDeducted:false,hideRate:!!d.hideRate,hideWeight:!!d.hideWeight});
+     if(hadStock)deductForInvoice(doc);
+     save();toast(doc.no+" updated");go("view",{view:doc.id,draft:null});break}
+   const made=createDocs({type:d.type,customer:c,items:d.items,no:d.no,date:d.date,tr:d.tr,addOld:d.addOld!==false,hideRate:d.hideRate,hideWeight:d.hideWeight,
+     split:d.type!=="QUOTATION"&&d.split!==false&&brandGroups(d.items).length>1});
+   if(typeof made==="string"){toast(made);break}
+   try{localStorage.removeItem("rr-draft")}catch(e){}
+   save();toast(made.length>1?`${made.length} ${LABEL[d.type].toLowerCase()}s created: ${made.map(x=>x.no).join(", ")}`:made[0].no+" saved");go("view",{view:made[0].id,draft:null});break}
+  case"doconvert":{const src=DB.docs.find(x=>x.id===S.view),c=cust(src.customerId),to=S.sheet.to;
+   const cf=document.getElementById("convForm"),groups=brandGroups(src.lines);
+   const made=createDocs({type:to,customer:c,items:src.lines.map(l=>({...l})),no:cf?cf.no.value:"",date:cf&&cf.date.value,tr:cf?readTr(cf):{...trOf(src)},
+     addOld:!!src.oldBalance,hideRate:src.hideRate,hideWeight:src.hideWeight,sourceId:src.id,split:groups.length>1&&S.sheet.split!==false});
+   if(typeof made==="string"){toast(made);break}
+   src.status="CONVERTED";save();toast(made.length>1?`${made.length} ${to==="INVOICE"?"invoices":"proformas"} created: ${made.map(x=>x.no).join(", ")}`:made[0].no+" created");go("view",{view:made[0].id});break}
+  case"pdf":if(S.screen==="view"){go("pdfview");break}exportPDF(DB.docs.find(x=>x.id===S.view),el);break;
+  case"wa":S.sheet={kind:"wa"};render();break;
+  case"edititems":{const d=DB.docs.find(x=>x.id===S.view);if(!can("edit")||!canType(d.type)){toast("You don't have permission to edit this");break}startEdit(d);break}
+  case"askdel":if(!can("delete")){toast("Only admin can delete");break}S.sheet={kind:"del"};render();break;
+  case"dodel":{if(!can("delete")){toast("Only admin can delete");break}const d=DB.docs.find(x=>x.id===S.view);
+   if(d.stockDeducted)d.lines.forEach(l=>{if(l.brand&&pByCode[l.code])moveStock(l.code,l.brand,l.finish,l.lengths,"DEL",d.no,"Invoice deleted")});
+   const src=d.sourceId&&DB.docs.find(x=>x.id===d.sourceId);
+   if(src&&src.status==="CONVERTED"&&!DB.docs.some(x=>x.sourceId===src.id&&x.id!==d.id))src.status=src.sentAt?"SENT":"DRAFT";
+   if(d.no===PREFIX[d.type]+(DB.next[d.type]-1))DB.next[d.type]--;
+   DB.docs=DB.docs.filter(x=>x.id!==d.id);save();toast(d.no+" deleted");go("docs");break}
+  case"wapdf":sharePDF(DB.docs.find(x=>x.id===S.view),el);break;
+  case"xlsx":exportXLSX(DB.docs.find(x=>x.id===S.view),el);break;
+  case"register":exportRegister(el);break;
+  case"stockxls":exportStock(el);break;
+  case"copy":{const d=DB.docs.find(x=>x.id===S.view),c=cust(d.customerId);
+   const txt=`${LABEL[d.type]} ${d.no} (${fmtDate(d.date)})\n${COMPANY.name}\nTo: ${c.name}\n`+(trList(d).length?`Transport: ${trOf(d).mode} · `+trList(d).map(([k,v])=>k+": "+v).join(" · ")+"\n":"")+`\n`+
+    d.lines.map((l,i)=>`${i+1}. ${l.desc} [${l.code}] ${l.lengths} len, ${kg(l.weight)} kg x Rs${l.rate} = Rs${inr(l.amount)}`).join("\n")+
+    `\n\nTaxable: Rs${inr(d.t.taxable)}\n${d.t.igst?`IGST 18%: Rs${inr(d.t.igst)}`:`CGST 9%: Rs${inr(d.t.cgst)}\nSGST 9%: Rs${inr(d.t.sgst)}`}\nTOTAL: Rs${inr(d.t.grand,0)}\n${d.t.words}`+(d.oldBalance?`\nOld balance: Rs${inr(d.oldBalance)}\nTOTAL DUE: Rs${inr(due(d),0)}`:"");
+   navigator.clipboard.writeText(txt).then(()=>toast("Copied for WhatsApp"),()=>toast("Copy not allowed here"));break}
+ }
+});
+$app.addEventListener("input",e=>{
+ if(e.target.id==="gstIn"){gstLive(e.target);return}
+ if(e.target.id==="npMw"){const v=parseFloat(e.target.value),lw=document.getElementById("npLw");if(v>0&&lw&&(!lw.value||lw.dataset.auto)){lw.value=r3(v*STD_LEN);lw.dataset.auto=1}return}
+ if(e.target.id==="npLw"){delete e.target.dataset.auto;return}
+ if(e.target.id==="pFooter"||e.target.id==="pSign"){setPdf(e.target.id==="pFooter"?"footer":"signLabel",e.target.value);schedulePreview();return}
+ if(e.target.id==="pColor"){const b=editingBrand(),c=pdfCfg(b);c.accent=e.target.value;if(b)DB.pdfBrand[b]=c;else DB.pdf=c;document.querySelector(".designer")?.style.setProperty("--a",c.accent);schedulePreview();return}
+ if(e.target.id==="waPh"){S.sheet.phone=e.target.value;const pos=e.target.selectionStart;render();const q=document.getElementById("waPh");q.focus();q.setSelectionRange(pos,pos);return}
+ if(e.target.id==="docNo"){S.draft.no=e.target.value.toUpperCase();S.draft.noEdited=true;return}
+ if(e.target.closest&&e.target.closest("#trDraft")){S.draft.tr=readTr(document.getElementById("trDraft"));return}
+ if(e.target.dataset&&e.target.dataset.auto)delete e.target.dataset.auto;
+ if(e.target.id==="dq"||e.target.id==="cq"){const k=e.target.id;S[k]=e.target.value;const pos=e.target.selectionStart;render();const q=document.getElementById(k);q.focus();q.setSelectionRange(pos,pos);return}
+ if(e.target.id==="sq"){S.sq=e.target.value;const pos=e.target.selectionStart;render();const q=document.getElementById("sq");q.focus();q.setSelectionRange(pos,pos);return}
+ if(e.target.id==="q"){S.q=e.target.value;const pos=e.target.selectionStart;render();const q=document.getElementById("q");q.focus();q.setSelectionRange(pos,pos);}
+});
+function gstLive(inp){
+  const pos=inp.selectionStart;inp.value=inp.value.toUpperCase().replace(/[^0-9A-Z]/g,"");inp.setSelectionRange(pos,pos);
+  const r=gstCheck(inp.value),box=document.getElementById("gstInfo");
+  inp.style.borderColor=r.ok?"var(--ok)":(!r.partial&&r.msg?"var(--danger)":"");
+  if(!r.ok){document.querySelectorAll("#custForm [data-auto]").forEach(el=>{el.value="";delete el.dataset.auto});box.innerHTML=r.msg?`<span style="color:${r.partial?"var(--ink3)":"var(--danger)"};font-weight:600">${esc(r.msg)}</span>`:"";return}
+  const saved=DB.customers.find(c=>c.gstin===r.g&&c.id!==(S.sheet&&S.sheet.id));
+  const tax=r.stateCode===COMPANY.stateCode?"CGST 9% + SGST 9%":"IGST 18%";
+  box.innerHTML=`<div style="background:var(--ok-bg);color:var(--ok);padding:9px 11px;border-radius:10px;font-weight:600;line-height:1.5">
+    ✓ Valid GSTIN · ${esc(r.state)} (${r.stateCode})<br><span style="color:var(--ink2);font-weight:500">PAN ${r.pan} · ${tax}</span>
+    ${saved?`<br><span style="color:var(--brand2)">Already saved: details filled in</span>`:""}</div>
+    ${saved?"":`<div id="gstLook" class="muted" style="margin-top:7px">${SERVER&&TOKEN?"🔎 Fetching name &amp; address from GST…":`Name &amp; address fill in automatically when the app is opened from your server. For now type them in, or check on the
+    <a href="https://services.gst.gov.in/services/searchtp" target="_blank" rel="noopener" style="color:var(--brand2);font-weight:700">GST portal</a>.`}</div>`}`;
+  const set=(id,v)=>{const el=document.getElementById(id);if(el&&v&&(!el.value||el.dataset.auto)){el.value=v;el.dataset.auto=1}};
+  set("cState",r.state);
+  if(saved){set("cName",saved.name);set("cAddr",saved.address);return}
+  if(SERVER&&TOKEN)gstFetch(r.g);
+}
+async function gstFetch(g){
+  const show=h=>{const el=document.getElementById("gstLook");if(el&&document.getElementById("gstIn")?.value===g)el.innerHTML=h};
+  try{
+    const r=await api("/api/gstin/"+g);
+    if(document.getElementById("gstIn")?.value!==g)return;          // user changed the number meanwhile
+    const d=r.data;
+    if(r.ok&&d.legal_name){
+      const fill=(id,v)=>{const el=document.getElementById(id);if(el&&v&&(!el.value||el.dataset.auto)){el.value=v;el.dataset.auto=1}};
+      fill("cName",d.legal_name);fill("cAddr",d.address);fill("cState",d.state_name);
+      const bad=d.status&&!/^active$/i.test(d.status);
+      show(`<div style="padding:9px 11px;border-radius:10px;font-weight:600;line-height:1.5;background:${bad?"#fdecea":"var(--info-bg)"};color:${bad?"var(--danger)":"var(--brand2)"}">
+        ${bad?"⚠ GST status: "+esc(d.status)+" — check before billing":"✓ Name &amp; address filled from GST records"}
+        ${d.trade_name&&d.trade_name!==d.legal_name?`<br><span style="font-weight:500;color:var(--ink2)">Trade name: ${esc(d.trade_name)}</span>`:""}
+        ${d.status&&!bad?`<br><span style="font-weight:500;color:var(--ink2)">Status: ${esc(d.status)}${d.registered_on?" · since "+esc(d.registered_on):""}</span>`:""}</div>`);
+    }else if(d.source==="offline"){show("GST lookup is not set up on the server yet (add the provider key in .env). Please type name &amp; address.")}
+    else{show(`<span style="color:var(--danger);font-weight:600">${esc(d.error||"Lookup failed")}</span> — please type name &amp; address.`)}
+  }catch(e){show("Could not reach the server. Please type name &amp; address.")}
+}
+$app.addEventListener("change",e=>{
+ if(e.target.id==="custSel"){S.draft.customerId=+e.target.value;S.draft.addOld=true;render()}
+ if(e.target.id==="waItems"){S.sheet.items=e.target.checked;render()}
+ if(e.target.id==="docDate"){S.draft.date=e.target.value||today()}
+ if(e.target.closest&&e.target.closest("#trDraft")){S.draft.tr=readTr(document.getElementById("trDraft"))}
+ if(e.target.id==="npSeries"){const f=e.target.form,keep={};[...f.elements].forEach(x=>{if(x.name&&x.type!=="checkbox")keep[x.name]=x.value});
+   S.sheet.series=e.target.value;render();const g=document.getElementById("newProfForm");["code","desc","lpp","mw","lw","hsn"].forEach(k=>{if(g[k]&&keep[k])g[k].value=keep[k]});return}
+ if(e.target.closest&&e.target.closest(".chip.chk")){e.target.closest(".chip.chk").classList.toggle("on",e.target.checked);return}
+ if(e.target.id==="rateChk"){S.draft.hideRate=!e.target.checked;return}
+ if(e.target.id==="wtChk"){S.draft.hideWeight=!e.target.checked;return}
+ if(e.target.id==="splitDraft"){S.draft.split=e.target.checked;render();return}
+ if(e.target.id==="splitChk"){S.sheet.split=e.target.checked;render();return}
+ if(e.target.id==="oldChk"){S.draft.addOld=e.target.checked;render()}
+ if(e.target.id==="shadeIn"){S.draft.shade=e.target.value.trim();render()}
+ if(e.target.id==="pvDocSel"){S.pvDocId=+e.target.value;schedulePreview();return}
+ if(e.target.id==="pColor"){setPdf("accent",e.target.value);render();return}
+ if(e.target.dataset.logo){const file=e.target.files&&e.target.files[0],key=e.target.dataset.logo;if(!file)return;
+   if(file.size>8e6){toast("Image too big (max 8 MB)");return}
+   const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{const mx=520,r=Math.min(1,mx/Math.max(im.naturalWidth,im.naturalHeight));
+     const cv=document.createElement("canvas");cv.width=Math.max(1,Math.round(im.naturalWidth*r));cv.height=Math.max(1,Math.round(im.naturalHeight*r));
+     cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);const url=cv.toDataURL("image/png");
+     const prev=key==="company"?DB.logos.company:DB.logos.brands[key.slice(6)];
+     if(key==="company")DB.logos.company=url;else DB.logos.brands[key.slice(6)]=url;
+     if(!save()){if(key==="company")DB.logos.company=prev;else DB.logos.brands[key.slice(6)]=prev;return}
+     toast("Logo saved");render()};im.onerror=()=>toast("Could not read this image");im.src=rd.result};rd.readAsDataURL(file);return}
+ if(e.target.id==="restoreIn"){const file=e.target.files&&e.target.files[0];if(!file)return;const rd=new FileReader();
+   rd.onload=()=>{try{const j=JSON.parse(rd.result),d=j.data||j;if(!d||!Array.isArray(d.docs)||!Array.isArray(d.customers))throw 0;
+     S.sheet={kind:"restore",data:d,at:j.at||""};render()}catch(err){toast("Not a valid backup file")}};rd.readAsText(file);return}
+ if(e.target.dataset.price){if(!can("prices"))return;const v=parseFloat(e.target.value);
+   if(e.target.value.trim()===""||!(v>0))delete DB.prices.rates[e.target.dataset.price];else DB.prices.rates[e.target.dataset.price]=v;
+   save();e.target.classList.add("saved");setTimeout(()=>e.target.classList.remove("saved"),900)}
+ if(e.target.dataset.qty){setQty(e.target.dataset.qty,e.target.value);render()}
+});
+$app.addEventListener("submit",e=>{e.preventDefault();const f=Object.fromEntries(new FormData(e.target));
+ if(e.target.id==="loginForm"){
+  const errBox=document.getElementById("loginErr");
+  if(SERVER){const btn=e.target.querySelector("button");btn.disabled=true;btn.textContent="Checking…";
+    api("/api/auth/login",{method:"POST",body:JSON.stringify({username:f.u.trim(),password:f.p})}).then(r=>{
+      if(r.ok){TOKEN=r.data.access_token;S.user=r.data.user.username;S.role=ROLES[r.data.user.role]?r.data.user.role:"sales";S.perms=[...ROLE_PERMS[S.role]];go("home")}
+      else{errBox.innerHTML=`<div class="err">${esc(r.data.error||"Login failed")}</div>`;btn.disabled=false;btn.textContent="Log in"}
+    }).catch(()=>{errBox.innerHTML='<div class="err">Cannot reach the server. Check Wi-Fi.</div>';btn.disabled=false;btn.textContent="Log in"});
+    return}
+  const un=f.u.trim().toLowerCase(),u=DB.users.find(x=>x.username===un);
+  if(u&&u.hash===pwHash(un,f.p)){if(!u.active){errBox.innerHTML='<div class="err">This account is disabled. Ask the admin.</div>';return}
+    S.user=u.name;S.role=u.role;S.uid=u.id;S.perms=u.role==="admin"?ROLE_PERMS.admin:[...u.perms];
+    if(!S.draft){try{const dr=JSON.parse(localStorage.getItem("rr-draft")||"null");if(dr&&dr.items&&dr.items.length&&cust(dr.customerId))S.draft=dr}catch(e){}}
+    go("home")}
+  else errBox.innerHTML='<div class="err">Invalid username or password</div>';
+ }
+ if(e.target.id==="custForm"){if(!can("customers")){toast("Not allowed");return}const g=(f.gstin||"").toUpperCase().trim(),chk=gstCheck(g),eid=S.sheet.id||0;
+  if(g&&!chk.ok){toast("Please fix the GST number");return}
+  if(!f.name.trim()){toast("Enter the customer name");return}
+  if(g&&DB.customers.some(c=>c.gstin===g&&c.id!==eid)){toast("This GSTIN is already saved");return}
+  if(eid){const c=cust(eid);Object.assign(c,{name:f.name.trim().toUpperCase(),gstin:g,state:f.state||(chk.ok?chk.state:""),stateCode:g.slice(0,2)||c.stateCode||"",address:f.address.trim(),phone:f.phone.trim()});
+    save();S.sheet=null;toast("Customer updated");render();return}
+  const c={id:DB.nextCust++,name:f.name.trim().toUpperCase(),gstin:g,state:f.state||(chk.ok?chk.state:""),stateCode:g.slice(0,2)||"",address:f.address,phone:f.phone,balance:r2(parseFloat(f.balance)||0),balanceNote:""};
+  DB.customers.push(c);save();S.sheet=null;toast("Customer added");render()}
+ if(e.target.id==="docForm"){const d=DB.docs.find(x=>x.id===S.view),no=f.no.trim().toUpperCase(),err=checkNo(d.type,no,d.id);
+  if(err){toast(err);return}
+  if(no!==d.no){DB.moves.forEach(m=>{if(m.ref===d.no)m.ref=no});bumpCounter(d.type,no)}
+  d.no=no;d.date=f.date||d.date;d.tr=readTr(e.target);delete d.transport;delete d.vehicle;
+  save();S.sheet=null;toast("Saved");render()}
+ if(e.target.id==="companyForm"){const g=(f.gstin||"").toUpperCase().trim(),chk=gstCheck(g);
+  if(!f.name.trim()){toast("Company name is required");return}
+  if(g&&!chk.ok){toast("GSTIN: "+(chk.msg||"invalid"));return}
+  const C={};["name","short","reg","factory","phone","email","pan","bank","acc","ifsc","branch","terms"].forEach(k=>C[k]=(f[k]||"").trim());
+  C.name=C.name.toUpperCase();C.gstin=g;C.pan=C.pan.toUpperCase()||(chk.ok?chk.pan:"");C.ifsc=C.ifsc.toUpperCase();
+  if(chk.ok){C.state=chk.state;C.stateCode=chk.stateCode}
+  Object.assign(COMPANY,C);DB.company={...COMPANY};save();toast("Company details saved");render()}
+ if(e.target.id==="numForm"){const P={},N={};
+  for(const t of ["QUOTATION","PI","INVOICE"]){const pr=(f["p_"+t]||"").trim().toUpperCase(),n=parseInt(f["n_"+t],10);
+   if(!pr){toast(LABEL[t]+": prefix can't be empty");return}if(!(n>=1)){toast(LABEL[t]+": next number must be 1 or more");return}
+   if(DB.docs.some(d=>d.no===pr+n)){toast(pr+n+" is already used");return}P[t]=pr;N[t]=n}
+  if(new Set(Object.values(P)).size<3){toast("Each document type needs its own prefix");return}
+  Object.assign(PREFIX,P);DB.prefix={...PREFIX};Object.assign(DB.next,N);save();toast("Numbering saved");render()}
+ if(e.target.id==="userForm"){const id=S.sheet.id,u=DB.users.find(x=>x.id===id),role=e.target.querySelector("[data-role].on")?.dataset.role||"sales";
+  const name=f.name.trim(),un=(u?u.username:(f.username||"").trim().toLowerCase()),pw=f.pw||"";
+  if(!name){toast("Enter a name");return}
+  if(!u){if(!/^[a-z0-9._-]{3,30}$/.test(un)){toast("Username: 3-30 letters/numbers, no spaces");return}
+   if(DB.users.some(x=>x.username===un)){toast("Username already taken");return}}
+  if((!u||pw)&&pw.length<6){toast("Password must be at least 6 characters");return}
+  const active=u?!!e.target.querySelector("#uActive")?.checked:true;
+  const admins=DB.users.filter(x=>x.role==="admin"&&x.active&&x.id!==id).length;
+  if(u&&u.role==="admin"&&(role!=="admin"||!active)&&admins===0){toast("Keep at least one active admin");return}
+  const perms=role==="admin"?[...ROLE_PERMS.admin]:PERM_LIST.map(x=>x[0]).filter(k=>e.target.querySelector(`[name=perm_${k}]`)?.checked);
+  if(u){u.name=name;u.role=role;u.active=active;u.perms=perms;if(u.id===S.uid)S.perms=perms;if(pw){u.hash=pwHash(un,pw);delete u.isDefault}if(u.id===S.uid){S.user=name;S.role=role}}
+  else DB.users.push({id:Math.max(0,...DB.users.map(x=>x.id))+1,name,username:un,hash:pwHash(un,pw),role,active:true,perms});
+  save();S.sheet=null;toast(u?"User updated":"User added");render();
+  if(S.role!=="admin"&&S.screen.startsWith("set"))go("home")}
+ if(e.target.id==="stockForm"){if(!can("stock")){toast("Not allowed");return}const p=pByCode[S.sheet.code],mode=S.sheet.mode||"in";
+  const n=Math.max(0,Math.floor(+f.pk||0))*(CAT(p)==="REINF"?0:p.lpp)+Math.max(0,Math.floor(+f.lo||0));
+  const cur=stockOf(p.code,S.sb,S.sf);
+  if(mode!=="set"&&!n){toast("Enter packets or lengths");return}
+  const delta=mode==="in"?n:mode==="out"?-n:n-cur;
+  if(mode==="set"&&!delta){toast("Stock already "+fmtStock(p.code,cur));return}
+  moveStock(p.code,S.sb,S.sf,delta,mode==="in"?"IN":mode==="out"?"OUT":"COUNT","",f.note.trim());
+  save();toast(`${p.code}: ${fmtStock(p.code,stockOf(p.code,S.sb,S.sf))}`);render()}
+ if(e.target.id==="profForm"){if(!can("stock")){toast("Not allowed");return}const p=pByCode[S.sheet.code];
+  const lpp=CAT(p)==="REINF"?p.lpp:Math.floor(+f.lpp),lw=parseFloat(f.lw);
+  if(!(lpp>0)||!(lw>0)){toast("Enter valid numbers");return}
+  const bl=DB.prices.brands.filter(b=>e.target.querySelector(`[name="b_${CSS.escape(b)}"]`)?.checked);
+  if(!bl.length){toast("Tick at least one brand");return}
+  p.lpp=lpp;p.lw=lw;
+  if(p.custom){const cp=DB.customProfiles.find(x=>x.code===p.code);if(cp)Object.assign(cp,{lpp,lw})}else DB.profileEdits[p.code]={lpp,lw};
+  if(bl.length===DB.prices.brands.length)delete DB.profileBrands[p.code];else DB.profileBrands[p.code]=bl;
+  save();toast("Profile details saved");
+  if(!inBrand(p,S.sb)){S.sheet=null}render()}
+ if(e.target.id==="newProfForm"){if(!can("stock")){toast("Not allowed");return}
+  const cat=S.sheet.cat||"UPVC",code=(f.code||"").trim().toUpperCase(),desc=(f.desc||"").trim().toUpperCase();
+  const series=(f.series==="__new"||!f.series?(f.newSeries||""):f.series).trim().toUpperCase();
+  const lpp=cat==="REINF"?1:Math.floor(+f.lpp),lw=parseFloat(f.lw),mw=parseFloat(f.mw)||null;
+  if(!series){toast("Enter the series name");return}
+  if(!code){toast("Enter the profile code");return}
+  if(pByCode[code]){toast(code+" already exists");return}
+  if(!desc){toast("Enter a description");return}
+  if(!(lpp>0)){toast("Enter lengths per packet");return}
+  if(!(lw>0)){toast("Enter weight per length");return}
+  const bl=DB.prices.brands.filter(b=>e.target.querySelector(`[name="b_${CSS.escape(b)}"]`)?.checked);
+  if(!bl.length){toast("Tick at least one brand");return}
+  const np={series,desc,code,lpp,mw,lw,rate:cat==="AUX"?170:cat==="REINF"?95:150,hsn:(f.hsn||"").trim()||"39162099",cat};
+  DB.customProfiles.push(np);const live={...np,custom:true};PROFILES.push(live);pByCode[code]=live;
+  if(bl.length<DB.prices.brands.length)DB.profileBrands[code]=bl;
+  refreshSeries();S.filter=series;S.q="";S.sq="";
+  if(S.screen==="profiles"&&!bl.includes(S.sb))S.sb=bl[0];
+  save();S.sheet=null;toast(`${code} added to ${series}`);render()}
+ if(e.target.id==="balForm"){if(!can("balance")){toast("Not allowed");return}const c=cust(S.sheet.id),cr=e.target.querySelector('[data-baltype="cr"]').classList.contains("on");
+  const a=r2(Math.abs(parseFloat(f.amt)||0));c.balance=cr?-a:a;c.balanceNote=f.note.trim();save();S.sheet=null;toast("Balance saved");render()}
+ if(e.target.id==="lineForm"){const it=S.draft.items[S.sheet.i],p=pByCode[it.code];
+  const n=Math.max(1,Math.floor(+f.n||1));if(p.series==="REINFORCEMENT")it.lengths=n;else it.packets=n;
+  if(it.brand){it.rate=f.rate===""?null:(+f.rate||null);it.brand=f.brand;it.finish=f.finish;it.shade=/^white$/i.test(f.finish)?"":f.shade.trim()}
+  else it.rate=+f.rate||p.rate;
+  it.weight=f.weight===""?null:+f.weight;it.note=f.note;S.sheet=null;render()}
+});
+
+/* ================== EXPORT: PDF + EXCEL ================== */
+const LIBS={
+ pdf:["https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"],
+ xlsx:["https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"],
+ zip:["https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"]};
+const loaded={};
+function loadScript(src){return loaded[src]||(loaded[src]=new Promise((ok,bad)=>{const t=document.createElement("script");t.src=src;t.onload=ok;t.onerror=()=>{delete loaded[src];bad(new Error("load"))};document.head.appendChild(t)}))}
+async function needLibs(k){for(const u of LIBS[k])await loadScript(u)}
+
+let DL;   // Claude "downloads" capability (null outside claude.ai)
+const dlReady=(window.claude&&claude.use)?claude.use("downloads").then(d=>DL=d).catch(()=>DL=null):Promise.resolve(DL=null);
+async function saveFile(filename,blob){
+  await dlReady;
+  if(DL){
+    try{await DL.save({filename,data:blob});toast("Saved "+filename)}
+    catch(e){if(e&&e.code==="declined")return;toast(e&&e.code==="rate_limited"?"Please wait a moment and try again":"Download not available here")}
+    return;
+  }
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=filename;document.body.appendChild(a);a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},4000);toast("Downloaded "+filename);
+}
+async function busy(btn,fn){const old=btn.innerHTML;btn.disabled=true;btn.innerHTML="Preparing…";
+  try{await fn()}catch(e){console.error(e);toast(e.message==="load"?"No internet: could not load the export tool":"Export failed")}
+  finally{if(btn.isConnected){btn.disabled=false;btn.innerHTML=old}}}
+const fname=d=>`${d.no}_${cust(d.customerId).name.replace(/[^A-Za-z0-9]+/g,"_").slice(0,30)}`;
+const rs=x=>inr(x);   // PDF fonts have no ₹ sign, so amounts are written with "Rs."
+
+function exportPDF(d,btn){busy(btn,async()=>{await saveFile(fname(d)+".pdf",await makePDF(d))})}
+/* ================== PDF DESIGN + ENGINE ==================
+   One layout function draws the document. It runs on two "renderers":
+   - JsR  -> jsPDF (the downloaded PDF)
+   - CanR -> canvas pages (the live preview)
+   so the preview matches the PDF. Units are millimetres on A4 (210 x 297). */
+const PDF_DEFAULT={layout:"classic",accent:"#0F3B4C",titleAlign:"center",leftLogo:true,rightLogos:"used",logoSize:"M",font:"normal",
+  cols:{hsn:true,code:true,packets:true,lpp:true},
+  show:{transport:true,words:true,bank:true,terms:true,sign:true,pageno:true,box:true},
+  footer:"Subject to Hyderabad jurisdiction.",signLabel:"Authorised Signature"};
+function mergeCfg(base,c){c=c||{};return {...base,...c,cols:{...base.cols,...(c.cols||{})},show:{...base.show,...(c.show||{})}}}
+function pdfCfg(brand){const base=mergeCfg(PDF_DEFAULT,DB.pdf);return brand&&DB.pdfBrand&&DB.pdfBrand[brand]?mergeCfg(base,DB.pdfBrand[brand]):base}
+function cfgFor(d){const bs=docBrands(d);return bs.length===1&&DB.pdfBrand&&DB.pdfBrand[bs[0]]?pdfCfg(bs[0]):pdfCfg()}
+const hexRgb=h=>{h=String(h||"#0F3B4C").replace("#","");if(h.length===3)h=h.split("").map(x=>x+x).join("");const n=parseInt(h,16)||0;return [n>>16&255,n>>8&255,n&255]};
+const mix=(rgb,t)=>rgb.map(v=>Math.round(v+(255-v)*t));                 // t=1 -> white
+const lum=rgb=>(rgb[0]*299+rgb[1]*587+rgb[2]*114)/1000;
+
+class JsR{
+  constructor(pdf){this.p=pdf;this.page=1}
+  font(b,s){this.p.setFont("helvetica",b?"bold":"normal");this.p.setFontSize(s)}
+  color(c){this.p.setTextColor(c[0],c[1],c[2])}
+  width(s){return this.p.getTextWidth(String(s))}
+  text(s,x,y,al){this.p.text(String(s),x,y,al&&al!=="left"?{align:al}:undefined)}
+  rect(x,y,w,h,fill,stroke,lw=.2,r=0){
+    if(fill)this.p.setFillColor(fill[0],fill[1],fill[2]);
+    if(stroke){this.p.setDrawColor(stroke[0],stroke[1],stroke[2]);this.p.setLineWidth(lw)}
+    const st=fill&&stroke?"FD":fill?"F":"S";
+    r?this.p.roundedRect(x,y,w,h,r,r,st):this.p.rect(x,y,w,h,st)}
+  line(x1,y1,x2,y2,c,lw=.2){this.p.setDrawColor(c[0],c[1],c[2]);this.p.setLineWidth(lw);this.p.line(x1,y1,x2,y2)}
+  img(im,x,y,w,h){try{this.p.addImage(im.src,/^data:image\/jpe?g/i.test(im.src)?"JPEG":"PNG",x,y,w,h,undefined,"FAST")}catch(e){console.warn("logo",e)}}
+  addPage(){this.p.addPage();this.page++}
+  pages(){return this.p.getNumberOfPages()}
+  setPage(i){this.p.setPage(i)}
+}
+class CanR{
+  constructor(k){this.k=k;this.cv=[];this.addPage()}
+  addPage(){const c=document.createElement("canvas");c.width=Math.round(210*this.k);c.height=Math.round(297*this.k);
+    const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.textBaseline="alphabetic";this.cv.push(c);this.x=x}
+  font(b,s){this.x.font=`${b?"bold ":""}${s*25.4/72*this.k}px Helvetica, Arial, sans-serif`}
+  color(c){this.x.fillStyle=`rgb(${c})`}
+  width(s){return this.x.measureText(String(s)).width/this.k}
+  text(s,x,y,al){this.x.textAlign=al||"left";this.x.fillText(String(s),x*this.k,y*this.k)}
+  rect(x,y,w,h,fill,stroke,lw=.2,r=0){const k=this.k,X=this.x,fs=X.fillStyle;X.beginPath();
+    r&&X.roundRect?X.roundRect(x*k,y*k,w*k,h*k,r*k):X.rect(x*k,y*k,w*k,h*k);
+    if(fill){X.fillStyle=`rgb(${fill})`;X.fill()}
+    if(stroke){X.strokeStyle=`rgb(${stroke})`;X.lineWidth=Math.max(.6,lw*k);X.stroke()}X.fillStyle=fs}
+  line(x1,y1,x2,y2,c,lw=.2){const k=this.k,X=this.x;X.beginPath();X.moveTo(x1*k,y1*k);X.lineTo(x2*k,y2*k);X.strokeStyle=`rgb(${c})`;X.lineWidth=Math.max(.6,lw*k);X.stroke()}
+  img(im,x,y,w,h){try{this.x.drawImage(im,x*this.k,y*this.k,w*this.k,h*this.k)}catch(e){}}
+  pages(){return this.cv.length}
+  setPage(i){this.x=this.cv[i-1].getContext("2d")}
+}
+
+/* logos: loaded Image objects, cached by data URL */
+const IMGC={};
+function loadImg(src){if(!src)return Promise.resolve(null);if(IMGC[src])return IMGC[src];
+  return IMGC[src]=new Promise(ok=>{const i=new Image();i.onload=()=>ok(i);i.onerror=()=>ok(null);i.src=src})}
+function docBrands(d){const seen=[];d.lines.forEach(l=>{if(l.brand&&!seen.includes(l.brand))seen.push(l.brand)});return seen}
+async function pdfImages(d,cfg){
+  const L=DB.logos||{brands:{}};
+  const left=cfg.leftLogo?await loadImg(L.company):null;
+  const names=cfg.rightLogos==="none"?[]:cfg.rightLogos==="all"?Object.keys(L.brands||{}):docBrands(d);
+  const right=[];for(const n of names){const im=await loadImg((L.brands||{})[n]);if(im)right.push(im)}
+  return {left,right:right.slice(0,3)};
+}
+const fitImg=(im,mw,mh)=>{const r=Math.min(mw/im.naturalWidth,mh/im.naturalHeight);return [im.naturalWidth*r,im.naturalHeight*r]};
+
+function drawDoc(R,d,cfg,imgs){
+  const c=cust(d.customerId)||{},T=d.t,W=210,M=10,CW=W-2*M,BOT=297-14;
+  const A=hexRgb(cfg.accent),AL=mix(A,.9),AM=mix(A,.75),INK=[25,32,38],GR=[105,117,124],LN=[190,198,203];
+  const onA=lum(A)>160?INK:[255,255,255];
+  const fz=({small:.92,normal:1,large:1.1})[cfg.font]||1,F=s=>s*fz;
+  const LH={S:13,M:18,L:24}[cfg.logoSize]||18;
+  const wrap=(s,w)=>{const out=[];String(s??"").split("\n").forEach(par=>{let line="";par.split(/\s+/).forEach(word=>{
+      const t=line?line+" "+word:word;if(R.width(t)<=w||!line)line=t;else{out.push(line);line=word}
+      while(R.width(line)>w&&line.length>1){let i=line.length;while(i>1&&R.width(line.slice(0,i))>w)i--;out.push(line.slice(0,i));line=line.slice(i)}});out.push(line)});return out};
+  const lines=(arr,x,y,lh,al)=>{arr.forEach((t,i)=>R.text(t,x,y+i*lh,al));return y+arr.length*lh};
+  let y=10;
+
+  /* ---------- header ---------- */
+  const title=LABEL[d.type].toUpperCase();
+  const titleX=cfg.titleAlign==="left"?M:cfg.titleAlign==="right"?W-M:W/2;
+  const rightLogos=(top,maxH,chip)=>{let x=W-M,h=0;[...imgs.right].reverse().forEach(im=>{const [w,hh]=fitImg(im,30,maxH);x-=w;
+      if(chip)R.rect(x-1.5,top-1.5,w+3,hh+3,[255,255,255],null,.2,1.5);R.img(im,x,top,w,hh);x-=chip?6:4;h=Math.max(h,hh)});return {x,h}};
+  const coLines=(x,w,yy,col,al)=>{R.font(true,F(12));R.color(col.name);yy=lines(wrap(COMPANY.name,w),x,yy+4.2,5,al);
+    R.font(false,F(7.6));R.color(col.text);yy=lines(wrap(COMPANY.reg,w),x,yy+.6,3.4,al);
+    if(COMPANY.factory)yy=lines(wrap("Factory: "+COMPANY.factory,w),x,yy+.4,3.4,al);
+    R.font(true,F(7.6));yy=lines(wrap(`GSTIN: ${COMPANY.gstin}   PAN: ${COMPANY.pan}   Ph: ${COMPANY.phone}${COMPANY.email?"   "+COMPANY.email:""}`,w),x,yy+.6,3.4,al);return yy};
+
+  if(cfg.layout==="band"){
+    const lw=imgs.left?fitImg(imgs.left,38,LH)[0]:0,rl=imgs.right.length;
+    const rx=rl?W-M-imgs.right.reduce((s,im)=>s+fitImg(im,30,LH-4)[0]+6,0):W-M;
+    const tx=M+(lw?lw+7:0),tw=Math.max(60,rx-tx-4);
+    R.font(true,F(12));const nameH=wrap(COMPANY.name,tw).length*5;R.font(false,F(7.6));
+    const addrH=(wrap(COMPANY.reg,tw).length+(COMPANY.factory?wrap("Factory: "+COMPANY.factory,tw).length:0)+1)*3.4+6;
+    const bh=Math.max(LH+8,nameH+addrH+6);
+    R.rect(0,0,W,bh,A);
+    if(imgs.left){const [w,h]=fitImg(imgs.left,38,LH);R.rect(M-1.5,(bh-h)/2-1.5,w+3,h+3,[255,255,255],null,.2,1.5);R.img(imgs.left,M,(bh-h)/2,w,h)}
+    if(rl)rightLogos(bh/2-(LH-4)/2,LH-4,true);
+    coLines(tx,tw,3,{name:onA,text:onA});
+    y=bh+9;R.font(true,F(16));R.color(A);R.text(title,titleX,y,cfg.titleAlign);y+=4;
+  }else if(cfg.layout==="centered"){
+    let top=10,h=0,lw=0;
+    if(imgs.left){const [w,hh]=fitImg(imgs.left,40,LH);lw=w;R.img(imgs.left,M,top,w,hh);h=hh}
+    let rw=0;if(imgs.right.length){const rr=rightLogos(top,LH,false);h=Math.max(h,rr.h);rw=W-M-rr.x}
+    const side=Math.max(lw,rw)+5,tw=CW-2*side;
+    // narrow middle: put company text under the logo row
+    const ty=tw<95?top+h+2:top-1, yy=coLines(W/2,tw<95?CW-20:tw,ty,{name:A,text:INK},"center");
+    y=Math.max(top+h,yy)+3;R.line(M,y,W-M,y,A,.6);y+=7;
+    R.font(true,F(15));R.color(A);R.text(title,titleX,y,cfg.titleAlign);y+=4;
+  }else{ // classic
+    R.font(true,F(15));R.color(A);R.text(title,titleX,15,cfg.titleAlign);
+    const top=19;let lx=M+3,lw=0,lh=0;
+    if(imgs.left){[lw,lh]=fitImg(imgs.left,36,LH);R.img(imgs.left,lx,top+3,lw,lh)}
+    let rr={x:W-M,h:0};if(imgs.right.length)rr=rightLogos(top+3,LH-4,false);
+    const tx=lx+(lw?lw+4:0),tw=Math.max(60,rr.x-tx-3);
+    const yy=coLines(tx,tw,top+1,{name:INK,text:INK});
+    const bh=Math.max(yy-top+3,lh+6,rr.h+6);
+    if(cfg.show.box)R.rect(M,top,CW,bh,null,LN,.25);else R.line(M,top+bh,W-M,top+bh,A,.5);
+    y=top+bh;
+  }
+
+  /* ---------- customer + document details ---------- */
+  y+=2;const boxTop=y,split=M+CW*.58;
+  R.font(false,F(7));R.color(GR);R.text("BILLED & DELIVERED TO",M+2.5,y+4.5);
+  R.font(true,F(10));R.color(INK);let ly=lines(wrap(c.name||"",split-M-5),M+2.5,y+9.5,4.4);
+  R.font(false,F(8));ly=lines(wrap(c.address||"",split-M-5),M+2.5,ly+.3,3.6);
+  R.font(true,F(8));ly=lines([`GSTIN: ${c.gstin||"-"}${c.state?"   State: "+c.state+(c.stateCode?" ("+c.stateCode+")":""):""}`],M+2.5,ly+1,3.6);
+  if(c.phone){R.font(false,F(8));ly=lines(["Ph: "+c.phone],M+2.5,ly,3.6)}
+  const t=trOf(d);
+  const meta=[[LABEL[d.type]+" No",d.no],["Date",fmtDate(d.date)],["Place of Supply",COMPANY.state],["Transport",t.mode]];
+  if(t.vehicle)meta.push(["Vehicle No",t.vehicle]);
+  let ry=y+4.5+meta.length*4.7;
+  const ih=Math.max(ly,ry)-boxTop+1.5;
+  R.rect(M,boxTop,CW,ih,null,LN,.25);R.line(split,boxTop,split,boxTop+ih,LN,.25);R.rect(split,boxTop,W-M-split,ih,AL,null);
+  // re-draw meta text over the tint
+  ry=y+4.5;meta.forEach(([k,v],i)=>{R.font(false,F(7.6));R.color(GR);R.text(k,split+3,ry);R.font(i===0,F(i===0?9:8));R.color(i===0?A:INK);R.text(String(v),W-M-2.5,ry,"right");ry+=4.7});
+  R.rect(M,boxTop,CW,ih,null,LN,.25);
+  y=boxTop+ih;
+
+  /* ---------- transport strip ---------- */
+  const tl=cfg.show.transport?trList(d).filter(([k])=>k!=="Vehicle no"):[];
+  if(tl.length){R.font(false,F(7.6));const parts=tl.map(([k,v])=>`${k}: ${v}`);
+    const ls=wrap(parts.join("    |    "),CW-5);const h=ls.length*3.6+3;
+    R.rect(M,y,CW,h,null,LN,.25);R.color(INK);lines(ls,M+2.5,y+4,3.6);y+=h}
+  y+=2.5;
+
+  /* ---------- items table ---------- */
+  const C=[{k:"sl",h:"Sl",w:8,al:"center"},{k:"desc",h:"Description",w:0,al:"left"}];
+  if(cfg.cols.hsn)C.push({k:"hsn",h:"HSN",w:15,al:"center"});
+  if(cfg.cols.code)C.push({k:"code",h:"Profile\nCode",w:19,al:"center"});
+  if(cfg.cols.packets)C.push({k:"pk",h:"Pkts",w:11,al:"center"});
+  if(cfg.cols.lpp)C.push({k:"lpp",h:"Len/\nPkt",w:11,al:"center"});
+  C.push({k:"len",h:"Total\nLen",w:13,al:"center"});
+  if(!d.hideWeight)C.push({k:"wt",h:"Weight\n(kg)",w:17,al:"right"});
+  if(!d.hideRate)C.push({k:"rate",h:"Rate\n/kg",w:13,al:"right"});
+  C.push({k:"amt",h:"Amount\n(Rs.)",w:24,al:"right"});
+  C[1].w=CW-C.reduce((s,x)=>s+x.w,0);
+  let cx=M;C.forEach(col=>{col.x=cx;cx+=col.w});
+  const cellX=(col)=>col.al==="center"?col.x+col.w/2:col.al==="right"?col.x+col.w-1.5:col.x+1.5;
+  const head=()=>{R.font(true,F(7));const hh=2*3+3;R.rect(M,y,CW,hh,A);R.color(onA);
+    C.forEach(col=>{const ls=col.h.split("\n");const y0=y+(hh-ls.length*3)/2+2.3;ls.forEach((t,i)=>R.text(t,col.x+col.w/2,y0+i*3,"center"))});y+=hh};
+  const brk=(need)=>{if(y+need>BOT){R.addPage();y=12;R.font(false,F(7));R.color(GR);R.text(`${d.no} (continued)`,M,y-3);head()}};
+  head();
+  let last=null;
+  d.lines.forEach((l,i)=>{
+    if(l.series!==last){brk(12);R.font(true,F(7.4));const sh=5.2;R.rect(M,y,CW,sh,AL,LN,.15);R.color(A);R.text(l.series,W/2,y+3.7,"center");y+=sh;last=l.series}
+    R.font(false,F(7.6));
+    const vals={sl:i+1,desc:l.desc+(l.note?`\n(${l.note})`:""),hsn:l.hsn||"",code:l.code||"",pk:l.packets||"",lpp:l.packets?l.lpp:"",len:l.lengths,
+      wt:inr(l.weight,3),rate:String(inr(l.rate)).replace(/\.00$/,""),amt:inr(l.amount)};
+    const cells=C.map(col=>col.k==="desc"?wrap(vals.desc,col.w-3):col.k==="code"?wrap(vals.code,col.w-2):[String(vals[col.k])]);
+    const rh=Math.max(...cells.map(x=>x.length))*3.3+2.6;
+    brk(rh);
+    if(i%2===1)R.rect(M,y,CW,rh,[249,250,251],null);
+    C.forEach((col,j)=>{R.font(col.k==="amt",F(7.6));R.color(INK);cells[j].forEach((t,n)=>R.text(t,cellX(col),y+3.9+n*3.3,col.al))});
+    R.line(M,y+rh,W-M,y+rh,LN,.12);y+=rh;
+  });
+  // total row
+  brk(7);const lenCol=C.find(x=>x.k==="len"),wtCol=C.find(x=>x.k==="wt"),amtCol=C.find(x=>x.k==="amt");
+  R.rect(M,y,CW,6.5,AM,null);R.font(true,F(7.8));R.color(INK);
+  R.text("Total",lenCol.x-2,y+4.4,"right");R.text(String(T.lengths),cellX(lenCol),y+4.4,"center");if(wtCol)R.text(inr(T.weight,3),cellX(wtCol),y+4.4,"right");R.text(inr(T.taxable),cellX(amtCol),y+4.4,"right");
+  y+=6.5;
+  // grid verticals for this page's table area are skipped intentionally (clean modern look); outer frame drawn per row lines.
+
+  /* ---------- totals + words ---------- */
+  const rows=[["Taxable Value",inr(T.taxable)]];
+  if(T.igst)rows.push(["IGST @ 18%",inr(T.igst)]);else rows.push(["CGST @ 9%",inr(T.cgst)],["SGST @ 9%",inr(T.sgst)]);
+  if(T.round)rows.push(["Round Off",(T.round>0?"+":"")+inr(T.round)]);
+  rows.push(["Total Invoice Value","Rs. "+inr(T.grand,0),1]);
+  if(d.oldBalance){rows.push(["Old Balance"+(d.oldBalanceNote?` (${d.oldBalanceNote})`:""),(d.oldBalance<0?"- ":"")+"Rs. "+inr(Math.abs(d.oldBalance))]);rows.push(["Total Amount Due","Rs. "+inr(due(d),0),1])}
+  const need=rows.length*6+8;if(y+need>BOT){R.addPage();y=14}
+  y+=3;const tx0=W-M-80;let ty=y;
+  rows.forEach(([k,v,hi])=>{const h=hi?7:6;if(hi)R.rect(tx0,ty,80,h,A);else R.rect(tx0,ty,80,h,null,LN,.15);
+    R.font(!!hi||k.startsWith("Taxable"),F(hi?9:8));R.color(hi?onA:INK);R.text(k.length>34?k.slice(0,33)+"…":k,tx0+2.5,ty+h/2+1.3);R.text(v,W-M-2.5,ty+h/2+1.3,"right");ty+=h});
+  let wy=y;
+  if(cfg.show.words){R.font(false,F(7));R.color(GR);R.text("AMOUNT IN WORDS",M,wy+3.5);R.font(true,F(8.6));R.color(INK);
+    wy=lines(wrap(T.words,tx0-M-6),M,wy+8,4)}
+  y=Math.max(ty,wy)+6;
+
+  /* ---------- terms, bank, signature ---------- */
+  const bl=[];
+  if(cfg.show.terms&&d.type==="QUOTATION"&&COMPANY.terms)bl.push(["Terms & Conditions",COMPANY.terms]);
+  const bank=cfg.show.bank?[`Cheque payable to "${COMPANY.name}"`,`A/c No: ${COMPANY.acc}   ·   ${COMPANY.bank}`,`IFSC: ${COMPANY.ifsc}   ·   Branch: ${COMPANY.branch}`]:[];
+  const est=bl.length*10+(bank.length?bank.length*4+6:0)+(cfg.show.sign?24:0);
+  if(y+Math.min(est,60)>BOT){R.addPage();y=14}
+  const by=y;
+  bl.forEach(([k,v])=>{R.font(true,F(7.8));R.color(A);R.text(k.toUpperCase(),M,y);R.font(false,F(8));R.color(INK);y=lines(wrap(v,tx0-M-6),M,y+4,3.6)+2.5});
+  if(bank.length){R.font(true,F(7.8));R.color(A);R.text("BANK DETAILS",M,y);R.font(false,F(8));R.color(INK);y=lines(bank,M,y+4,3.8)+2}
+  if(cfg.show.sign){R.font(true,F(8.4));R.color(INK);R.text("For "+COMPANY.name,W-M,by,"right");
+    R.line(W-M-55,by+17,W-M,by+17,LN,.3);R.font(false,F(7.8));R.color(GR);R.text(cfg.signLabel||"Authorised Signature",W-M,by+21,"right");y=Math.max(y,by+23)}
+
+  /* ---------- footer on every page ---------- */
+  const n=R.pages();
+  for(let p=1;p<=n;p++){R.setPage(p);R.line(M,289,W-M,289,AM,.3);R.font(false,F(6.8));R.color(GR);
+    if(cfg.footer)R.text(cfg.footer.slice(0,140),M,292.5);
+    if(cfg.show.pageno)R.text(`${d.no}  ·  Page ${p} of ${n}`,W-M,292.5,"right")}
+  R.setPage(n);
+}
+
+async function makePDF(d,cfg=cfgFor(d)){
+  await needLibs("pdf");
+  const imgs=await pdfImages(d,cfg);
+  const pdf=new window.jspdf.jsPDF({unit:"mm",format:"a4",compress:true});
+  pdf.setProperties({title:`${LABEL[d.type]} ${d.no}`,author:COMPANY.name});
+  drawDoc(new JsR(pdf),d,cfg,imgs);
+  return pdf.output("blob");
+}
+let pvToken=0;
+async function drawPreview(el,d,cfg=cfgFor(d)){
+  if(!el||!d)return;const my=++pvToken;
+  const imgs=await pdfImages(d,cfg);if(my!==pvToken||!el.isConnected)return;
+  const k=Math.min(6,Math.max(2,(el.clientWidth||360)*(window.devicePixelRatio||1)/210));
+  const R=new CanR(k);
+  try{drawDoc(R,d,cfg,imgs)}catch(e){console.error(e);el.innerHTML='<div class="empty">Preview failed</div>';return}
+  el.innerHTML="";R.cv.forEach((c,i)=>{c.className="pvpage";c.setAttribute("aria-label",`Page ${i+1}`);el.appendChild(c)});window.PV_LAST={key:S.screen+"|"+(d&&d.id),cv:R.cv};
+  const cnt=document.getElementById("pvCount");if(cnt)cnt.textContent=R.cv.length+(R.cv.length>1?" pages":" page");
+}
+
+const INR_FMT='[>=10000000]##\\,##\\,##\\,##0.00;[>=100000]##\\,##\\,##0.00;##,##0.00';
+function exportXLSX(d,btn){busy(btn,async()=>{
+  await needLibs("xlsx");
+  const c=cust(d.customerId),T=d.t,wb=new ExcelJS.Workbook();wb.creator=COMPANY.name;
+  const ws=wb.addWorksheet(d.no,{pageSetup:{paperSize:9,orientation:"portrait",fitToPage:true,fitToWidth:1,fitToHeight:0,margins:{left:.4,right:.4,top:.5,bottom:.5,header:.2,footer:.2}}});
+  ws.columns=[6,34,12,14,9,9,10,13,9,16].map(width=>({width}));
+  const navy="FF0F3B4C",light="FFECF2F5",thin={style:"thin",color:{argb:"FFAAB4B9"}},box={top:thin,left:thin,bottom:thin,right:thin};
+  const put=(addr,v,st={})=>{const cell=ws.getCell(addr);cell.value=v;Object.assign(cell,st);return cell};
+  ws.mergeCells("A1:J1");put("A1",LABEL[d.type].toUpperCase(),{font:{bold:true,size:16,color:{argb:navy}},alignment:{horizontal:"center"}});
+  ws.mergeCells("A2:F2");put("A2",COMPANY.name,{font:{bold:true,size:12}});
+  ws.mergeCells("G2:J2");put("G2","Factory: "+COMPANY.factory,{font:{size:8},alignment:{wrapText:true,vertical:"top"}});
+  ws.mergeCells("A3:F3");put("A3",COMPANY.reg,{font:{size:9},alignment:{wrapText:true}});ws.getRow(3).height=26;
+  ws.mergeCells("G3:J3");put("G3","Ph No: "+COMPANY.phone,{font:{size:9}});
+  ws.mergeCells("A4:J4");put("A4",`GSTIN: ${COMPANY.gstin}     PAN: ${COMPANY.pan}`,{font:{bold:true,size:9}});
+  ws.mergeCells("A6:F6");put("A6","Billed & Delivered to",{font:{size:8,color:{argb:"FF5A6970"}}});
+  ws.mergeCells("A7:F7");put("A7",c.name,{font:{bold:true,size:11}});
+  ws.mergeCells("A8:F9");put("A8",c.address||"",{font:{size:9},alignment:{wrapText:true,vertical:"top"}});
+  ws.mergeCells("A10:F10");put("A10","GST NO: "+(c.gstin||"-"),{font:{bold:true,size:9}});
+  [[LABEL[d.type]+" No",d.no],["Date",fmtDate(d.date)],["Place of Supply",COMPANY.state],["State Code",c.stateCode||""],["Transport",trOf(d).mode]].forEach(([k,v],i)=>{
+    const r=6+i;ws.mergeCells(`G${r}:H${r}`);ws.mergeCells(`I${r}:J${r}`);
+    put("G"+r,k,{font:{size:9,color:{argb:"FF5A6970"}}});put("I"+r,v,{font:{bold:true,size:9},alignment:{horizontal:"right"}})});
+  if(trList(d).length){ws.mergeCells("A11:J11");put("A11",trList(d).map(([k,v])=>k+": "+v).join("   |   "),{font:{size:9,bold:true},alignment:{wrapText:true,vertical:"middle"},
+    border:{top:{style:"thin"},bottom:{style:"thin"},left:{style:"thin"},right:{style:"thin"}}});ws.getRow(11).height=trList(d).length>4?30:18}
+  const H=12;
+  ["Sl.No","Description","HSN","Profile Code","Packets","Lengths in pkt","Total Lengths","Weight (kgs)","Rate /kg","Amount in Rs"].forEach((h,i)=>{
+    const cell=ws.getRow(H).getCell(i+1);cell.value=h;cell.font={bold:true,color:{argb:"FFFFFFFF"},size:9};
+    cell.fill={type:"pattern",pattern:"solid",fgColor:{argb:navy}};cell.alignment={horizontal:"center",vertical:"middle",wrapText:true};cell.border=box});
+  ws.getRow(H).height=30;
+  let r=H+1,last=null;const first=r;
+  d.lines.forEach((l,i)=>{
+    if(l.series!==last){ws.mergeCells(`A${r}:J${r}`);const cc=ws.getCell("A"+r);cc.value=l.series;cc.font={bold:true,color:{argb:navy},size:9};
+      cc.alignment={horizontal:"center"};cc.fill={type:"pattern",pattern:"solid",fgColor:{argb:light}};cc.border=box;last=l.series;r++}
+    const row=ws.getRow(r);
+    const lenCell=l.packets?{formula:`E${r}*F${r}`,result:l.lengths}:l.lengths;
+    row.values=[i+1,l.desc+(l.note?` (${l.note})`:""),l.hsn,l.code,l.packets||null,l.packets?l.lpp:null,lenCell,l.weight,l.rate,{formula:`ROUND(H${r}*I${r},2)`,result:l.amount}];
+    row.eachCell({includeEmpty:true},(cell,col)=>{cell.border=box;cell.font={size:9};if(col!==2)cell.alignment={horizontal:col>=8?"right":"center"}});
+    row.getCell(8).numFmt="0.000";row.getCell(9).numFmt="0.00";row.getCell(10).numFmt=INR_FMT;r++;
+  });
+  const lastItem=r-1;
+  const tr=ws.getRow(r);ws.mergeCells(`A${r}:F${r}`);
+  tr.getCell(1).value="Total";tr.getCell(7).value={formula:`SUM(G${first}:G${lastItem})`,result:T.lengths};
+  tr.getCell(8).value={formula:`SUM(H${first}:H${lastItem})`,result:T.weight};tr.getCell(10).value={formula:`SUM(J${first}:J${lastItem})`,result:T.taxable};
+  tr.eachCell({includeEmpty:true},(cell,col)=>{cell.font={bold:true,size:9};cell.border=box;cell.alignment={horizontal:col===1?"right":col>=8?"right":"center"}});
+  tr.getCell(8).numFmt="0.000";tr.getCell(10).numFmt=INR_FMT;
+  const taxRow=r;r+=2;
+  const line=(label,formula,result,bold)=>{ws.mergeCells(`G${r}:I${r}`);put("G"+r,label,{font:{bold:true,size:bold?11:9},border:box});
+    put("J"+r,{formula,result},{numFmt:INR_FMT,font:{bold:true,size:bold?11:9},border:box,alignment:{horizontal:"right"}});
+    if(bold){["G","J"].forEach(k=>{ws.getCell(k+r).fill={type:"pattern",pattern:"solid",fgColor:{argb:navy}};ws.getCell(k+r).font={bold:true,size:11,color:{argb:"FFFFFFFF"}}})}
+    return r++};
+  const tx=line("Total Taxable Value",`J${taxRow}`,T.taxable);
+  const g=[];
+  if(T.igst)g.push(line("IGST @ 18%",`ROUND(J${tx}*18%,2)`,T.igst));
+  else{g.push(line("CGST @ 9%",`ROUND(J${tx}*9%,2)`,T.cgst));g.push(line("SGST @ 9%",`ROUND(J${tx}*9%,2)`,T.sgst))}
+  const sumExpr=`J${tx}+`+g.map(x=>"J"+x).join("+");
+  line("Round Off",`ROUND(${sumExpr},0)-(${sumExpr})`,T.round);
+  const gr=line("Total Invoice Value",`ROUND(${sumExpr},0)`,T.grand,true);
+  ws.getCell("J"+gr).numFmt=INR_FMT.replace(/\.00/g,"");
+  if(d.oldBalance){
+    ws.mergeCells(`G${r}:I${r}`);put("G"+r,"Old Balance"+(d.oldBalanceNote?` (${d.oldBalanceNote})`:""),{font:{bold:true,size:9},border:box,alignment:{wrapText:true}});
+    put("J"+r,d.oldBalance,{numFmt:INR_FMT,font:{bold:true,size:9},border:box});const ob=r++;
+    line("Total Amount Due",`J${gr}+J${ob}`,due(d),true);ws.getCell("J"+(r-1)).numFmt=INR_FMT.replace(/\.00/g,"");
+  }
+  const wr=taxRow+2;ws.mergeCells(`A${wr}:E${wr}`);put("A"+wr,"Amount in words",{font:{size:8,color:{argb:"FF5A6970"}}});
+  ws.mergeCells(`A${wr+1}:E${wr+2}`);put("A"+(wr+1),T.words,{font:{bold:true,size:10},alignment:{wrapText:true,vertical:"top"}});
+  r+=1;
+  if(d.type==="QUOTATION"){ws.mergeCells(`A${r}:J${r}`);put("A"+r,"Terms & Conditions: "+COMPANY.terms,{font:{bold:true,size:9}});r+=2}
+  [`Chq payable In the Name of "${COMPANY.name}"`,`CA - A/c NO: ${COMPANY.acc}`,`Bank: ${COMPANY.bank}`,`IFSC: ${COMPANY.ifsc}`,`Branch: ${COMPANY.branch}`].forEach((t,i)=>{ws.mergeCells(`A${r+i}:F${r+i}`);put("A"+(r+i),t,{font:{size:9}})});
+  ws.mergeCells(`G${r}:J${r}`);put("G"+r,"For Raviraja Industries Pvt Ltd",{font:{bold:true,size:9},alignment:{horizontal:"right"}});
+  ws.mergeCells(`G${r+4}:J${r+4}`);put("G"+(r+4),"Authorised Signature",{font:{size:9},alignment:{horizontal:"right"}});
+  ws.pageSetup.printArea=`A1:J${r+4}`;
+  const buf=await wb.xlsx.writeBuffer();
+  await saveFile(fname(d)+".xlsx",new Blob([buf]));
+})}
+
+function exportStock(btn){busy(btn,async()=>{
+  await needLibs("xlsx");
+  const wb=new ExcelJS.Workbook(),P=DB.prices;
+  const combos=[];P.brands.forEach(b=>P.finishes.forEach(f=>combos.push([b,f])));
+  const ws=wb.addWorksheet("Stock "+today());
+  ws.columns=[{header:"Brand",key:"b",width:12},{header:"Finish",key:"f",width:14},{header:"Series",key:"s",width:16},{header:"Profile code",key:"c",width:13},
+   {header:"Description",key:"d",width:30},{header:"Lengths/pkt",key:"lpp",width:11},{header:"Packets",key:"pk",width:9},{header:"Loose lengths",key:"lo",width:12},
+   {header:"Total lengths",key:"len",width:12},{header:"Kg/length",key:"lw",width:10},{header:"Weight (kg)",key:"kg",width:12}];
+  const seen=new Set();
+  combos.forEach(([b,f])=>PROFILES.forEach(p=>{const k=stockKey(p.code,b,f);if(seen.has(k))return;seen.add(k);
+    const len=+DB.stock[k]||0;if(!len)return;const reinf=CAT(p)==="REINF";
+    const row=ws.addRow({b,f:reinf?"-":f,s:p.series,c:p.code,d:p.desc,lpp:reinf?null:p.lpp,pk:reinf?null:Math.trunc(len/p.lpp),lo:reinf?len:len%p.lpp,len,lw:p.lw});
+    row.getCell("kg").value={formula:`I${row.number}*J${row.number}`,result:r3(len*p.lw)};}));
+  const n=ws.rowCount;
+  if(n>1){const t=ws.addRow({d:"TOTAL"});t.getCell("len").value={formula:`SUM(I2:I${n})`};t.getCell("kg").value={formula:`SUM(K2:K${n})`};t.font={bold:true}}
+  ws.getRow(1).eachCell(c=>{c.font={bold:true,color:{argb:"FFFFFFFF"}};c.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF0F3B4C"}}});
+  ws.getColumn("kg").numFmt="0.000";ws.views=[{state:"frozen",ySplit:1}];
+  const mv=wb.addWorksheet("Movements");
+  mv.columns=[{header:"Date",key:"at",width:18},{header:"Profile|Brand|Finish",key:"k",width:28},{header:"Type",key:"t",width:8},{header:"Lengths",key:"l",width:10},{header:"Balance",key:"bal",width:10},{header:"Ref",key:"r",width:12},{header:"Note",key:"n",width:30}];
+  DB.moves.forEach(m=>mv.addRow({at:new Date(m.at).toLocaleString("en-IN"),k:m.key.replace(/\|-$/,""),t:m.type,l:m.lengths,bal:m.bal,r:m.ref,n:m.note}));
+  mv.getRow(1).font={bold:true};
+  const buf=await wb.xlsx.writeBuffer();
+  await saveFile(`Raviraja_stock_${today()}.xlsx`,new Blob([buf]));
+})}
+
+/* ---------- WhatsApp ---------- */
+const waPhone=ph=>{let n=String(ph||"").replace(/\D/g,"");if(n.length===11&&n[0]==="0")n=n.slice(1);if(n.length===10)n="91"+n;return n.length>=11&&n.length<=13?n:""};
+function waText(d,withItems){const c=cust(d.customerId),T=d.t,t=trOf(d),L=[];
+  L.push(`*${COMPANY.name}*`,"",`Dear ${c.name},`,"");
+  L.push(d.type==="QUOTATION"?`Please find our *Quotation ${d.no}* dated ${fmtDate(d.date)}.`:
+         d.type==="PI"?`Please find our *Proforma Invoice ${d.no}* dated ${fmtDate(d.date)}.`:`Please find *Tax Invoice ${d.no}* dated ${fmtDate(d.date)}.`);
+  if(withItems){L.push("");d.lines.forEach((l,i)=>L.push(`${i+1}. ${l.desc} (${l.code})${l.variant?" - "+l.variant:""}: ${l.packets?l.packets+" pkt / ":""}${l.lengths} len${d.hideWeight?"":", "+kg(l.weight)+" kg"}${d.hideRate?"":" @ Rs "+l.rate+"/kg"} = Rs ${inr(l.amount)}`))}
+  L.push("",d.hideWeight?`Total lengths: ${T.lengths}`:`Total weight: ${kg(T.weight)} kg (${T.lengths} lengths)`,`Taxable value: Rs ${inr(T.taxable)}`);
+  if(T.igst)L.push(`IGST 18%: Rs ${inr(T.igst)}`);else L.push(`CGST 9%: Rs ${inr(T.cgst)}`,`SGST 9%: Rs ${inr(T.sgst)}`);
+  L.push(`*${d.type==="INVOICE"?"Invoice":"Total"} amount: Rs ${inr(T.grand,0)}*`);
+  if(d.oldBalance)L.push(`Old balance: Rs ${inr(d.oldBalance)}`,`*Total amount due: Rs ${inr(due(d),0)}*`);
+  if(d.type!=="QUOTATION"&&trList(d).length)L.push("",`Dispatch (${t.mode}): `+trList(d).map(([k,v])=>`${k} ${v}`).join(", "));
+  if(d.type==="QUOTATION")L.push("",COMPANY.terms);
+  L.push("",`Bank: ${COMPANY.bank}, A/c ${COMPANY.acc}, IFSC ${COMPANY.ifsc}`,"",`Thank you,`,COMPANY.short,`Ph: ${COMPANY.phone}`);
+  return L.join("\n")}
+async function sharePDF(d,btn){busy(btn,async()=>{
+  const blob=await makePDF(d),name=fname(d)+".pdf";
+  await dlReady;
+  if(!DL&&navigator.canShare){const file=new File([blob],name,{type:"application/pdf"});
+    if(navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:d.no,text:`${LABEL[d.type]} ${d.no}`});return}
+      catch(e){if(e&&e.name==="AbortError")return}}}
+  await saveFile(name,blob);
+  toast("PDF saved: attach it in WhatsApp with 📎");
+})}
+
+function exportRegister(btn){busy(btn,async()=>{
+  await needLibs("xlsx");
+  const wb=new ExcelJS.Workbook(),ws=wb.addWorksheet("Register");
+  ws.columns=[{header:"Type",key:"t",width:16},{header:"No",key:"no",width:12},{header:"Date",key:"dt",width:12},{header:"Customer",key:"c",width:38},
+   {header:"GSTIN",key:"g",width:18},{header:"Lengths",key:"l",width:9},{header:"Weight (kg)",key:"w",width:12},{header:"Taxable",key:"tx",width:14},
+   {header:"IGST",key:"ig",width:12},{header:"CGST",key:"cg",width:12},{header:"SGST",key:"sg",width:12},{header:"Total",key:"gt",width:14},{header:"Old balance",key:"ob",width:13},{header:"Total due",key:"du",width:14},{header:"Status",key:"st",width:12}];
+  DB.docs.forEach(d=>{const c=cust(d.customerId);ws.addRow({t:LABEL[d.type],no:d.no,dt:new Date(d.date+"T00:00:00Z"),c:c.name,g:c.gstin,l:d.t.lengths,w:d.t.weight,
+    tx:d.t.taxable,ig:d.t.igst,cg:d.t.cgst,sg:d.t.sgst,gt:d.t.grand,ob:+d.oldBalance||0,du:due(d),st:d.status})});
+  const n=DB.docs.length+1;
+  ws.getRow(1).eachCell(c=>{c.font={bold:true,color:{argb:"FFFFFFFF"}};c.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF0F3B4C"}}});
+  ws.getColumn("dt").numFmt="dd-mm-yyyy";ws.getColumn("w").numFmt="0.000";
+  ["tx","ig","cg","sg","gt","ob","du"].forEach(k=>ws.getColumn(k).numFmt=INR_FMT);
+  ws.views=[{state:"frozen",ySplit:1}];ws.autoFilter={from:"A1",to:{row:n,column:15}};
+  const buf=await wb.xlsx.writeBuffer();
+  await saveFile(`Raviraja_documents_${today()}.xlsx`,new Blob([buf]));
+})}
+
+render();
+</script>
+</body>
+</html>
