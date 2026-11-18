@@ -290,6 +290,8 @@ button,.chip,.tile,.qa,label.tile,.nav button{touch-action:manipulation;-webkit-
 .istep{display:flex;gap:11px;align-items:flex-start}
 .istep .n{width:24px;height:24px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12px;flex-shrink:0;margin-top:1px}
 .istep b{font-size:13.5px;font-weight:600}
+.linkbox{display:flex;align-items:center;gap:10px;margin-top:12px;background:#fff;border:1.5px solid var(--brand2);border-radius:12px;padding:10px 10px 10px 14px}
+.linkbox .mono{flex:1;min-width:0;font-size:12.5px;word-break:break-all;color:var(--brand)}
 .cartrow{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed var(--line)}
 </style>
 </head>
@@ -386,6 +388,7 @@ async function api(path,opts={}){
 }
 
 /* ================== INSTALL AS PHONE APP ================== */
+const APP_URL="https://vijaykumarreddy101234-gif.github.io/quotation-of-window/";
 const hideInst=()=>{try{return localStorage.getItem("rr-hideinst")==="1"}catch(e){return false}};
 const INST={prompt:null,
   standalone:()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone===true,
@@ -629,13 +632,12 @@ install(){const st=INST.standalone(),fr=INST.inFrame(),step=(n,t,sub)=>`<div cla
   <div class="instcard"><img src="icon-192.png" alt="" onerror="this.style.display='none'"><div class="grow"><b>Raviraja Quotations</b><div class="muted">Opens full screen like any app, with its own icon. Works offline after the first open.</div></div></div>
   ${st?`<div class="okbox">✓ The app is installed and running from your home screen.</div>`
    :INST.prompt?`<button class="btn accent" data-act="doinstall" style="margin-top:14px">${I.down.replace("<svg",'<svg style="width:20px;height:20px;vertical-align:-5px;margin-right:6px"')}Install app</button>`
-   :fr?`<div class="warnbox"><b>You're viewing the app inside Claude.</b> Phones can only install it from its own web address. Put the app online once (free, 2 minutes, see below), then open that address on each phone.</div>`:""}
-  ${st?"":`<div class="h2">Android (Chrome)</div><div class="card stack">${step(1,"Open the app's web address in Chrome")}${step(2,"Tap ⋮ (top right)")}${step(3,"Tap <b>Install app</b> or <b>Add to Home screen</b>")}</div>
-  <div class="h2">iPhone (Safari)</div><div class="card stack">${step(1,"Open the app's web address in Safari")}${step(2,"Tap the Share button □↑")}${step(3,"Tap <b>Add to Home Screen</b>, then <b>Add</b>")}</div>`}
-  <div class="h2">Put the app online (one time, free)</div><div class="card stack">
-   ${step(1,"Download the app package","Settings → Install app → Download app package (on a computer), or use the zip in your MOBILE APP FOR QUATATIONS folder.")}
-   ${step(2,"Go to app.netlify.com/drop","Sign up free with your Gmail (ravirajaindustries@gmail.com).")}
-   ${step(3,"Drag the mobile_app folder onto the page","You get a link like raviraja.netlify.app: open it on every phone and install.")}</div>
+   :`<div class="warnbox"><b>${location.href.startsWith(APP_URL)?"Open this page in Chrome (Android) or Safari (iPhone) to install.":"Install from your app's own link:"}</b></div>`}
+  <div class="linkbox"><span class="mono">${APP_URL.replace("https://","")}</span><button class="btn sm" data-act="copylink">Copy link</button></div>
+  <a class="btn ghost" style="display:block;text-align:center;text-decoration:none;margin-top:8px" href="${APP_URL}" target="_blank" rel="noopener">Open app link</a>
+  ${st?"":`<div class="h2">Android (Chrome)</div><div class="card stack">${step(1,"Open the app link in Chrome")}${step(2,"Tap ⋮ (top right)")}${step(3,"Tap <b>Install app</b> or <b>Add to Home screen</b>")}</div>
+  <div class="h2">iPhone (Safari)</div><div class="card stack">${step(1,"Open the app link in Safari")}${step(2,"Tap the Share button □↑")}${step(3,"Tap <b>Add to Home Screen</b>, then <b>Add</b>")}</div>`}
+
   <div class="h2">Download</div><div class="tiles">
    <button class="tile" data-act="dlapp"><span class="ti">${I.down}</span><span class="grow"><b>Download app file</b><span class="muted">One .html file: opens in any browser, even offline</span></span><span class="chev">›</span></button>
    ${can("settings")?`<button class="tile" data-act="dlpkg"><span class="ti">${I.save}</span><span class="grow"><b>Download app package (.zip)</b><span class="muted">App + icons + offline support, ready to put online</span></span><span class="chev">›</span></button>`:""}
@@ -1238,6 +1240,7 @@ $app.addEventListener("click",e=>{
   case"deluser":{const u=DB.users.find(x=>x.id===S.sheet.id);if(u.id===S.uid){toast("You can't delete yourself");break}
    if(u.role==="admin"&&DB.users.filter(x=>x.role==="admin"&&x.active).length<=1){toast("Keep at least one admin");break}
    DB.users=DB.users.filter(x=>x.id!==u.id);save();S.sheet=null;toast("User removed");render();break}
+  case"copylink":navigator.clipboard.writeText(APP_URL).then(()=>toast("Link copied: send it on WhatsApp to your team"),()=>toast(APP_URL));break;
   case"hideinst":try{localStorage.setItem("rr-hideinst","1")}catch(e){}render();toast("You can install later from Settings or Home ›");break;
   case"doinstall":if(INST.prompt){INST.prompt.prompt();INST.prompt.userChoice.then(c=>{if(c&&c.outcome==="accepted")toast("Installing…");INST.prompt=null;render()}).catch(()=>{})}break;
   case"dlapp":busy(el,async()=>{const src=await appSource();await saveFile("Raviraja_Quotations.html",new Blob([src],{type:"text/html"}))});break;
