@@ -292,6 +292,7 @@ button,.chip,.tile,.qa,label.tile,.nav button{touch-action:manipulation;-webkit-
 .istep b{font-size:13.5px;font-weight:600}
 .linkbox{display:flex;align-items:center;gap:10px;margin-top:12px;background:#fff;border:1.5px solid var(--brand2);border-radius:12px;padding:10px 10px 10px 14px}
 .linkbox .mono{flex:1;min-width:0;font-size:12.5px;word-break:break-all;color:var(--brand)}
+.onlynote{align-self:center;font-size:11.5px;font-weight:700;color:#8a5200;background:#fff4e2;padding:5px 9px;border-radius:999px;white-space:nowrap}
 .cartrow{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed var(--line)}
 </style>
 </head>
@@ -491,7 +492,13 @@ Object.entries(DB.profileEdits).forEach(([c,e])=>{if(pByCode[c])Object.assign(pB
 function refreshSeries(){const s=[...new Set(PROFILES.map(p=>p.series))];SERIES.splice(0,SERIES.length,...s)}
 refreshSeries();
 const inBrand=(p,b)=>{const l=DB.profileBrands[p.code];return !l||!b||l.includes(b)};
-const seriesFor=b=>SERIES.filter(x=>PROFILES.some(p=>p.series===x&&inBrand(p,b)));
+/* which finishes are sold: per brand (SMART: White only) and per series (ECO: White only) */
+if(!DB.finishRules) DB.finishRules={brands:{"SMART":["White"]},series:{"ECO SERIES":["White"]}};
+const finishesFor=b=>{const r=DB.finishRules.brands[b];const all=DB.prices.finishes;const l=r?all.filter(f=>r.includes(f)):all;return l.length?l:all.slice(0,1)};
+const seriesFinishOK=(series,f)=>{const r=DB.finishRules.series[series];return !r||!f||r.includes(f)};
+const sold=(p,b,f)=>inBrand(p,b)&&(CAT(p)==="REINF"||(finishesFor(b).includes(f)&&seriesFinishOK(p.series,f)));
+const seriesFor=(b,f)=>SERIES.filter(x=>PROFILES.some(p=>p.series===x&&(f?sold(p,b,f):inBrand(p,b))));
+const fixFinish=o=>{const fl=finishesFor(o.b);if(!fl.includes(o.f))o.f=fl[0];return o.f};
 const STD_LEN=5.9;   // metres per length (from the weight sheet: kg/length = kg/m × 5.9)
 const stockKey=(code,brand,finish)=>{const p=pByCode[code];return `${code}|${brand}|${p&&CAT(p)==="REINF"?"-":finish}`};
 const stockOf=(code,brand,finish)=>+DB.stock[stockKey(code,brand,finish)]||0;
@@ -796,9 +803,10 @@ customers(){const cq=(S.cq||"").trim().toLowerCase(),list=DB.customers.filter(c=
 
 profiles(){const P=DB.prices;S.sb=S.sb||P.brands[0];S.sf=S.sf||P.finishes[0];
  const ql=(S.sq||"").trim().toLowerCase();
- const BS=seriesFor(S.sb);if(!BS.includes(S.filter)&&BS.length)S.filter=BS[0];
- const list=PROFILES.filter(p=>inBrand(p,S.sb)&&(ql?(p.code+" "+p.desc).toLowerCase().includes(ql):p.series===S.filter));
- const all=PROFILES.filter(p=>inBrand(p,S.sb)).map(p=>({p,len:stockOf(p.code,S.sb,S.sf)}));
+ S.sf=fixFinish({b:S.sb,f:S.sf});
+ const BS=seriesFor(S.sb,S.sf);if(!BS.includes(S.filter)&&BS.length)S.filter=BS[0];
+ const list=PROFILES.filter(p=>sold(p,S.sb,S.sf)&&(ql?(p.code+" "+p.desc).toLowerCase().includes(ql):p.series===S.filter));
+ const all=PROFILES.filter(p=>sold(p,S.sb,S.sf)).map(p=>({p,len:stockOf(p.code,S.sb,S.sf)}));
  const kgTot=all.reduce((t,x)=>t+Math.max(0,x.len)*x.p.lw,0), out=all.filter(x=>x.len<=0).length, low=all.filter(x=>x.len>0&&CAT(x.p)!=="REINF"&&x.len<2*x.p.lpp).length;
  return bar("Stock",`${S.sb} · ${S.sf}`,{right:`${can("stock")?`<button class="iconbtn addprof" data-act="newprof" aria-label="Add profile">${I.plus}</button>`:""}<button class="iconbtn" data-act="stockxls" aria-label="Stock to Excel">${I.xls}</button><button class="iconbtn" data-go="prices" aria-label="Price list" style="width:auto;padding:0 12px;font-weight:700;font-size:13px">₹<span class="hide-s"> Prices</span></button>`})+`<div class="scroll">
   <div class="stats" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:12px">
@@ -807,8 +815,8 @@ profiles(){const P=DB.prices;S.sb=S.sb||P.brands[0];S.sf=S.sf||P.finishes[0];
    <div class="stat"><div class="muted">Nil stock</div><b style="font-size:17px;color:var(--danger)">${out}</b></div></div>
   <div class="stickybrand">
   <div class="chips">${P.brands.map(b=>`<button class="chip ${S.sb===b?"on":""}" data-sb="${esc(b)}">${esc(b)}</button>`).join("")}</div>
-  <div class="chips">${P.finishes.map(f=>`<button class="chip ${S.sf===f?"on":""}" data-sf="${esc(f)}">${esc(f)}</button>`).join("")}</div>
-  <div class="chips">${seriesFor(S.sb).map(x=>`<button class="chip ser ${S.filter===x&&!ql?"on":""}" data-filter="${esc(x)}">${esc(x.replace(" SERIES",""))}</button>`).join("")}${can("stock")?`<button class="chip ser addser" data-act="newprof" aria-label="Add profile or series">+ Add</button>`:""}</div>
+  <div class="chips">${finishesFor(S.sb).map(f=>`<button class="chip ${S.sf===f?"on":""}" data-sf="${esc(f)}">${esc(f)}</button>`).join("")}${finishesFor(S.sb).length<P.finishes.length?`<span class="onlynote">${esc(S.sb)}: ${finishesFor(S.sb).join(", ")} only</span>`:""}</div>
+  <div class="chips">${seriesFor(S.sb,S.sf).map(x=>`<button class="chip ser ${S.filter===x&&!ql?"on":""}" data-filter="${esc(x)}">${esc(x.replace(" SERIES",""))}</button>`).join("")}${can("stock")?`<button class="chip ser addser" data-act="newprof" aria-label="Add profile or series">+ Add</button>`:""}</div>
   </div>
   <div class="search" style="margin-top:10px">${I.search}<input id="sq" placeholder="Search code or name" value="${esc(S.sq||"")}"></div>
 
@@ -825,9 +833,16 @@ prices(){const P=DB.prices;
   ${P.brands.map(b=>`<div class="card" style="margin-bottom:12px;padding:12px 14px">
    <div class="row"><b style="font-size:16px" class="grow">${esc(b)}</b>${can("delete")&&P.brands.length>1?`<button class="linkbtn" style="color:var(--danger)" data-rmbrand="${esc(b)}">Remove</button>`:""}</div>
    <table class="ptab"><thead><tr><th></th><th>Profiles</th><th>Auxiliaries</th></tr></thead><tbody>
-    ${P.finishes.map(f=>`<tr><td>${esc(f)}</td><td>${inp(priceKey("UPVC",b,f))}</td><td>${inp(priceKey("AUX",b,f))}</td></tr>`).join("")}
+    ${finishesFor(b).map(f=>`<tr><td>${esc(f)}</td><td>${inp(priceKey("UPVC",b,f))}</td><td>${inp(priceKey("AUX",b,f))}</td></tr>`).join("")}
     <tr><td>Reinforcement<div class="muted" style="font-size:10.5px">any finish</div></td><td>${inp(priceKey("REINF",b))}</td><td></td></tr>
    </tbody></table></div>`).join("")}
+  <div class="h2">Which finishes are sold</div>
+  <div class="card stack" style="padding:12px">
+   ${P.brands.map(b=>`<div><div class="dlab" style="margin-bottom:6px">${esc(b)} brand</div><div class="chips" style="flex-wrap:wrap">${P.finishes.map(f=>{const on=finishesFor(b).includes(f);
+     return `<button class="chip ${on?"on":""}" ${can("prices")?`data-frule="brand" data-k="${esc(b)}" data-f="${esc(f)}"`:"disabled"}>${on?"✓ ":""}${esc(f)}</button>`}).join("")}</div></div>`).join("")}
+   ${SERIES.filter(x=>PROFILES.some(p=>p.series===x&&CAT(p)!=="REINF")).map(x=>`<div><div class="dlab" style="margin-bottom:6px">${esc(x)}</div><div class="chips" style="flex-wrap:wrap">${P.finishes.map(f=>{const on=seriesFinishOK(x,f);
+     return `<button class="chip ${on?"on":""}" ${can("prices")?`data-frule="series" data-k="${esc(x)}" data-f="${esc(f)}"`:"disabled"}>${on?"✓ ":""}${esc(f)}</button>`}).join("")}</div></div>`).join("")}
+   <div class="muted">Unticked finishes are hidden when quoting and in stock. Reinforcement has no finish.</div></div>
   ${can("prices")?`<div class="h2">Finishes</div><div class="chips" style="flex-wrap:wrap">${P.finishes.map(f=>`<span class="chip">${esc(f)}${P.finishes.length>1&&can("delete")?` <button class="chipx" data-rmfinish="${esc(f)}" aria-label="Remove ${esc(f)}">✕</button>`:""}</span>`).join("")}</div>`:""}
   ${can("prices")?"":"<!--"}<div class="h2">Add more</div>
   <div class="card stack" style="padding:12px">
@@ -839,8 +854,9 @@ new(){const d=S.draft, c=cust(d.customerId);
  const lines=d.items.map(calcLine), t=totals(lines,c?.stateCode);
  const qty=code=>d.items.find(i=>i.code===code&&sameVariant(i,d));
  const ql=S.q.trim().toLowerCase();
- const DS=seriesFor(d.brand);if(!DS.includes(S.filter)&&DS.length)S.filter=DS[0];
- const list=PROFILES.filter(p=>inBrand(p,d.brand)&&(ql?(p.code+" "+p.desc).toLowerCase().includes(ql):p.series===S.filter));
+ d.finish=fixFinish({b:d.brand,f:d.finish});
+ const DS=seriesFor(d.brand,d.finish);if(!DS.includes(S.filter)&&DS.length)S.filter=DS[0];
+ const list=PROFILES.filter(p=>sold(p,d.brand,d.finish)&&(ql?(p.code+" "+p.desc).toLowerCase().includes(ql):p.series===S.filter));
  const t2=(k,l)=>`<button class="${d.type===k?"on":""}" data-dtype="${k}">${l}</button>`;
  return bar(d.editId?"Edit "+d.no:"New "+LABEL[d.type],d.editId?"Change profiles, quantities, rates":"Pick customer, then tap + on profiles",{back:d.editId?"view":"home"})+`<div class="scroll" style="padding-bottom:180px">
   ${d.editId?`<div class="editnote">Editing ${LABEL[d.type].toLowerCase()} <b class="mono">${esc(DB.docs.find(x=>x.id===d.editId)?.no||"")}</b>. Tap <b>Update</b> to save the changes.${DB.docs.find(x=>x.id===d.editId)?.stockDeducted?" Stock will be corrected automatically.":""}</div>`
@@ -860,8 +876,8 @@ new(){const d=S.draft, c=cust(d.customerId);
   <div class="h2">Brand &amp; finish</div>
   <div class="stickybrand">
    <div class="chips">${DB.prices.brands.map(b=>`<button class="chip ${d.brand===b?"on":""}" data-brand="${esc(b)}">${esc(b)}</button>`).join("")}</div>
-   <div class="chips">${DB.prices.finishes.map(f=>`<button class="chip ${d.finish===f?"on":""}" data-finish="${esc(f)}">${esc(f)}</button>`).join("")}</div>
-   <div class="chips">${seriesFor(d.brand).map(x=>`<button class="chip ser ${S.filter===x&&!ql?"on":""}" data-filter="${esc(x)}">${esc(x.replace(" SERIES",""))}</button>`).join("")}${can("stock")?`<button class="chip ser addser" data-act="newprof" aria-label="Add profile or series">+ Add</button>`:""}</div>
+   <div class="chips">${finishesFor(d.brand).map(f=>`<button class="chip ${d.finish===f?"on":""}" data-finish="${esc(f)}">${esc(f)}</button>`).join("")}${finishesFor(d.brand).length<DB.prices.finishes.length?`<span class="onlynote">${esc(d.brand)}: ${finishesFor(d.brand).join(", ")} only</span>`:""}</div>
+   <div class="chips">${seriesFor(d.brand,d.finish).map(x=>`<button class="chip ser ${S.filter===x&&!ql?"on":""}" data-filter="${esc(x)}">${esc(x.replace(" SERIES",""))}</button>`).join("")}${can("stock")?`<button class="chip ser addser" data-act="newprof" aria-label="Add profile or series">+ Add</button>`:""}</div>
   </div>
   <div class="card stack" style="padding:12px;margin-top:8px">
    ${/^white$/i.test(d.finish)?"":`<div class="field"><input id="shadeIn" value="${esc(d.shade||"")}" placeholder="${/lam/i.test(d.finish)?"Shade, e.g. Golden Oak, Walnut":"Colour, e.g. Ivory, Grey, Brown"}" style="padding:10px 12px;font-size:14px"></div>`}
@@ -945,7 +961,7 @@ function sheetHTML(){
    <div class="two"><div class="field"><label>${p.series==="REINFORCEMENT"?"Lengths":"Packets"}</label><input name="n" inputmode="numeric" value="${p.series==="REINFORCEMENT"?l.lengths:l.packets}"></div>
    <div class="field"><label>Rate ₹/kg</label><input name="rate" inputmode="decimal" value="${it.brand?(it.rate||""):l.rate}" placeholder="${it.brand?(rateFor(it.code,it.brand,it.finish)?"List ₹"+rateFor(it.code,it.brand,it.finish):"Not set"):""}"></div></div>
    ${it.brand?`<div class="two"><div class="field"><label>Brand</label><select name="brand">${DB.prices.brands.map(b=>`<option ${b===it.brand?"selected":""}>${esc(b)}</option>`).join("")}</select></div>
-   <div class="field"><label>Finish</label><select name="finish">${DB.prices.finishes.map(f=>`<option ${f===it.finish?"selected":""}>${esc(f)}</option>`).join("")}</select></div></div>
+   <div class="field"><label>Finish</label><select name="finish">${DB.prices.finishes.filter(f=>finishesFor(it.brand).includes(f)&&seriesFinishOK((pByCode[it.code]||{}).series,f)||f===it.finish).map(f=>`<option ${f===it.finish?"selected":""}>${esc(f)}</option>`).join("")}</select></div></div>
    <div class="field"><label>Colour / shade</label><input name="shade" value="${esc(it.shade||"")}" placeholder="e.g. Golden Oak"></div>
    <div class="muted">Leave rate empty to use the price list rate for the brand &amp; finish.</div>`:""}
    <div class="field"><label>Actual weight (kg), optional</label><input name="weight" inputmode="decimal" value="${it.weight??""}" placeholder="Calculated: ${kg(r3(l.lengths*(p.lw||0)))} kg"></div>
@@ -1181,12 +1197,16 @@ $app.addEventListener("click",e=>{
  const wl=e.target.closest("[data-walink]");
  if(wl){const d=DB.docs.find(x=>x.id===S.view),c=cust(d.customerId),ph=document.getElementById("waPh").value.trim();
    if(ph&&ph!==c.phone){c.phone=ph;save()}if(!d.sentAt){d.sentAt=new Date().toISOString();if(d.status==="DRAFT")d.status="SENT";save()}return}
- const el=e.target.closest("[data-go],[data-rmbrand],[data-rmfinish],[data-editcust],[data-pcat],[data-dbrand],[data-role],[data-pset],[data-ptog],[data-rmlogo],[data-user],[data-stock],[data-sb],[data-sf],[data-smode],[data-baltype],[data-brand],[data-finish],[data-act],[data-open],[data-tab],[data-filter],[data-step],[data-dtype],[data-editline],[data-convert],[data-close]");
+ const el=e.target.closest("[data-go],[data-frule],[data-rmbrand],[data-rmfinish],[data-editcust],[data-pcat],[data-dbrand],[data-role],[data-pset],[data-ptog],[data-rmlogo],[data-user],[data-stock],[data-sb],[data-sf],[data-smode],[data-baltype],[data-brand],[data-finish],[data-act],[data-open],[data-tab],[data-filter],[data-step],[data-dtype],[data-editline],[data-convert],[data-close]");
  if(!el)return;
  if(el.hasAttribute("data-close")&&el!==e.target&&!el.matches("button"))return;
  const ds=el.dataset;
  if(ds.go){if(S.screen==="new"&&S.draft&&S.draft.editId&&ds.go!=="prices"){S.sheet={kind:"leave",to:ds.go};render();return}
    if(ds.go==="prices")S.priceBack=S.screen;go(ds.go);return}
+ if(ds.frule){if(!can("prices"))return;const R=DB.finishRules[ds.frule==="brand"?"brands":"series"],k=ds.k,all=DB.prices.finishes;
+   let cur=R[k]?[...R[k]]:[...all];cur=cur.includes(ds.f)?cur.filter(x=>x!==ds.f):[...cur,ds.f];
+   if(!cur.length){toast("Keep at least one finish");return}
+   if(all.every(x=>cur.includes(x)))delete R[k];else R[k]=cur;save();render();return}
  if(ds.rmbrand||ds.rmfinish){if(!can("delete")){toast("Only admin can remove");return}const isB=!!ds.rmbrand,v=ds.rmbrand||ds.rmfinish;
    const used=DB.docs.some(d=>d.lines.some(l=>isB?l.brand===v:l.finish===v))||Object.entries(DB.stock).some(([k,q])=>q&&k.split("|")[isB?1:2]===v)||(S.draft&&S.draft.items.some(it=>isB?it.brand===v:it.finish===v));
    if(used){toast(`${v} is used in documents or stock, so it can't be removed`);return}
@@ -1201,13 +1221,13 @@ $app.addEventListener("click",e=>{
  if(ds.rmlogo){if(ds.rmlogo==="company")DB.logos.company="";else delete DB.logos.brands[ds.rmlogo.slice(6)];save();toast("Logo removed");render();return}
  if(ds.user){S.sheet={kind:"user",id:+ds.user};render();return}
  if(ds.stock){S.sheet={kind:"stock",code:ds.stock,mode:"in"};render();return}
- if(ds.sb){S.sb=ds.sb;render();return}
+ if(ds.sb){S.sb=ds.sb;const nf=fixFinish({b:ds.sb,f:S.sf});if(nf!==S.sf){S.sf=nf;toast(`${ds.sb} is ${finishesFor(ds.sb).join(", ")} only`)}render();return}
  if(ds.sf){S.sf=ds.sf;render();return}
  if(ds.smode){S.sheet.mode=ds.smode;render();return}
  if(ds.role){S.sheet.role=ds.role;S.sheet.perms=[...ROLE_PERMS[ds.role]];const f=document.getElementById("userForm"),keep={name:f.name.value,pw:f.pw.value,username:f.username?f.username.value:""};
    render();const g=document.getElementById("userForm");g.name.value=keep.name;g.pw.value=keep.pw;if(g.username)g.username.value=keep.username;return}
  if(ds.baltype){el.parentNode.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b===el));return}
- if(ds.brand){S.draft.brand=ds.brand;render();return}
+ if(ds.brand){S.draft.brand=ds.brand;const f0=S.draft.finish,nf=fixFinish({b:ds.brand,f:f0});if(nf!==f0){S.draft.finish=nf;S.draft.shade="";toast(`${ds.brand} is ${finishesFor(ds.brand).join(", ")} only`)}render();return}
  if(ds.finish){if(S.draft.finish!==ds.finish)S.draft.shade="";S.draft.finish=ds.finish;render();return}
  if(ds.open){go("view",{view:+ds.open});return}
  if(ds.tab){S.tab=ds.tab;render();return}
@@ -1230,6 +1250,8 @@ $app.addEventListener("click",e=>{
      Object.keys(DB.profileBrands).forEach(c=>{DB.profileBrands[c]=DB.profileBrands[c].filter(x=>x!==v);if(!DB.profileBrands[c].length)delete DB.profileBrands[c]});
      if(S.sb===v)S.sb=P.brands[0];if(S.dbrand===v)S.dbrand="";if(S.pdfFor===v)S.pdfFor=""}
    else{P.finishes=P.finishes.filter(x=>x!==v);Object.keys(P.rates).forEach(k=>{if(k.split("|")[1]===v)delete P.rates[k]});if(S.sf===v)S.sf=P.finishes[0]}
+   ["brands","series"].forEach(g=>Object.keys(DB.finishRules[g]).forEach(k=>{if(isB&&g==="brands"&&k===v){delete DB.finishRules[g][k];return}
+     if(!isB){DB.finishRules[g][k]=DB.finishRules[g][k].filter(x=>x!==v);if(!DB.finishRules[g][k].length)delete DB.finishRules[g][k]}}));
    save();S.sheet=null;toast(v+" removed");render();break}
   case"askdiscard":S.sheet={kind:"discard"};render();break;
   case"resume":S.sheet=null;S.q="";go("new");break;
@@ -1288,6 +1310,8 @@ $app.addEventListener("click",e=>{
   case"savedraft":{const d=S.draft,c=cust(d.customerId);
    const miss=d.items.map(calcLine).find(l=>!(l.rate>0));
    if(miss){toast("No rate for "+(miss.variant||miss.code)+": set it in Price list");break}
+   const ns=d.items.find(it=>it.brand&&pByCode[it.code]&&!sold(pByCode[it.code],it.brand,it.finish));
+   if(ns){toast(`${ns.code} is not sold in ${ns.brand} · ${ns.finish}: change or remove it`);break}
    if(d.editId){const doc=DB.docs.find(x=>x.id===d.editId),no=(d.no||doc.no).trim().toUpperCase(),err=checkNo(doc.type,no,doc.id);
      if(err){toast(err);break}
      const hadStock=doc.stockDeducted;
@@ -1512,6 +1536,7 @@ $app.addEventListener("submit",e=>{e.preventDefault();const f=Object.fromEntries
   const a=r2(Math.abs(parseFloat(f.amt)||0));c.balance=cr?-a:a;c.balanceNote=f.note.trim();save();S.sheet=null;toast("Balance saved");render()}
  if(e.target.id==="lineForm"){const it=S.draft.items[S.sheet.i],p=pByCode[it.code];
   const n=Math.max(1,Math.floor(+f.n||1));if(p.series==="REINFORCEMENT")it.lengths=n;else it.packets=n;
+  if(it.brand&&p&&!sold(p,f.brand,f.finish)){toast(`${p.code} is not sold in ${f.brand} · ${f.finish}`);return}
   if(it.brand){it.rate=f.rate===""?null:(+f.rate||null);it.brand=f.brand;it.finish=f.finish;it.shade=/^white$/i.test(f.finish)?"":f.shade.trim()}
   else it.rate=+f.rate||p.rate;
   it.weight=f.weight===""?null:+f.weight;it.note=f.note;S.sheet=null;render()}
