@@ -895,8 +895,6 @@ new(){const d=S.draft, c=cust(d.customerId);
    ${c?`<div class="muted" style="margin:6px 2px 0">${c.stateCode===COMPANY.stateCode?"Same state → CGST 9% + SGST 9%":"Other state ("+esc(c.state)+") → IGST 18%"}</div>`:""}
    ${bal(c)?`<label class="balrow" style="cursor:pointer"><input type="checkbox" id="oldChk" ${d.addOld!==false?"checked":""} style="width:20px;height:20px;accent-color:var(--brand)">
      <span class="grow">Add old balance${c.balanceNote?` <span class="muted">· ${esc(c.balanceNote)}</span>`:""}</span><b class="num" style="white-space:nowrap;margin-left:6px">${bal(c)<0?"− ":""}₹${inr(Math.abs(bal(c)))}</b></label>`:""}</div>
-  <label class="ticks"><input type="checkbox" id="wtChk" ${d.hideWeight?"":"checked"}><span><b>Show weight (kg) on PDF</b><span class="muted">Untick to hide the weight column</span></span></label>
-  <label class="ticks"><input type="checkbox" id="rateChk" ${d.hideRate?"":"checked"}><span><b>Show rate per kg on PDF</b><span class="muted">Untick to print weight and amount only</span></span></label>
   ${!d.editId&&d.type!=="QUOTATION"&&brandGroups(d.items).length>1?`<label class="ticks"><input type="checkbox" id="splitDraft" ${d.split!==false?"checked":""}><span><b>Separate ${d.type==="INVOICE"?"invoice":"purchase order"} for each brand</b><span class="muted">${brandGroups(d.items).map(([b])=>b||"No brand").join(" · ")} → ${brandGroups(d.items).length} documents</span></span></label>`:""}
   ${d.type!=="QUOTATION"||d.showTr?`<div class="h2">Transport details</div><form id="trDraft" class="card" style="padding:12px" onsubmit="return false">${trFields(d.tr||{})}</form>`
    :`<button class="muted" data-act="showtr" style="margin:12px 2px 0;font-weight:700;color:var(--brand2)">+ Add transport details</button>`}
@@ -928,6 +926,9 @@ new(){const d=S.draft, c=cust(d.customerId);
    <div class="calcline">${n?`${p.series==="REINFORCEMENT"?"":n+" × "+p.lpp+" = "}<b>${n*(p.series==="REINFORCEMENT"?1:p.lpp)} lengths · ${kg(r3(n*(p.series==="REINFORCEMENT"?1:p.lpp)*p.lw))} kg</b>`:`${p.series==="REINFORCEMENT"?"":p.lpp+"/pkt · "}${p.lw} kg/len · ${rt?"₹"+rt+"/kg":'<span style="color:var(--danger)">no rate</span>'}`}</div>
    <div class="calcline" style="color:${stk<=0?"var(--danger)":"var(--ink3)"}">Stock: ${stk?fmtStock(p.code,stk,d.brand):"Nil"}</div></div>
    <div class="stepper"><button data-step="${esc(p.code)}" data-d="-1" aria-label="Less">−</button><input inputmode="numeric" data-qty="${esc(p.code)}" value="${n||""}" placeholder="0" aria-label="${lab}"><button data-step="${esc(p.code)}" data-d="1" aria-label="More">+</button></div></div>`}).join("")}</div>
+  <div class="h2">Print options</div>
+  <label class="ticks"><input type="checkbox" id="wtChk" ${d.hideWeight?"":"checked"}><span><b>Show weight (kg) on PDF</b><span class="muted">Untick to hide the weight column</span></span></label>
+  <label class="ticks"><input type="checkbox" id="rateChk" ${d.hideRate?"":"checked"}><span><b>Show rate per kg on PDF</b><span class="muted">Untick to print weight and amount only</span></span></label>
  </div>
  ${lines.length?`<div class="sumbar"><div class="grow"><div style="font-size:11.5px;opacity:.7">${t.lengths} lengths · ${kg(t.weight)} kg · incl. GST${bal(c)&&d.addOld!==false?` + old bal ₹${inr(bal(c),0)}`:""}</div><b class="num" style="font-size:19px">₹${inr(t.grand+(d.addOld!==false?bal(c):0),0)}</b></div><button class="btn accent" data-act="savedraft">${d.editId?"Update":"Save"}</button></div>`:""}`+nav()},
 
