@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0f3b4c">
 <title>Raviraja Quotations</title>
+<script>(function(){var h=document.documentElement;if(location.hash==="#customer-order")h.classList.add("pomode");else if(window.claude&&window.claude.use)h.classList.add("pocheck")})()</script>
+
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-180.png">
@@ -60,6 +62,11 @@ input,select{font:inherit;color:inherit}
 .doc+.doc{margin-top:8px}
 .doc .amt{font-weight:700;text-align:right}
 .tabs{display:flex;gap:6px;background:#e6ecef;padding:4px;border-radius:12px}
+.stkedit{display:grid;place-items:center;width:34px;height:34px;margin-left:8px;border-radius:10px;background:#eef3f5;color:var(--brand2);flex-shrink:0}
+.stkedit svg{width:16px;height:16px}
+.stkio .btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;font-size:14px}
+.oldbox{margin-top:10px;padding:10px 12px;background:#f6f8f9;border:1px solid var(--line);border-radius:12px}
+.oldbox .linkbtn{background:none;border:0;padding:0;cursor:pointer}
 .tabs button{flex:1;padding:8px 4px;border-radius:9px;font-size:12.5px;font-weight:700;color:var(--ink2)}
 .tabs button.on{background:#fff;color:var(--brand);box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .field{display:block}
@@ -167,6 +174,9 @@ a.wabtn{text-decoration:none}
 /* ---------- home ---------- */
 .hometop{padding-bottom:16px}
 .avatar{width:42px;height:42px;border-radius:13px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:800;font-size:15px;flex-shrink:0}
+.avatar.haslogo{background:#fff;padding:3px;overflow:hidden}.avbtn.haslogo{overflow:visible}.avatar img{width:100%;height:100%;object-fit:contain;border-radius:10px}
+.avbtn{position:relative;cursor:pointer}.avcam{position:absolute;right:-5px;bottom:-5px;width:20px;height:20px;border-radius:50%;background:#fff;color:var(--brand);display:grid;place-items:center;box-shadow:0 1px 4px rgba(0,0,0,.25)}.avcam svg{width:12px;height:12px}
+.hiedit{width:28px;height:28px;border-radius:9px;background:rgba(255,255,255,.12);color:#fff;display:inline-grid;place-items:center;flex-shrink:0}.hiedit svg{width:15px;height:15px}
 .avatar.sm{width:38px;height:38px;border-radius:11px;font-size:13px;background:#e6eef1;color:var(--brand)}
 .rolechip{background:rgba(255,255,255,.16);padding:1px 8px;border-radius:999px;font-weight:700;font-size:11px;letter-spacing:.3px}
 .qagrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
@@ -378,9 +388,9 @@ const PROFILES=[
  P("CASEMENT","Z-MULLION","74ZM",6,1.109,6.545,150),P("CASEMENT","SASH MULLION","42SM",6,.744,4.389,150),
  P("CASEMENT","T-MULLION","74TM",6,1.069,6.308,150),P("CASEMENT","FLY MULLION","60FM",6,.895,5.283,150),
  P("AUXILIARIES","CORNER JOINT COUPLER (60-112)","112CJC",4,.443,2.612,170),P("AUXILIARIES","CORNER JOINT COUPLER (60-90)","92 CJC",6,.347,2.046,170),
- P("AUXILIARIES","GEORGIAN BAR","10GB",20,.137,.808,170),P("AUXILIARIES","PANEL BOARD","12PB",8,.526,3.106,170),
- P("AUXILIARIES","OPENABLE MESH","68OM",6,.866,5.111,170),P("AUXILIARIES","BAYPOLE (60-60)","60B",4,.703,4.15,170),
- P("AUXILIARIES","BAYPOLE (60-92)","92 B",4,.904,5.332,170),P("AUXILIARIES","TRACK CONNECTOR","38TC",12,.389,2.295,170),
+ P("AUXILIARIES","GEORGIAN BAR","10GB",20,.137,.808,170),P("CASEMENT","PANEL BOARD","12PB",8,.526,3.106,150),
+ P("CASEMENT","OPENABLE MESH","68OM",6,.866,5.111,150),P("CASEMENT","BAYPOLE (60-60)","60B",4,.703,4.15,150),
+ P("CASEMENT","BAYPOLE (60-92)","92 B",4,.904,5.332,150),P("AUXILIARIES","TRACK CONNECTOR","38TC",12,.389,2.295,170),
  P("AUXILIARIES","ADD ON TRACK","50 AT",16,.492,2.9,170),P("AUXILIARIES","MESH CONNECTOR","11MC",20,.134,.791,170),
  P("AUXILIARIES","SLIDING SASH CONNECTOR","22 SC",20,.364,2.15,170),P("AUXILIARIES","H-COUPLER","HC",50,.119,.7,170),
  P("REINFORCEMENT","3 TRACK (ECO)","13X28X13",1,null,2.139,95),P("REINFORCEMENT","2 TRACK","14X30X14",1,null,2.319,95),
@@ -558,8 +568,9 @@ function addCustomers(rows){ // rows: [{gstin,name,address,phone,state}] -> {add
 const SERIES_RENAME={"80.5 SERIES":"ECO SERIES","92 SERIES":"PREMIUM SERIES"};
 DB.customProfiles.forEach(cp=>{if(SERIES_RENAME[cp.series])cp.series=SERIES_RENAME[cp.series]});
 DB.customProfiles.forEach(cp=>{if(!pByCode[cp.code]){const np={...cp,custom:true};PROFILES.push(np);pByCode[cp.code]=np}});
+if(!DB.casementMove1){["12PB","68OM","60B","92 B"].forEach(c=>{const e=DB.profileEdits[c];if(e){if(e.series==="AUXILIARIES")e.series="CASEMENT";if(e.cat==="AUX")delete e.cat}});DB.casementMove1=true}
 Object.entries(DB.profileEdits).forEach(([c,e])=>{if(pByCode[c])Object.assign(pByCode[c],e)});
-function refreshSeries(){const s=[...new Set(PROFILES.map(p=>p.series))];SERIES.splice(0,SERIES.length,...s)}
+function refreshSeries(){const s=[...new Set(PROFILES.map(p=>p.series))];Object.values(DB.brandSpecs||{}).forEach(m=>Object.values(m||{}).forEach(o=>{if(o&&o.series&&!s.includes(o.series)){const i=s.indexOf("AUXILIARIES");i>=0?s.splice(i,0,o.series):s.push(o.series)}}));const tail=["AUXILIARIES","REINFORCEMENT"].filter(x=>s.includes(x));SERIES.splice(0,SERIES.length,...s.filter(x=>!tail.includes(x)),...tail)}
 refreshSeries();
 const inBrand=(p,b)=>{const l=DB.profileBrands[p.code];return !l||!b||l.includes(b)};
 /* which finishes are sold: per brand (SMART: White only) and per series (ECO: White only) */
@@ -644,6 +655,7 @@ const I={
  down:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>',
  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
  save:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h11l3 3v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z"/><path d="M8 3v5h7M8 21v-7h8v7"/></svg>',
+ cam:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>',
  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>'
 };
 function toast(msg){document.querySelectorAll(".toast").forEach(x=>x.remove());const t=document.createElement("div");t.className="toast";t.textContent=msg;document.getElementById("phone").appendChild(t);setTimeout(()=>t.remove(),1800)}
@@ -710,7 +722,8 @@ home(){const docs=DB.docs, month=today().slice(0,7);
  const open=docs.filter(d=>d.type==="QUOTATION"&&d.status!=="CONVERTED");
  const ini=String(S.user||"?").split(/\s+/).map(x=>x[0]||"").join("").slice(0,2).toUpperCase();
  const qa=(act,ic,l,extra="")=>`<button class="qa" ${act}>${I[ic]}<span>${l}</span>${extra}</button>`;
- return `<div class="top hometop"><div class="avatar">${esc(ini)}</div><div class="grow"><h1>Hello, ${esc(S.user)}</h1>
+ const lg=DB.logos&&DB.logos.company;
+ return `<div class="top hometop">${can("settings")?`<label class="avatar avbtn ${lg?"haslogo":""}" title="${lg?"Change logo":"Upload logo"}" aria-label="${lg?"Change logo":"Upload logo"}">${lg?`<img src="${lg}" alt="">`:esc(ini)}<span class="avcam">${I.cam}</span><input type="file" accept="image/*" data-logo="company" hidden></label>`:`<div class="avatar ${lg?"haslogo":""}">${lg?`<img src="${lg}" alt="">`:esc(ini)}</div>`}<div class="grow"><h1 class="row" style="gap:8px">Hello, ${esc(S.user)}<button class="hiedit" data-act="editme" aria-label="Edit name and logo">${I.edit}</button></h1>
    <div class="sub">${esc(COMPANY.short||COMPANY.name)} · <span class="rolechip">${ROLES[S.role]?.label||""}</span></div></div>
    ${can("settings")?`<button class="iconbtn" data-go="settings" aria-label="Settings">${I.gear}</button>`:""}
    <button class="iconbtn" data-act="logout" aria-label="Log out">${I.out}</button></div>
@@ -894,8 +907,10 @@ profiles(){const P=DB.prices;S.sb=S.sb||P.brands[0];S.sf=S.sf||P.finishes[0];
    <div class="stat"><div class="muted">In stock</div><b class="num" style="font-size:17px">${kg(r3(kgTot))} kg</b></div>
    <div class="stat"><div class="muted">Low (&lt;2 pkt)</div><b style="font-size:17px;color:#b26a00">${low}</b></div>
    <div class="stat"><div class="muted">Nil stock</div><b style="font-size:17px;color:var(--danger)">${out}</b></div></div>
+  <div class="two stkio" style="margin-bottom:12px">${can("stock")?`<button class="btn ghost" data-act="stockup">${I.down.replace("<svg",'<svg style="width:18px;height:18px;transform:rotate(180deg)"')} Upload stock</button>`:""}<button class="btn ghost" data-act="stockxls" ${can("stock")?"":'style="grid-column:1/-1"'}>${I.xls.replace("<svg",'<svg style="width:18px;height:18px"')} Export to Excel</button></div>
+  <div class="two stkio" style="margin:-4px 0 12px">${can("stock")?`<button class="btn ghost" data-act="profup">${I.down.replace("<svg",'<svg style="width:18px;height:18px;transform:rotate(180deg)"')} Upload profile list</button>`:""}<button class="btn ghost" data-act="profxls" ${can("stock")?"":'style="grid-column:1/-1"'}>${I.xls.replace("<svg",'<svg style="width:18px;height:18px"')} Profile list Excel</button></div>
   <div class="stickybrand">
-  <div class="chips">${P.brands.map(b=>`<button class="chip ${S.sb===b?"on":""}" data-sb="${esc(b)}">${esc(b)}</button>`).join("")}</div>
+  <div class="chips">${P.brands.map(b=>`<button class="chip ${S.sb===b?"on":""}" data-sb="${esc(b)}">${esc(b)}</button>`).join("")}${brandChips()}</div>
   <div class="chips">${finishesFor(S.sb).map(f=>`<button class="chip ${S.sf===f?"on":""}" data-sf="${esc(f)}">${esc(f)}</button>`).join("")}${finishesFor(S.sb).length<P.finishes.length?`<span class="onlynote">${esc(S.sb)}: ${finishesFor(S.sb).join(", ")} only</span>`:""}</div>
   <div class="chips">${seriesFor(S.sb,S.sf).map(x=>`<button class="chip ser ${S.filter===x&&!ql?"on":""}" data-filter="${esc(x)}">${esc(x.replace(" SERIES",""))}</button>`).join("")}${can("stock")?`<button class="chip ser addser" data-act="newprof" aria-label="Add profile or series">+ Add</button>`:""}</div>
   </div>
@@ -905,7 +920,7 @@ profiles(){const P=DB.prices;S.sb=S.sb||P.brands[0];S.sf=S.sf||P.finishes[0];
     const col=len<=0?"var(--danger)":(!reinf&&len<2*p.lpp)?"#b26a00":"var(--ink)";
     return `<button class="prof" data-stock="${esc(p.code)}" style="width:100%;text-align:left"><div class="grow"><div class="row" style="gap:7px"><span class="code">${esc(p.code)}</span><b style="font-size:13.5px">${esc(p.desc)}</b></div>
      <div class="calcline">${reinf?"":p.lpp+" len/pkt · "}${p.lw} kg/len${len>0?` · <b>${len} len · ${kg(r3(len*p.lw))} kg</b>`:""}</div></div>
-     <div style="text-align:right;flex-shrink:0"><b class="num" style="font-size:15px;color:${col}">${len?fmtStock(p.code,len,S.sb):"Nil"}</b></div></button>`}).join("")}</div></div>`+nav()},
+     <div style="text-align:right;flex-shrink:0"><b class="num" style="font-size:15px;color:${col}">${len?fmtStock(p.code,len,S.sb):"Nil"}</b></div>${can("stock")?`<span class="stkedit" role="button" aria-label="Edit ${esc(p.code)}" data-stockedit="${esc(p.code)}">${I.edit}</span>`:""}</button>`}).join("")}</div></div>`+nav()},
 
 prices(){const P=DB.prices;
  const inp=(key)=>{const v=P.rates[key];return `<input class="pin" inputmode="decimal" data-price="${esc(key)}" value="${v>0?v:""}" placeholder="—" ${can("prices")?"":"disabled"}>`};
@@ -954,7 +969,7 @@ new(){const d=S.draft, c=cust(d.customerId);
    :`<button class="muted" data-act="showtr" style="margin:12px 2px 0;font-weight:700;color:var(--brand2)">+ Add transport details</button>`}
   <div class="h2">Brand &amp; finish</div>
   <div class="stickybrand">
-   <div class="chips">${DB.prices.brands.map(b=>`<button class="chip ${d.brand===b?"on":""}" data-brand="${esc(b)}">${esc(b)}</button>`).join("")}</div>
+   <div class="chips">${DB.prices.brands.map(b=>`<button class="chip ${d.brand===b?"on":""}" data-brand="${esc(b)}">${esc(b)}</button>`).join("")}${brandChips()}</div>
    <div class="chips">${finishesFor(d.brand).map(f=>`<button class="chip ${d.finish===f?"on":""}" data-finish="${esc(f)}">${esc(f)}</button>`).join("")}${finishesFor(d.brand).length<DB.prices.finishes.length?`<span class="onlynote">${esc(d.brand)}: ${finishesFor(d.brand).join(", ")} only</span>`:""}</div>
    <div class="chips">${seriesFor(d.brand,d.finish).map(x=>`<button class="chip ser ${S.filter===x&&!ql?"on":""}" data-filter="${esc(x)}">${esc(x.replace(" SERIES",""))}</button>`).join("")}${can("stock")?`<button class="chip ser addser" data-act="newprof" aria-label="Add profile or series">+ Add</button>`:""}</div>
   </div>
@@ -994,9 +1009,7 @@ view(){const d=DB.docs.find(x=>x.id===S.view), c=cust(d.customerId);
  const src=d.sourceId&&DB.docs.find(x=>x.id===d.sourceId), kids=DB.docs.filter(x=>x.sourceId===d.id).sort((a,b)=>a.id-b.id);
  const T=d.t;
  return bar(d.no,LABEL[d.type]+(d.status==="CONVERTED"?" · converted":""),{back:"docs",right:`${can("edit")&&canType(d.type)?`<button class="iconbtn" data-act="editdoc" aria-label="Edit number, date, transport">${I.edit}</button>`:""}<button class="iconbtn" data-act="copy" aria-label="Copy as text">${I.copy}</button>`})+
- `<div class="scroll"><button class="wabtn" data-act="wa">${I.wa}Send on WhatsApp</button>
- <div class="exp"><button class="pdf" data-act="pdf">${I.pdf}PDF / Print</button><button class="xls" data-act="xlsx">${I.xls}Excel</button></div>
- <button class="btn ghost" data-act="edititems" ${can("edit")&&canType(d.type)?"":"hidden"} style="margin:-4px 0 14px;display:flex;align-items:center;justify-content:center;gap:8px">${I.edit.replace("<svg",'<svg style="width:18px;height:18px"')}Edit profiles &amp; quantities</button><div class="paper">
+ `<div class="scroll"><div class="paper">
   <div class="hd"><div class="t">${LABEL[d.type].toUpperCase()}</div><div class="co">${COMPANY.name}</div>
    <div class="ad">${COMPANY.reg}<br>GSTIN ${COMPANY.gstin} · PAN ${COMPANY.pan} · Ph ${COMPANY.phone}</div></div>
   <div class="meta"><div>${LABEL[d.type]} No<b class="mono">${d.no}</b></div><div>Date<b>${fmtDate(d.date)}</b></div>
@@ -1010,6 +1023,11 @@ view(){const d=DB.docs.find(x=>x.id===S.view), c=cust(d.customerId);
    ${T.igst?`<div class="r"><span>IGST @ 18%</span><span class="num">₹${inr(T.igst)}</span></div>`:`<div class="r"><span>CGST @ 9%</span><span class="num">₹${inr(T.cgst)}</span></div><div class="r"><span>SGST @ 9%</span><span class="num">₹${inr(T.sgst)}</span></div>`}
    ${T.round?`<div class="r muted"><span>Round off</span><span class="num">${T.round>0?"+":""}${inr(T.round)}</span></div>`:""}
    <div class="r g"><span>Total</span><span class="num">₹${inr(T.grand,0)}</span></div>
+   ${d.type==="QUOTATION"&&can("edit")&&canType(d.type)?`<div class="oldbox"><div class="row" style="gap:8px"><span class="grow" style="font-weight:700;font-size:13px">Old balance${brandGroups(d.lines).length>1?` <span class="muted" style="font-weight:600">· all ${brandGroups(d.lines).length} brands</span>`:""}</span>
+     <span style="font-weight:700">₹</span><input id="docOldAmt" inputmode="decimal" value="${d.oldBalance?d.oldBalance:""}" placeholder="0" style="width:120px;padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;text-align:right;font:inherit;font-weight:700"></div>
+     <input id="docOldNote" value="${esc(d.oldBalanceNote||"")}" placeholder="Note, e.g. till 31 Oct (optional)" style="width:100%;margin-top:6px;padding:7px 10px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:13px">
+     ${bal(c)&&bal(c)!==d.oldBalance?`<button class="linkbtn" data-act="docoldupd" style="font-size:12px;margin-top:6px;color:var(--brand2);font-weight:700">Use customer's balance ₹${inr(bal(c))}</button>`:""}
+     ${d.oldBalance?`<button class="linkbtn" data-act="docoldclr" style="font-size:12px;margin:6px 0 0 12px;color:var(--danger);font-weight:700">Remove</button>`:""}</div>`:""}
    ${d.oldBalance?`<div class="r" style="margin-top:6px"><span>Old balance${d.oldBalanceNote?` <span class="muted">(${esc(d.oldBalanceNote)})</span>`:""}</span><span class="num">${d.oldBalance<0?"− ":""}₹${inr(Math.abs(d.oldBalance))}</span></div>
    <div class="r g" style="color:var(--danger);border-color:var(--danger)"><span>Total amount due</span><span class="num">₹${inr(due(d),0)}</span></div>`:""}</div>
   <div class="words">${T.words}</div>
@@ -1018,6 +1036,9 @@ view(){const d=DB.docs.find(x=>x.id===S.view), c=cust(d.customerId);
  ${src?`<div class="muted" style="margin:12px 4px">Made from <button data-open="${src.id}" style="color:var(--brand2);font-weight:700">${src.no}</button></div>`:""}
  ${kids.length?`<div class="muted" style="margin:12px 4px">Converted to ${kids.map(k=>`<button data-open="${k.id}" style="color:var(--brand2);font-weight:700">${k.no}${k.splitBrand?" ("+esc(k.splitBrand)+")":""}</button>`).join(", ")}</div>`:""}
  ${d.stockDeducted?`<div class="muted" style="margin:12px 4px">✓ Stock deducted for this invoice</div>`:""}
+ <div class="docacts" style="margin-top:14px"><button class="wabtn" data-act="wa">${I.wa}Send on WhatsApp</button>
+ <div class="exp"><button class="pdf" data-act="pdf">${I.pdf}PDF / Print</button><button class="xls" data-act="xlsx">${I.xls}Excel</button></div>
+ <button class="btn ghost" data-act="edititems" ${can("edit")&&canType(d.type)?"":"hidden"} style="margin:0 0 14px;display:flex;align-items:center;justify-content:center;gap:8px">${I.edit.replace("<svg",'<svg style="width:18px;height:18px"')}Edit profiles &amp; quantities</button></div>
  ${can("delete")?"":"<!--"}<button class="btn ghost delbtn" data-act="askdel">${I.trash}Delete ${LABEL[d.type].toLowerCase()}</button>${can("delete")?"":"-->"}
  ${d.type!=="INVOICE"&&d.status!=="CONVERTED"?`<div class="two" style="margin-top:14px">${d.type==="QUOTATION"&&canType("PI")?`<button class="btn ghost" data-convert="PI">Make Purchase Order</button>`:""}${can("invoice")?`<button class="btn accent" data-convert="INVOICE" ${d.type==="PI"?'style="grid-column:1/-1"':""}>Convert to Invoice</button>`:""}</div>`:""}
  </div>`+nav()}
@@ -1067,6 +1088,54 @@ function sheetHTML(){
    <div class="dlab" style="margin:4px 0 0">Available in brands</div>
    <div class="chips" style="flex-wrap:wrap">${brands.map(b=>`<label class="chip chk ${sel.includes(b)?"on":""}"><input type="checkbox" name="b_${esc(b)}" ${sel.includes(b)?"checked":""}>${esc(b)}</label>`).join("")}</div>
    <button class="btn">Add profile</button></form>`);}
+ if(S.sheet.kind==="brands"){const P=DB.prices,ren=S.sheet.ren;
+  return sheet(`<h3>Brands</h3><div class="muted" style="margin:-8px 0 12px">Add, rename or delete brands. A rename updates rates, stock, documents, logos and PDF designs.</div>
+   <div class="card" style="padding:4px 12px">${P.brands.map(b=>{const n=brandUse(b);return ren===b?`<form id="brandRenForm" class="row" style="padding:10px 0;border-bottom:1px solid var(--line);gap:8px"><input name="nb" value="${esc(b)}" class="pin" style="flex:1;text-align:left;text-transform:uppercase" autocomplete="off"><button class="btn" style="width:auto;padding:9px 12px;font-size:13px">Save</button><button type="button" class="btn ghost" style="width:auto;padding:9px 12px;font-size:13px" data-act="brandrencancel">Cancel</button></form>`
+    :`<div class="row" style="padding:10px 0;border-bottom:1px solid var(--line);gap:8px"><div class="grow"><b>${esc(b)}</b><div class="muted" style="font-size:12px">${n.docs} document${n.docs===1?"":"s"} · ${n.stock} stock item${n.stock===1?"":"s"} · ${finishesFor(b).join(", ")}</div></div>
+     ${can("prices")?`<button class="chip" data-act="brandren" data-val="${esc(b)}">✎ Rename</button>`:""}${can("delete")&&P.brands.length>1?`<button class="chip" style="color:var(--danger);border-color:#f0c8c3" data-rmbrand="${esc(b)}">Delete</button>`:""}</div>`}).join("")}</div>
+   ${can("prices")?`<div class="h2">Add a brand</div><div class="row" style="gap:8px"><input id="newBrand" class="pin" style="flex:1;text-align:left;text-transform:uppercase" placeholder="New brand name" autocomplete="off"><button class="btn" style="width:auto;padding:10px 14px;font-size:13px" data-act="addbrand">Add brand</button></div>
+   <div class="muted" style="margin-top:8px">A new brand sells every profile and finish until you change it. Set its rates in the <button data-go="prices" style="color:var(--brand2);font-weight:700">Price list</button>.</div>`:""}
+   <div class="muted" style="margin-top:12px">A brand used in documents or stock can't be deleted; rename it instead.</div>`);}
+ if(S.sheet.kind==="me"){const lg=DB.logos.company,me=DB.users.find(u=>u.id===S.uid);
+  return sheet(`<h3>Edit</h3><form id="meForm" class="stack" autocomplete="off">
+   <div class="field"><label>Your name</label><input name="name" value="${esc(S.user||"")}" ${me?"":"disabled"}>${me?"":`<div class="muted" style="margin-top:4px">Your name comes from your sign-in account.</div>`}</div>
+   ${can("settings")?`<div class="field"><label>Company name shown here</label><input name="short" value="${esc(COMPANY.short||"")}" placeholder="${esc(COMPANY.name)}"></div>
+   <div class="dlab">Company logo</div>
+   <div class="row" style="gap:12px"><div class="avatar ${lg?"haslogo":""}" style="width:64px;height:64px;font-size:20px;border-radius:16px">${lg?`<img src="${lg}" alt="">`:"Logo"}</div>
+    <div class="grow stack" style="gap:6px"><label class="btn ghost" style="padding:10px;font-size:14px;cursor:pointer">${lg?"Change logo":"Upload logo"}<input type="file" accept="image/*" data-logo="company" hidden></label>
+    ${lg?`<button type="button" class="btn ghost" style="padding:10px;font-size:14px;color:var(--danger)" data-rmlogo="company">Remove logo</button>`:""}</div></div>
+   <div class="muted">The logo also prints on your quotations, purchase orders and invoices.</div>`:""}
+   <button class="btn">Save</button>
+   ${can("settings")?`<button type="button" class="btn ghost" data-go="setcompany">All company details (address, GSTIN, bank) ›</button>`:""}</form>`);}
+ if(S.sheet.kind==="profup")return sheet(`<h3>Upload profile list</h3>
+   <p style="font-size:13.5px;line-height:1.5;margin:-4px 0 12px;color:var(--ink2)">Load each brand's own profiles: <b>codes, series, description, lengths per packet and weight</b>. Use one sheet per brand (named after the brand) or a <b>Brand</b> column. Rows without a brand go to <b>${esc(S.sb)}</b>.</p>
+   <div class="editnote" style="margin-bottom:14px">Columns: <b>Profile code</b>, <b>Series</b>, <b>Description</b>, <b>Lengths/pkt</b>, <b>Kg/length</b>. Optional: Brand, Category (Profile / Auxiliary / Reinforcement), Kg/meter, HSN. New codes are added; you'll see a preview before anything is saved.</div>
+   <label class="btn" style="display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer">${I.down.replace("<svg",'<svg style="width:18px;height:18px;transform:rotate(180deg)"')} Choose file<input type="file" id="profImport" accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden></label>
+   <button class="btn ghost" data-act="profxls" style="margin-top:10px">${I.xls.replace("<svg",'<svg style="width:18px;height:18px;vertical-align:-4px;margin-right:6px"')}Download current profile list</button>
+   <div class="muted" style="margin-top:10px">Tip: download the current list (one sheet per brand), change it in Excel, and upload it back.</div>`);
+ if(S.sheet.kind==="profprev"){const r=S.sheet.res,rep=S.sheet.replace!==false,sum=profPlan(r,rep);const tot=sum.reduce((a,x)=>a+x.add.length+x.upd.length+(rep?x.rem.length:0),0);
+  return sheet(`<h3>Profile list preview</h3><div class="muted" style="margin:-8px 0 12px">${esc(r.file)}</div>
+   ${sum.map(x=>`<div class="card" style="padding:10px 12px;margin-bottom:10px"><div class="row"><b class="grow" style="font-size:15px">${esc(x.brand)}</b><span class="muted">${x.rows} in file</span></div>
+     <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:6px"><span class="pill p-INVOICE">${x.add.length} new</span><span class="pill p-QUOTATION">${x.upd.length} changed</span><span class="pill" style="background:#eef0f1;color:var(--ink3)">${x.same} same</span>${rep?`<span class="pill" style="background:#fdecea;color:var(--danger)">${x.rem.length} removed from ${esc(x.brand)}</span>`:""}</div>
+     ${x.add.length?`<div class="muted" style="margin-top:6px;font-size:12px"><b>New:</b> ${x.add.map(esc).join(", ")}</div>`:""}
+     ${x.upd.length?`<div class="muted" style="margin-top:4px;font-size:12px"><b>Changed:</b> ${x.upd.slice(0,40).map(u=>`${esc(u.code)} (${u.what.join(", ")})`).join("; ")}${x.upd.length>40?" …":""}</div>`:""}
+     ${rep&&x.rem.length?`<div style="margin-top:4px;font-size:12px;color:var(--danger)"><b>Removed:</b> ${x.rem.map(c=>esc(c)+(x.remStock.includes(c)?" (has stock)":"")).join(", ")}</div>`:""}</div>`).join("")}
+   ${r.bad.length?`<div class="h2" style="margin-top:6px;color:var(--danger)">Skipped rows</div><div style="font-size:12.5px;line-height:1.6;color:var(--danger);max-height:140px;overflow:auto">${r.bad.slice(0,50).map(b=>`${esc(b.sheet)} row ${b.row}: ${esc(b.why)}`).join("<br>")}${r.bad.length>50?`<br>+ ${r.bad.length-50} more`:""}</div>`:""}
+   <label class="ticks" style="margin-top:10px"><input type="checkbox" id="profRep" ${rep?"checked":""}><span><b>The file is the full list for each brand</b><span class="muted">Profiles not in the file are removed from that brand (stock and old documents are kept). Untick to only add and update.</span></span></label>
+   <div class="two" style="margin-top:14px"><button class="btn ghost" data-close>Cancel</button><button class="btn accent" data-act="profapply" ${tot?"":"disabled"}>${tot?"Apply "+tot+" change"+(tot===1?"":"s"):"No changes"}</button></div>`);}
+ if(S.sheet.kind==="stockup")return sheet(`<h3>Upload stock</h3>
+   <p style="font-size:13.5px;line-height:1.5;margin:-4px 0 12px;color:var(--ink2)">Choose an Excel (.xlsx) or CSV file. Each row needs a <b>Profile code</b> and either <b>Packets</b> + <b>Loose lengths</b> or <b>Total lengths</b>. Add <b>Brand</b> and <b>Finish</b> columns to load every brand in one file; rows without them go to <b>${esc(S.sb)} · ${esc(S.sf)}</b>.</p>
+   <div class="editnote" style="margin-bottom:14px">The file's numbers <b>replace</b> the current stock for those profiles (like "Set count"). Profiles not in the file aren't changed. You'll see a preview before anything is saved.</div>
+   <label class="btn" style="display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer">${I.down.replace("<svg",'<svg style="width:18px;height:18px;transform:rotate(180deg)"')} Choose file<input type="file" id="stockImport" accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden></label>
+   <button class="btn ghost" data-act="stocktpl" style="margin-top:10px">${I.xls.replace("<svg",'<svg style="width:18px;height:18px;vertical-align:-4px;margin-right:6px"')}Download template (all profiles)</button>
+   <div class="muted" style="margin-top:10px">Tip: download the template, change the Packets / Loose lengths columns, and upload it back.</div>`);
+ if(S.sheet.kind==="stockprev"){const r=S.sheet.res,ch=r.rows.filter(x=>x.delta);
+  return sheet(`<h3>Stock upload preview</h3><div class="muted" style="margin:-8px 0 12px">${esc(r.file)}</div>
+   <div class="stats" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:12px"><div class="stat"><div class="muted">Will change</div><b style="color:var(--brand2)">${ch.length}</b></div>
+   <div class="stat"><div class="muted">Same as now</div><b>${r.rows.length-ch.length}</b></div><div class="stat"><div class="muted">Skipped</div><b style="color:${r.bad.length?"var(--danger)":"var(--ink)"}">${r.bad.length}</b></div></div>
+   ${ch.length?`<div class="card" style="padding:4px 12px;max-height:260px;overflow:auto">${ch.slice(0,200).map(x=>`<div class="row" style="padding:7px 0;border-bottom:1px solid var(--line);font-size:12.5px;gap:6px"><span class="code">${esc(x.code)}</span><span class="grow">${esc(x.brand)}${x.finish!=="-"?" · "+esc(x.finish):""}</span><span class="muted num">${fmtStock(x.code,x.cur,x.brand)}</span><b class="num">→ ${fmtStock(x.code,x.len,x.brand)}</b></div>`).join("")}${ch.length>200?`<div class="muted" style="padding:6px 0">+ ${ch.length-200} more</div>`:""}</div>`:`<p class="muted">Nothing to change: the file matches the current stock.</p>`}
+   ${r.bad.length?`<div class="h2" style="margin-top:14px;color:var(--danger)">Skipped rows</div><div style="font-size:12.5px;line-height:1.6;color:var(--danger);max-height:140px;overflow:auto">${r.bad.slice(0,50).map(b=>`Row ${b.row}: ${esc(b.why)}`).join("<br>")}${r.bad.length>50?`<br>+ ${r.bad.length-50} more`:""}</div>`:""}
+   <div class="two" style="margin-top:16px"><button class="btn ghost" data-close>Cancel</button><button class="btn accent" data-act="stockapply" ${ch.length?"":"disabled"}>Update ${ch.length} profile${ch.length===1?"":"s"}</button></div>`);}
  if(S.sheet.kind==="importres"){const r=S.sheet.res;
   return sheet(`<h3>Customers imported</h3>
    <div class="stats" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:12px"><div class="stat"><div class="muted">Added</div><b style="color:var(--ok)">${r.added.length}</b></div>
@@ -1132,12 +1201,13 @@ function sheetHTML(){
    <div class="h2" style="margin:6px 2px 0">Transport details</div>${trFields(trOf(d))}
    <div class="muted">Next new ${LABEL[d.type].toLowerCase()} number: <b class="mono">${PREFIX[d.type]}${DB.next[d.type]}</b></div>
    <button class="btn">Save changes</button></form>`);}
- if(S.sheet.kind==="stock"){const p=pv(pByCode[S.sheet.code],S.sb),reinf=CAT(p)==="REINF",len=stockOf(p.code,S.sb,S.sf),mode=S.sheet.mode||"in";
+ if(S.sheet.kind==="stock"){const p=pv(pByCode[S.sheet.code],S.sb),reinf=CAT(p)==="REINF",len=stockOf(p.code,S.sb,S.sf),mode=S.sheet.mode||"in",tab=can("stock")&&S.sheet.tab==="edit"?"edit":"stock";
   const k=stockKey(p.code,S.sb,S.sf),mv=DB.moves.filter(m=>m.key===k).slice(0,6);
   const T=(m,l)=>`<button type="button" class="${mode===m?"on":""}" data-smode="${m}">${l}</button>`;
   return sheet(`<h3>${esc(p.desc)} <span class="code">${esc(p.code)}</span></h3>
    <div class="muted" style="margin:-8px 0 12px">${esc(reinf?S.sb:S.sb+" · "+S.sf)}</div>
-   <div class="card row" style="background:#f6f8f9;margin-bottom:14px"><div class="grow"><div class="muted">Current stock</div><b style="font-size:20px;color:${len<=0?"var(--danger)":"var(--ink)"}">${len?fmtStock(p.code,len,S.sb):"Nil"}</b></div>
+   ${can("stock")?`<div class="tabs" style="margin-bottom:14px"><button type="button" class="${tab==="stock"?"on":""}" data-stab="stock">Stock</button><button type="button" class="${tab==="edit"?"on":""}" data-stab="edit">${I.edit.replace("<svg",'<svg style="width:14px;height:14px;vertical-align:-2px"')} Edit profile</button></div>`:""}
+   ${tab==="edit"?editProfForm(p,reinf):`<div class="card row" style="background:#f6f8f9;margin-bottom:14px"><div class="grow"><div class="muted">Current stock</div><b style="font-size:20px;color:${len<=0?"var(--danger)":"var(--ink)"}">${len?fmtStock(p.code,len,S.sb):"Nil"}</b></div>
     <div style="text-align:right" class="muted">${len} lengths<br>${kg(r3(Math.max(0,len)*p.lw))} kg</div></div>
    ${can("stock")?"":`<div class="muted" style="margin-bottom:12px">${I.lock.replace("<svg",'<svg style="width:14px;height:14px;vertical-align:-2px"')} Only Admin / Accounts can change stock.</div>`}
    <form id="stockForm" class="stack" ${can("stock")?"":"hidden"}>
@@ -1151,15 +1221,7 @@ function sheetHTML(){
      <span class="pill ${m.lengths>=0?"p-INVOICE":"p-PI"}" style="min-width:46px;text-align:center">${m.type}</span>
      <span class="grow">${new Date(m.at).toLocaleDateString("en-IN",{day:"2-digit",month:"short"})}${m.ref?" · "+esc(m.ref):""}${m.note?` <span class="muted">${esc(m.note)}</span>`:""}</span>
      <b class="num" style="color:${m.lengths>=0?"var(--ok)":"var(--danger)"}">${m.lengths>0?"+":""}${m.lengths}</b></div>`).join("")}`:""}
-   ${can("stock")?`<div class="h2" style="margin-top:18px">Profile details · ${esc(S.sb)}</div>`:""}
-   <form id="profForm" class="stack" ${can("stock")?"":"hidden"}><div class="two">
-    ${reinf?"":`<div class="field"><label>Lengths per packet</label><input name="lpp" inputmode="numeric" value="${p.lpp}"></div>`}
-    <div class="field" ${reinf?'style="grid-column:1/-1"':""}><label>Weight kg per length</label><input name="lw" inputmode="decimal" value="${p.lw}"></div></div>
-    <div class="dlab" style="margin:4px 0 0">Available in brands</div>
-    <div class="chips" style="flex-wrap:wrap">${DB.prices.brands.map(b=>`<label class="chip chk ${inBrand(p,b)?"on":""}"><input type="checkbox" name="b_${esc(b)}" ${inBrand(p,b)?"checked":""}>${esc(b)}</label>`).join("")}</div>
-    <button class="btn ghost">Save profile details</button>
-    ${p.custom&&can("delete")?`<button type="button" class="btn ghost" style="color:var(--danger)" data-act="delprof">Delete this profile</button>`:""}
-    <div class="muted">Used for new quotations. Stock is kept in lengths, so changing packet size doesn't change the stock.</div></form>`);}
+   ${can("stock")?`<button type="button" class="btn ghost" style="margin-top:16px;display:flex;align-items:center;justify-content:center;gap:8px" data-stab="edit">${I.edit.replace("<svg",'<svg style="width:16px;height:16px"')} Edit profile details</button>`:""}`}`);}
  if(S.sheet.kind==="bal"){const c=cust(S.sheet.id);
   return sheet(`<h3>Old balance</h3><div class="muted" style="margin:-8px 0 14px">${esc(c.name)}</div><form id="balForm" class="stack">
    <div class="field"><label>Amount ₹</label><input name="amt" inputmode="decimal" value="${bal(c)?Math.abs(bal(c)):""}" placeholder="0" style="font-size:20px;font-weight:800"></div>
@@ -1186,6 +1248,22 @@ function sheetHTML(){
  return "";
 }
 
+/* brand chips: "+ Add" and "Edit" next to the brand buttons */
+function brandChips(){return (can("prices")?`<button class="chip addser" data-act="brands" aria-label="Add brand">+ Add</button>`:"")+(can("prices")||can("delete")?`<button class="chip" data-act="brands" aria-label="Edit brands">✎ Edit</button>`:"")}
+function brandUse(b){return {docs:DB.docs.filter(d=>d.lines.some(l=>l.brand===b)).length,stock:Object.entries(DB.stock).filter(([k,q])=>q&&k.split("|")[1]===b).length}}
+/* rename a brand everywhere it is stored */
+function renameBrand(o,n){const P=DB.prices,mv=(obj)=>{if(obj&&Object.prototype.hasOwnProperty.call(obj,o)){obj[n]=obj[o];delete obj[o]}};
+  P.brands=P.brands.map(x=>x===o?n:x);
+  Object.keys(P.rates).forEach(k=>{const a=k.split("|");if(a[0]===o){a[0]=n;P.rates[a.join("|")]=P.rates[k];delete P.rates[k]}});
+  mv(DB.logos.brands);mv(DB.pdfBrand);mv(DB.brandSpecs);mv(DB.finishRules.brands);
+  Object.values(DB.profileBrands).forEach(l=>l.forEach((x,i)=>{if(x===o)l[i]=n}));
+  Object.keys(DB.stock).forEach(k=>{const a=k.split("|");if(a[1]===o){a[1]=n;const nk=a.join("|");DB.stock[nk]=(+DB.stock[nk]||0)+(+DB.stock[k]||0);delete DB.stock[k]}});
+  DB.moves.forEach(m=>{const a=m.key.split("|");if(a[1]===o){a[1]=n;m.key=a.join("|")}});
+  const rx=new RegExp("(^|— )"+o.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"(?= ·|$)");
+  DB.docs.forEach(d=>{d.lines.forEach(l=>{if(l.brand!==o)return;l.brand=n;if(l.variant)l.variant=l.variant.replace(rx,"$1"+n);if(l.series)l.series=l.series.replace(rx,"$1"+n)});if(d.splitBrand===o)d.splitBrand=n});
+  if(S.draft){S.draft.items.forEach(it=>{if(it.brand===o)it.brand=n});if(S.draft.brand===o)S.draft.brand=n}
+  if(S.sb===o)S.sb=n;if(S.dbrand===o)S.dbrand=n;if(S.pdfFor===o)S.pdfFor=n;
+  globalThis.__RR_SPECS=DB.brandSpecs}
 function brandGroups(items){const g=new Map();items.forEach(it=>{const k=it.brand||"";if(!g.has(k))g.set(k,[]);g.get(k).push(it)});return [...g.entries()]}
 function nextFree(type){while(DB.docs.some(x=>x.no===PREFIX[type]+DB.next[type]))DB.next[type]++;return PREFIX[type]+DB.next[type]++}
 function createDocs(o){
@@ -1203,6 +1281,21 @@ function createDocs(o){
     out.push(doc)});
   DB.docs.unshift(...[...out].reverse());return out}
 const getPath=(o,k)=>k.split(".").reduce((a,x)=>a==null?a:a[x],o);
+/* Edit profile: description, series, HSN, packet size, weight, brands */
+function editProfForm(p,reinf){const cat=CAT(p),ser=[...new Set(PROFILES.filter(x=>CAT(x)===cat).map(x=>x.series))];
+ return `<form id="profForm" class="stack" autocomplete="off">
+  <div class="field"><label>Code</label><input value="${esc(p.code)}" disabled></div>
+  <div class="field"><label>Description</label><input name="desc" value="${esc(p.desc)}" style="text-transform:uppercase"></div>
+  <div class="field"><label>Series</label><select name="series" id="profSeries">${ser.map(x=>`<option ${x===p.series?"selected":""}>${esc(x)}</option>`).join("")}<option value="__new">+ New series…</option></select></div>
+  <div class="field" id="profNewSer" style="display:none"><label>New series name</label><input name="newSeries" style="text-transform:uppercase" placeholder="e.g. SUPER SERIES"></div>
+  <div class="two">${reinf?"":`<div class="field"><label>Lengths per packet</label><input name="lpp" inputmode="numeric" value="${p.lpp}"></div>`}
+   <div class="field" ${reinf?'style="grid-column:1/-1"':""}><label>Weight kg per length</label><input name="lw" inputmode="decimal" value="${p.lw}"></div></div>
+  <div class="field"><label>HSN code</label><input name="hsn" inputmode="numeric" value="${esc(p.hsn||"")}"></div>
+  <div class="dlab" style="margin:4px 0 0">Available in brands</div>
+  <div class="chips" style="flex-wrap:wrap">${DB.prices.brands.map(b=>`<label class="chip chk ${inBrand(p,b)?"on":""}"><input type="checkbox" name="b_${esc(b)}" ${inBrand(p,b)?"checked":""}>${esc(b)}</label>`).join("")}</div>
+  <button class="btn">Save changes</button>
+  ${p.custom&&can("delete")?`<button type="button" class="btn ghost" style="color:var(--danger)" data-act="delprof">Delete this profile</button>`:""}
+  <div class="muted">Packet size and weight are saved for <b>${esc(S.sb)}</b>. Description, series and HSN apply to all brands. Saved documents keep their old details; new quotations use the new ones. Stock is kept in lengths, so changing packet size doesn't change the stock.</div></form>`}
 const editingBrand=()=>S.pdfFor&&DB.pdfBrand[S.pdfFor]?S.pdfFor:"";
 function setPdf(k,v){const b=editingBrand(),c=pdfCfg(b),ks=k.split(".");let o=c;ks.slice(0,-1).forEach(x=>o=o[x]);o[ks.at(-1)]=v;
   if(b)DB.pdfBrand[b]=c;else DB.pdf=c;save()}
@@ -1213,6 +1306,9 @@ function sampleDoc(){const c=DB.customers[0]||{id:0,name:"SAMPLE CUSTOMER",addre
 const pvDoc=()=>DB.docs.find(x=>x.id===S.pvDocId)||DB.docs[0]||sampleDoc();
 let pvTimer;const schedulePreview=()=>{clearTimeout(pvTimer);pvTimer=setTimeout(()=>{const el=document.getElementById("pv");if(!el)return;
   if(S.screen==="pdfview"){const d=DB.docs.find(x=>x.id===S.view);drawPreview(el,d,cfgFor(d))}else drawPreview(el,pvDoc(),pdfCfg(editingBrand()))},180)};
+/* re-render without the tapped row jumping: rows added above it would otherwise push it down */
+function keepInPlace(sel,fn){const el=document.querySelector(sel),t0=el?el.getBoundingClientRect().top:null;fn();
+  if(t0==null)return;const sc=document.querySelector(".scroll"),el2=document.querySelector(sel);if(sc&&el2)sc.scrollTop+=el2.getBoundingClientRect().top-t0}
 function render(){
   syncPanelHash();
   document.getElementById("phone").classList.toggle("wide",(S.screen==="setpdf"||S.screen==="pdfview")&&window.innerWidth>=900);
@@ -1265,6 +1361,8 @@ const isField=el=>el&&(el.tagName==="TEXTAREA"||el.tagName==="SELECT"&&false||(e
 document.addEventListener("focusin",e=>{if(isField(e.target)){document.body.classList.add("kb");
   setTimeout(()=>{if(document.activeElement===e.target)e.target.scrollIntoView({block:"center",behavior:"smooth"})},320)}});
 document.addEventListener("focusout",()=>setTimeout(()=>{if(!isField(document.activeElement))document.body.classList.remove("kb")},120));
+/* old balance box: refresh totals only once you leave the box, so typing the note is not interrupted */
+document.addEventListener("focusout",e=>{if(e.target.closest&&e.target.closest(".oldbox"))setTimeout(()=>{if(S._oldDirty&&!document.activeElement?.closest(".oldbox")){S._oldDirty=false;const d=DB.docs.find(x=>x.id===S.view);toast(d&&d.oldBalance?"Old balance saved":"Old balance removed");render()}},50)});
 let SW=null;
 $app.addEventListener("touchstart",e=>{const sh=e.target.closest(".sheet");if(!sh||e.touches.length!==1)return;
   const onHead=!!e.target.closest(".shead");if(!onHead&&sh.scrollTop>0)return;if(isField(e.target))return;
@@ -1279,7 +1377,7 @@ $app.addEventListener("click",e=>{
  const wl=e.target.closest("[data-walink]");
  if(wl){const d=DB.docs.find(x=>x.id===S.view),c=cust(d.customerId),ph=document.getElementById("waPh").value.trim();
    if(ph&&ph!==c.phone){c.phone=ph;save()}if(!d.sentAt){d.sentAt=new Date().toISOString();if(d.status==="DRAFT")d.status="SENT";save()}return}
- const el=e.target.closest("[data-go],[data-frule],[data-rmbrand],[data-rmfinish],[data-editcust],[data-pcat],[data-dbrand],[data-role],[data-pset],[data-ptog],[data-rmlogo],[data-user],[data-stock],[data-sb],[data-sf],[data-smode],[data-baltype],[data-brand],[data-finish],[data-act],[data-open],[data-tab],[data-filter],[data-step],[data-dtype],[data-editline],[data-convert],[data-close]");
+ const el=e.target.closest("[data-go],[data-frule],[data-rmbrand],[data-rmfinish],[data-editcust],[data-pcat],[data-dbrand],[data-role],[data-pset],[data-ptog],[data-rmlogo],[data-user],[data-stockedit],[data-stock],[data-sb],[data-sf],[data-stab],[data-smode],[data-baltype],[data-brand],[data-finish],[data-act],[data-open],[data-tab],[data-filter],[data-step],[data-dtype],[data-editline],[data-convert],[data-close]");
  if(!el)return;
  if(el.hasAttribute("data-close")&&el!==e.target&&!el.matches("button"))return;
  const ds=el.dataset;
@@ -1292,7 +1390,7 @@ $app.addEventListener("click",e=>{
  if(ds.rmbrand||ds.rmfinish){if(!can("delete")){toast("Only admin can remove");return}const isB=!!ds.rmbrand,v=ds.rmbrand||ds.rmfinish;
    const used=DB.docs.some(d=>d.lines.some(l=>isB?l.brand===v:l.finish===v))||Object.entries(DB.stock).some(([k,q])=>q&&k.split("|")[isB?1:2]===v)||(S.draft&&S.draft.items.some(it=>isB?it.brand===v:it.finish===v));
    if(used){toast(`${v} is used in documents or stock, so it can't be removed`);return}
-   S.sheet={kind:"rmvar",isB,v};render();return}
+   S.sheet={kind:"rmvar",isB,v,back:S.sheet&&S.sheet.kind==="brands"};render();return}
  if(ds.editcust){if(!can("customers")){toast("You don't have permission to edit customers");return}S.sheet={kind:"cust",id:+ds.editcust};render();
    const g=document.getElementById("gstIn");if(g&&g.value)gstLive(g);return}
  if(ds.pcat){const f=document.getElementById("newProfForm"),keep={};if(f)[...f.elements].forEach(x=>{if(x.name&&x.type!=="checkbox")keep[x.name]=x.value});
@@ -1302,8 +1400,12 @@ $app.addEventListener("click",e=>{
  if(ds.ptog){setPdf(ds.ptog,!getPath(pdfCfg(),ds.ptog));render();return}
  if(ds.rmlogo){if(ds.rmlogo==="company")DB.logos.company="";else delete DB.logos.brands[ds.rmlogo.slice(6)];save();toast("Logo removed");render();return}
  if(ds.user){S.sheet={kind:"user",id:+ds.user};render();return}
+ if(ds.stockedit){S.sheet={kind:"stock",code:ds.stockedit,mode:"in",tab:"edit"};render();return}
+ if(ds.stab){S.sheet.tab=ds.stab;render();return}
  if(ds.stock){S.sheet={kind:"stock",code:ds.stock,mode:"in"};render();return}
- if(ds.sb){S.sb=ds.sb;const nf=fixFinish({b:ds.sb,f:S.sf});if(nf!==S.sf){S.sf=nf;toast(`${ds.sb} is ${finishesFor(ds.sb).join(", ")} only`)}render();return}
+ if(ds.sb){const changed=S.sb!==ds.sb;S.sb=ds.sb;const nf=fixFinish({b:ds.sb,f:S.sf});if(nf!==S.sf){S.sf=nf;toast(`${ds.sb} is ${finishesFor(ds.sb).join(", ")} only`)}
+   if(changed&&S.screen==="profiles"){const BS=seriesFor(S.sb,S.sf);S.filter=BS[0];S.sq="";render();const sc=document.querySelector(".scroll");if(sc)sc.scrollTop=0;return}
+   render();return}
  if(ds.sf){S.sf=ds.sf;render();return}
  if(ds.smode){S.sheet.mode=ds.smode;render();return}
  if(ds.role){S.sheet.role=ds.role;S.sheet.perms=[...ROLE_PERMS[ds.role]];const f=document.getElementById("userForm"),keep={name:f.name.value,pw:f.pw.value,username:f.username?f.username.value:""};
@@ -1321,7 +1423,7 @@ $app.addEventListener("click",e=>{
  if(ds.dtype&&!canType(ds.dtype)){toast("You don't have permission for "+LABEL[ds.dtype]);return}
  if(ds.dtype){if(!S.draft.noEdited)S.draft.no="";S.draft.type=ds.dtype;render();return}
  if(ds.step){const it=S.draft.items.find(x=>x.code===ds.step&&sameVariant(x,S.draft)),p=pByCode[ds.step];
-   const cur=it?(p.series==="REINFORCEMENT"?it.lengths:it.packets):0;setQty(ds.step,cur+ +ds.d);render();return}
+   const cur=it?(p.series==="REINFORCEMENT"?it.lengths:it.packets):0;keepInPlace(`[data-qty="${CSS.escape(ds.step)}"]`,()=>{setQty(ds.step,cur+ +ds.d);render()});return}
  if(ds.editline){S.sheet={kind:"line",i:+ds.editline};render();return}
  if(ds.convert){if(!canType(ds.convert)){toast("You don't have permission for "+LABEL[ds.convert]);return}S.sheet={kind:"confirm",to:ds.convert};render();return}
  if("close" in ds){S.sheet=null;render();return}
@@ -1334,7 +1436,7 @@ $app.addEventListener("click",e=>{
    else{P.finishes=P.finishes.filter(x=>x!==v);Object.keys(P.rates).forEach(k=>{if(k.split("|")[1]===v)delete P.rates[k]});if(S.sf===v)S.sf=P.finishes[0]}
    ["brands","series"].forEach(g=>Object.keys(DB.finishRules[g]).forEach(k=>{if(isB&&g==="brands"&&k===v){delete DB.finishRules[g][k];return}
      if(!isB){DB.finishRules[g][k]=DB.finishRules[g][k].filter(x=>x!==v);if(!DB.finishRules[g][k].length)delete DB.finishRules[g][k]}}));
-   save();S.sheet=null;toast(v+" removed");render();break}
+   save();S.sheet=S.sheet.back?{kind:"brands"}:null;toast(v+" removed");render();break}
   case"askdiscard":S.sheet={kind:"discard"};render();break;
   case"resume":S.sheet=null;S.q="";go("new");break;
   case"newfresh":{const cid=S.sheet&&S.sheet.cid;S.sheet=null;try{localStorage.removeItem("rr-draft")}catch(e){}startDraft(cid,true);break}
@@ -1385,10 +1487,15 @@ $app.addEventListener("click",e=>{
   case"rmline":S.draft.items.splice(S.sheet.i,1);S.sheet=null;render();break;
   case"showtr":S.draft.showTr=true;render();break;
   case"editdoc":{const d=DB.docs.find(x=>x.id===S.view);if(!can("edit")||!canType(d.type)){toast("You don't have permission to edit this");break}S.sheet={kind:"docedit"};render();break}
+  case"brands":if(!can("prices")&&!can("delete")){toast("You don't have permission to change brands");break}S.sheet={kind:"brands"};render();break;
+  case"brandren":S.sheet.ren=ds.val;render();setTimeout(()=>{const i=document.querySelector('#brandRenForm [name=nb]');if(i){i.focus();i.select()}},50);break;
+  case"brandrencancel":S.sheet.ren=null;render();break;
   case"addbrand":case"addfinish":{if(!can("prices")){toast("You don't have permission to change the price list");break}const inp=document.getElementById(ds.act==="addbrand"?"newBrand":"newFinish"),v=inp.value.trim();
    const list=ds.act==="addbrand"?DB.prices.brands:DB.prices.finishes;
    if(!v)break;if(list.some(x=>x.toLowerCase()===v.toLowerCase())){toast("Already in the list");break}
-   list.push(ds.act==="addbrand"?v.toUpperCase():v);save();toast("Added "+v);render();break}
+   list.push(ds.act==="addbrand"?v.toUpperCase():v);save();toast("Added "+v);
+   if(ds.act==="addbrand"&&S.sheet&&S.sheet.kind==="brands"){const nb=v.toUpperCase();if(S.screen==="new"&&S.draft){S.draft.brand=nb;S.draft.finish=fixFinish({b:nb,f:S.draft.finish})}else if(S.screen==="profiles"){S.sb=nb;S.sf=fixFinish({b:nb,f:S.sf})}}
+   render();break}
   case"savedraft":{const d=S.draft,c=cust(d.customerId);
    const miss=d.items.map(calcLine).find(l=>!(l.rate>0));
    if(miss){toast("No rate for "+(miss.variant||miss.code)+": set it in Price list");break}
@@ -1418,6 +1525,8 @@ $app.addEventListener("click",e=>{
    src.status="CONVERTED";save();toast(made.length>1?`${made.length} ${to==="INVOICE"?"invoices":"purchase orders"} created: ${made.map(x=>x.no).join(", ")}`:made[0].no+" created");go("view",{view:made[0].id});break}
   case"pdf":if(S.screen==="view"){go("pdfview");break}exportPDF(DB.docs.find(x=>x.id===S.view),el);break;
   case"wa":S.sheet={kind:"wa"};render();break;
+  case"docoldclr":{const d=DB.docs.find(x=>x.id===S.view);d.oldBalance=0;d.oldBalanceNote="";save();toast("Old balance removed");render();break}
+  case"docoldupd":{const d=DB.docs.find(x=>x.id===S.view),c=cust(d.customerId);d.oldBalance=bal(c);d.oldBalanceNote=c.balanceNote||"";save();toast("Old balance updated");render();break}
   case"edititems":{const d=DB.docs.find(x=>x.id===S.view);if(!can("edit")||!canType(d.type)){toast("You don't have permission to edit this");break}startEdit(d);break}
   case"askdel":if(!can("delete")){toast("Only admin can delete");break}S.sheet={kind:"del"};render();break;
   case"dodel":{if(!can("delete")){toast("Only admin can delete");break}const d=DB.docs.find(x=>x.id===S.view);
@@ -1430,6 +1539,15 @@ $app.addEventListener("click",e=>{
   case"xlsx":exportXLSX(DB.docs.find(x=>x.id===S.view),el);break;
   case"register":exportRegister(el);break;
   case"stockxls":exportStock(el);break;
+  case"stocktpl":exportStock(el,true);break;
+  case"profxls":exportProfiles(el);break;
+  case"editme":S.sheet={kind:"me"};render();break;
+  case"profup":if(!can("stock")){toast("Your role can't change profiles");break}S.sheet={kind:"profup"};render();break;
+  case"profapply":{if(!can("stock"))break;const n=applyProfiles(S.sheet.res,S.sheet.replace!==false);save();S.sheet=null;toast(`Profile list updated (${n} change${n===1?"":"s"})`);render();break}
+  case"stockup":if(!can("stock")){toast("Your role can't change stock");break}S.sheet={kind:"stockup"};render();break;
+  case"stockapply":{if(!can("stock"))break;const r=S.sheet.res;let n=0;
+   r.rows.forEach(x=>{const cur=stockOf(x.code,x.brand,x.finish==="-"?S.sf:x.finish),d=x.len-cur;if(d){moveStock(x.code,x.brand,x.finish==="-"?S.sf:x.finish,d,"COUNT","UPLOAD",r.file);n++}});
+   save();S.sheet=null;toast(`Stock updated for ${n} profile${n===1?"":"s"}`);render();break}
   case"copy":{const d=DB.docs.find(x=>x.id===S.view),c=cust(d.customerId);
    const txt=`${LABEL[d.type]} ${d.no} (${fmtDate(d.date)})\n${COMPANY.name}\nTo: ${c.name}\n`+(trList(d).length?`Transport: ${trOf(d).mode} · `+trList(d).map(([k,v])=>k+": "+v).join(" · ")+"\n":"")+`\n`+
     orderedLines(d).map((l,i)=>`${i+1}. ${l.desc} [${l.code}] ${l.lengths} len, ${kg(l.weight)} kg x Rs${l.rate} = Rs${inr(l.amount)}`).join("\n")+
@@ -1444,6 +1562,7 @@ $app.addEventListener("input",e=>{
  if(e.target.id==="pFooter"||e.target.id==="pSign"){setPdf(e.target.id==="pFooter"?"footer":"signLabel",e.target.value);schedulePreview();return}
  if(e.target.id==="pColor"){const b=editingBrand(),c=pdfCfg(b);c.accent=e.target.value;if(b)DB.pdfBrand[b]=c;else DB.pdf=c;document.querySelector(".designer")?.style.setProperty("--a",c.accent);schedulePreview();return}
  if(e.target.id==="waPh"){S.sheet.phone=e.target.value;const pos=e.target.selectionStart;render();const q=document.getElementById("waPh");q.focus();q.setSelectionRange(pos,pos);return}
+ if(e.target.id==="profSeries"){const nb=document.getElementById("profNewSer");if(nb)nb.style.display=e.target.value==="__new"?"":"none";return}
  if(e.target.id==="docNo"){S.draft.no=e.target.value.toUpperCase();S.draft.noEdited=true;return}
  if(e.target.closest&&e.target.closest("#trDraft")){S.draft.tr=readTr(document.getElementById("trDraft"));return}
  if(e.target.dataset&&e.target.dataset.auto)delete e.target.dataset.auto;
@@ -1499,6 +1618,11 @@ $app.addEventListener("change",e=>{
  if(e.target.id==="splitDraft"){S.draft.split=e.target.checked;render();return}
  if(e.target.id==="splitChk"){S.sheet.split=e.target.checked;render();return}
  if(e.target.id==="oldChk"){S.draft.addOld=e.target.checked;render()}
+ if(e.target.id==="docOldAmt"||e.target.id==="docOldNote"){const d=DB.docs.find(x=>x.id===S.view);if(!d)return;
+   if(e.target.id==="docOldAmt"){const raw=e.target.value.replace(/[₹,\s]/g,"");const v=raw===""?0:Math.round(parseFloat(raw)*100)/100;
+     if(raw!==""&&!isFinite(v)){toast("Enter a number");return}d.oldBalance=v;if(!v)d.oldBalanceNote=""}
+   else d.oldBalanceNote=e.target.value.trim();
+   save();S._oldDirty=true;setTimeout(()=>{if(!document.activeElement?.closest(".oldbox")){S._oldDirty=false;toast(d.oldBalance?"Old balance saved":"Old balance removed");render()}},0)}
  if(e.target.id==="shadeIn"){S.draft.shade=e.target.value.trim();render()}
  if(e.target.id==="pvDocSel"){S.pvDocId=+e.target.value;schedulePreview();return}
  if(e.target.id==="pColor"){setPdf("accent",e.target.value);render();return}
@@ -1511,6 +1635,13 @@ $app.addEventListener("change",e=>{
      if(key==="company")DB.logos.company=url;else DB.logos.brands[key.slice(6)]=url;
      if(!save()){if(key==="company")DB.logos.company=prev;else DB.logos.brands[key.slice(6)]=prev;return}
      toast("Logo saved");render()};im.onerror=()=>toast("Could not read this image");im.src=rd.result};rd.readAsDataURL(file);return}
+ if(e.target.id==="profImport"){const file=e.target.files&&e.target.files[0];e.target.value="";if(!file)return;
+   if(!can("stock")){toast("Not allowed");return}
+   readProfileFile(file).then(res=>{if(!res.brands.length&&!res.bad.length){toast("No profile rows found");return}S.sheet={kind:"profprev",res,replace:true};render()}).catch(err=>{console.error(err);toast(err.message||"Could not read this file")});return}
+ if(e.target.id==="profRep"){S.sheet.replace=e.target.checked;render();return}
+ if(e.target.id==="stockImport"){const file=e.target.files&&e.target.files[0];e.target.value="";if(!file)return;
+   if(!can("stock")){toast("Not allowed");return}
+   readStockFile(file).then(res=>{S.sheet={kind:"stockprev",res};render()}).catch(err=>{console.error(err);toast(err.message||"Could not read this file")});return}
  if(e.target.id==="custImport"){const file=e.target.files&&e.target.files[0];e.target.value="";if(!file)return;
    if(!can("customers")){toast("Not allowed");return}
    importCustomersFile(file).then(res=>{save();S.sheet={kind:"importres",res};render()}).catch(err=>{console.error(err);toast(err.message||"Could not read this file")});return}
@@ -1520,7 +1651,7 @@ $app.addEventListener("change",e=>{
  if(e.target.dataset.price){if(!can("prices"))return;const v=parseFloat(e.target.value);
    if(e.target.value.trim()===""||!(v>0))delete DB.prices.rates[e.target.dataset.price];else DB.prices.rates[e.target.dataset.price]=v;
    save();e.target.classList.add("saved");setTimeout(()=>e.target.classList.remove("saved"),900)}
- if(e.target.dataset.qty){setQty(e.target.dataset.qty,e.target.value);render()}
+ if(e.target.dataset.qty){const code=e.target.dataset.qty,v=e.target.value;keepInPlace(`[data-qty="${CSS.escape(code)}"]`,()=>{setQty(code,v);render()})}
 });
 $app.addEventListener("submit",e=>{e.preventDefault();const f=Object.fromEntries(new FormData(e.target));
  if(e.target.id==="loginForm"){
@@ -1586,17 +1717,35 @@ $app.addEventListener("submit",e=>{e.preventDefault();const f=Object.fromEntries
   if(mode==="set"&&!delta){toast("Stock already "+fmtStock(p.code,cur,S.sb));return}
   moveStock(p.code,S.sb,S.sf,delta,mode==="in"?"IN":mode==="out"?"OUT":"COUNT","",f.note.trim());
   save();toast(`${p.code}: ${fmtStock(p.code,stockOf(p.code,S.sb,S.sf),S.sb)}`);render()}
+ if(e.target.id==="meForm"){const me=DB.users.find(u=>u.id===S.uid),name=(f.name||"").trim();
+  if(me){if(!name){toast("Enter your name");return}me.name=name;S.user=name}
+  if(can("settings")&&"short" in f){COMPANY.short=(f.short||"").trim();DB.company={...COMPANY}}
+  save();S.sheet=null;toast("Saved");render();return}
+ if(e.target.id==="brandRenForm"){if(!can("prices")){toast("Not allowed");return}const o=S.sheet.ren,n=(f.nb||"").trim().toUpperCase();
+  if(!n){toast("Enter a name");return}if(n===o){S.sheet.ren=null;render();return}
+  if(!/^[A-Z0-9 &.\-]+$/.test(n)){toast("Use letters, numbers, space, & . -");return}
+  if(DB.prices.brands.some(x=>x.toUpperCase()===n)){toast(n+" already exists");return}
+  renameBrand(o,n);save();S.sheet.ren=null;toast(`${o} renamed to ${n}`);render();return}
  if(e.target.id==="profForm"){if(!can("stock")){toast("Not allowed");return}const p=pByCode[S.sheet.code],base=S.sb===DB.prices.brands[0]&&!(DB.brandSpecs[S.sb]||{})[p.code];
   const lpp=CAT(p)==="REINF"?p.lpp:Math.floor(+f.lpp),lw=parseFloat(f.lw);
   if(!(lpp>0)||!(lw>0)){toast("Enter valid numbers");return}
   const bl=DB.prices.brands.filter(b=>e.target.querySelector(`[name="b_${CSS.escape(b)}"]`)?.checked);
   if(!bl.length){toast("Tick at least one brand");return}
+  const desc=(f.desc||"").trim().toUpperCase(),series=(f.series==="__new"?(f.newSeries||""):(f.series||p.series)).trim().toUpperCase(),hsn=(f.hsn||"").trim();
+  if(!desc){toast("Enter a description");return}
+  if(!series){toast("Enter the series name");return}
+  if(hsn&&!/^\d{4,8}$/.test(hsn)){toast("HSN should be 4 to 8 digits");return}
+  const info={desc,series,hsn:hsn||p.hsn,cat:CAT(p)};             /* keep its price category if it moves series */
+  Object.assign(p,info);
+  if(p.custom){const cp=DB.customProfiles.find(x=>x.code===p.code);if(cp)Object.assign(cp,info)}else DB.profileEdits[p.code]={...(DB.profileEdits[p.code]||{}),...info};
+  {const bs=(DB.brandSpecs[S.sb]||{})[p.code];if(bs){if("desc" in bs)bs.desc=desc;if("series" in bs)bs.series=series}}
+  refreshSeries();
   if(!base){DB.brandSpecs[S.sb]=DB.brandSpecs[S.sb]||{};DB.brandSpecs[S.sb][p.code]={...(DB.brandSpecs[S.sb][p.code]||{}),lpp,lw}}
   else{p.lpp=lpp;p.lw=lw;
-  if(p.custom){const cp=DB.customProfiles.find(x=>x.code===p.code);if(cp)Object.assign(cp,{lpp,lw})}else DB.profileEdits[p.code]={lpp,lw}}
+  if(p.custom){const cp=DB.customProfiles.find(x=>x.code===p.code);if(cp)Object.assign(cp,{lpp,lw})}else DB.profileEdits[p.code]={...(DB.profileEdits[p.code]||{}),lpp,lw}}
   if(bl.length===DB.prices.brands.length)delete DB.profileBrands[p.code];else DB.profileBrands[p.code]=bl;
-  save();toast("Profile details saved");
-  if(!inBrand(p,S.sb)){S.sheet=null}render()}
+  save();toast(p.code+" updated");
+  if(!inBrand(p,S.sb)){S.sheet=null}else S.sheet.tab="stock";render()}
  if(e.target.id==="newProfForm"){if(!can("stock")){toast("Not allowed");return}
   const cat=S.sheet.cat||"UPVC",code=(f.code||"").trim().toUpperCase(),desc=(f.desc||"").trim().toUpperCase();
   const series=(f.series==="__new"||!f.series?(f.newSeries||""):f.series).trim().toUpperCase();
@@ -1963,7 +2112,7 @@ function exportXLSX(d,btn){busy(btn,async()=>{
   await saveFile(fname(d)+".xlsx",new Blob([buf]));
 })}
 
-function exportStock(btn){busy(btn,async()=>{
+function exportStock(btn,all){busy(btn,async()=>{
   await needLibs("xlsx");
   const wb=new ExcelJS.Workbook(),P=DB.prices;
   const combos=[];P.brands.forEach(b=>P.finishes.forEach(f=>combos.push([b,f])));
@@ -1973,8 +2122,9 @@ function exportStock(btn){busy(btn,async()=>{
    {header:"Total lengths",key:"len",width:12},{header:"Kg/length",key:"lw",width:10},{header:"Weight (kg)",key:"kg",width:12}];
   const seen=new Set();
   combos.forEach(([b,f])=>PROFILES.forEach(p0=>{const p=pv(p0,b),k=stockKey(p.code,b,f);if(seen.has(k))return;seen.add(k);
-    const len=+DB.stock[k]||0;if(!len)return;const reinf=CAT(p)==="REINF";
+    const len=+DB.stock[k]||0;if(!len&&!(all&&sold(p0,b,f)))return;const reinf=CAT(p)==="REINF";
     const row=ws.addRow({b,f:reinf?"-":f,s:p.series,c:p.code,d:p.desc,lpp:reinf?null:p.lpp,pk:reinf?null:Math.trunc(len/p.lpp),lo:reinf?len:len%p.lpp,len,lw:p.lw});
+    row.getCell("len").value=reinf?{formula:`H${row.number}`,result:len}:{formula:`F${row.number}*G${row.number}+H${row.number}`,result:len};
     row.getCell("kg").value={formula:`I${row.number}*J${row.number}`,result:r3(len*p.lw)};}));
   const n=ws.rowCount;
   if(n>1){const t=ws.addRow({d:"TOTAL"});t.getCell("len").value={formula:`SUM(I2:I${n})`};t.getCell("kg").value={formula:`SUM(K2:K${n})`};t.font={bold:true}}
@@ -1985,7 +2135,7 @@ function exportStock(btn){busy(btn,async()=>{
   DB.moves.forEach(m=>mv.addRow({at:new Date(m.at).toLocaleString("en-IN"),k:m.key.replace(/\|-$/,""),t:m.type,l:m.lengths,bal:m.bal,r:m.ref,n:m.note}));
   mv.getRow(1).font={bold:true};
   const buf=await wb.xlsx.writeBuffer();
-  await saveFile(`Raviraja_stock_${today()}.xlsx`,new Blob([buf]));
+  await saveFile(`Raviraja_stock_${all?"template_":""}${today()}.xlsx`,new Blob([buf]));
 })}
 
 /* ---------- WhatsApp ---------- */
@@ -2019,6 +2169,119 @@ function parseCSV(t){const rows=[];let row=[],cell="",q=false;t=t.replace(/^\uFE
     if(q){if(ch==='"'){if(t[i+1]==='"'){cell+='"';i++}else q=false}else cell+=ch}
     else if(ch==='"')q=true;else if(ch===","){row.push(cell);cell=""}else if(ch==="\n"||ch==="\r"){if(ch==="\r"&&t[i+1]==="\n")i++;row.push(cell);rows.push(row);row=[];cell=""}else cell+=ch}
   if(cell||row.length){row.push(cell);rows.push(row)}return rows}
+/* ---------- Brand-wise profile list: Excel / CSV ---------- */
+const CAT_IN=v=>{const t=String(v||"").trim().toLowerCase();return !t?null:/^reinf/.test(t)?"REINF":/^aux/.test(t)?"AUX":/^(profile|upvc|pro)/.test(t)?"UPVC":null};
+async function sheetRows(file){
+  if(/\.csv$/i.test(file.name)||file.type==="text/csv")return [{name:"",rows:parseCSV(await file.text())}];
+  await needLibs("xlsx");const wb=new ExcelJS.Workbook();await wb.xlsx.load(await file.arrayBuffer());
+  return wb.worksheets.map(ws=>{const rows=[];ws.eachRow({includeEmpty:false},r=>{const a=[];r.eachCell({includeEmpty:true},(c,i)=>{let v=c.value;if(v&&typeof v==="object")v=v.text??v.result??(v.richText?v.richText.map(x=>x.text).join(""):"");a[i-1]=v==null?"":String(v)});rows[r.number-1]=a});return {name:ws.name,rows}})}
+async function readProfileFile(file){
+  const sheets=await sheetRows(file),norm=x=>String(x||"").toUpperCase().replace(/[^0-9A-Z.]/g,""),bn=x=>String(x||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
+  const codeMap={};Object.keys(pByCode).forEach(k=>codeMap[norm(k)]=k);
+  const brandOf=t=>DB.prices.brands.find(b=>bn(b)===bn(t));
+  const find=(h,re)=>h.findIndex(x=>re.test(String(x||"").trim()));
+  const num=v=>{const t=String(v??"").replace(/,/g,"").trim();if(t===""||t==="-")return null;const n=+t;return isFinite(n)?n:NaN};
+  const by=new Map(),bad=[];let any=false;
+  sheets.forEach(({name,rows})=>{
+    let hi=-1,col={};
+    for(let i=0;i<Math.min(rows.length,15);i++){const h=rows[i]||[];const c=find(h,/^(profile\s*)?code$|^item\s*code$/i);
+      if(c>=0){hi=i;col={c,b:find(h,/^brand$/i),cat:find(h,/^(category|type)$/i),ser:find(h,/^series$/i),d:find(h,/^(description|desc|name|profile\s*name)$/i),
+        lpp:find(h,/^(lengths?\s*\/\s*(pkt|packet)|lengths?\s*per\s*(pkt|packet)|pcs\s*\/\s*pkt|per\s*packet|lpp)$/i),lw:find(h,/^(kg\s*\/\s*length|kg\s*per\s*length|length\s*weight|weight\s*\/\s*length|wt\s*\/\s*len(gth)?)$/i),
+        mw:find(h,/^(kg\s*\/\s*m(eter|etre)?|kg\s*per\s*m(eter|etre)|meter\s*weight|metre\s*weight)$/i),hsn:find(h,/^hsn/i)};break}}
+    if(hi<0)return;any=true;
+    if(col.lw<0){bad.push({sheet:name||"File",row:hi+1,why:"no Kg/length column"});return}
+    const sheetBrand=brandOf(name);
+    for(let i=hi+1;i<rows.length;i++){const r=rows[i];if(!r||!r.some(x=>String(x||"").trim()))continue;const rn=i+1,sh=name||"File";
+      const raw=String(r[col.c]||"").trim();if(!raw)continue;
+      const bRaw=col.b>=0?String(r[col.b]||"").trim():"",brand=bRaw?brandOf(bRaw):(sheetBrand||S.sb);
+      if(!brand){bad.push({sheet:sh,row:rn,why:`${raw}: unknown brand ${bRaw} (add it first with + Add)`});continue}
+      const known=codeMap[norm(raw)],code=known||raw.toUpperCase().replace(/\s+/g," ");
+      const base=known?pByCode[known]:null,cur=base?pv(base,brand):null;
+      const series=(col.ser>=0?String(r[col.ser]||"").trim().toUpperCase():"")||(cur&&cur.series)||"";
+      const desc=(col.d>=0?String(r[col.d]||"").trim().toUpperCase():"")||(cur&&cur.desc)||"";
+      let cat=(col.cat>=0&&CAT_IN(r[col.cat]))||(series==="REINFORCEMENT"?"REINF":series==="AUXILIARIES"?"AUX":base?CAT(cur):"UPVC");
+      if(base&&(cat==="REINF")!==(CAT(base)==="REINF")){bad.push({sheet:sh,row:rn,why:`${code}: can't switch between reinforcement and profile`});continue}
+      const lpp0=col.lpp>=0?num(r[col.lpp]):null,lw=num(r[col.lw]),mw=col.mw>=0?num(r[col.mw]):null;
+      const lpp=cat==="REINF"?1:(lpp0??(cur&&cur.lpp));
+      if(!series){bad.push({sheet:sh,row:rn,why:`${code}: series missing`});continue}
+      if(!desc){bad.push({sheet:sh,row:rn,why:`${code}: description missing`});continue}
+      if(!(lpp>0)||lpp%1){bad.push({sheet:sh,row:rn,why:`${code}: lengths per packet must be a whole number`});continue}
+      if(!(lw>0)){bad.push({sheet:sh,row:rn,why:`${code}: kg per length missing`});continue}
+      if(Number.isNaN(mw)){bad.push({sheet:sh,row:rn,why:`${code}: kg per meter is not a number`});continue}
+      const hsn=col.hsn>=0?String(r[col.hsn]||"").trim():"";
+      if(!by.has(brand))by.set(brand,new Map());const m=by.get(brand);
+      m.set(code,{code,isNew:!known,series,desc,cat,lpp,lw,mw:mw??(cur&&cur.mw)??null,hsn:hsn||(base&&base.hsn)||(cat==="REINF"?"72255010":"39162099"),ord:m.size})}});
+  if(!any)throw new Error("No 'Profile code' column found in this file");
+  return {file:file.name,brands:[...by.entries()].map(([brand,m])=>({brand,rows:[...m.values()]})),bad};
+}
+function profPlan(r,rep){
+  return r.brands.map(({brand,rows})=>{const inFile=new Set(rows.map(x=>x.code)),add=[],upd=[];let same=0;
+    rows.forEach(x=>{const b0=pByCode[x.code];if(!b0){add.push(x.code);return}const c=pv(b0,brand),what=[];
+      if(!inBrand(c,brand))what.push("added to brand");if(c.series!==x.series)what.push("series");if(c.desc!==x.desc)what.push("description");
+      if(CAT(x.cat?{cat:x.cat}:c)!==CAT(c)&&x.cat)what.push("category");if(+c.lpp!==+x.lpp)what.push("pkt");if(+c.lw!==+x.lw)what.push("weight");
+      if(what.length)upd.push({code:x.code,what});else same++});
+    const rem=PROFILES.filter(p0=>!inFile.has(p0.code)&&inBrand(pv(p0,brand),brand)).map(p0=>p0.code);
+    const remStock=rem.filter(c=>Object.entries(DB.stock).some(([k,q])=>q&&k.startsWith(c+"|"+brand+"|")));
+    return {brand,rows:rows.length,add,upd,same,rem,remStock}})}
+function applyProfiles(r,rep){let n=0;const all=DB.prices.brands;
+  const setBrands=(code,fn)=>{const cur=DB.profileBrands[code]||all.slice(),nx=fn(cur.slice());if(all.every(b=>nx.includes(b)))delete DB.profileBrands[code];else DB.profileBrands[code]=all.filter(b=>nx.includes(b))};
+  r.brands.forEach(({brand,rows})=>{const plan=profPlan({brands:[{brand,rows}]},rep)[0];
+    rows.forEach(x=>{let p=pByCode[x.code];
+      if(!p){const np={series:x.series,desc:x.desc,code:x.code,lpp:x.lpp,mw:x.mw,lw:x.lw,rate:x.cat==="AUX"?170:x.cat==="REINF"?95:150,hsn:x.hsn,cat:x.cat};
+        DB.customProfiles.push(np);p={...np,custom:true};PROFILES.push(p);pByCode[x.code]=p;DB.profileBrands[x.code]=[brand];n++}
+      else{const before=JSON.stringify(pv(p,brand));setBrands(x.code,l=>l.includes(brand)?l:[...l,brand]);if(x.hsn&&x.hsn!==p.hsn){p.hsn=x.hsn;if(p.custom){const cp=DB.customProfiles.find(c=>c.code===x.code);if(cp)cp.hsn=x.hsn}else DB.profileEdits[x.code]={...(DB.profileEdits[x.code]||{}),hsn:x.hsn}}
+        DB.brandSpecs[brand]=DB.brandSpecs[brand]||{};DB.brandSpecs[brand][x.code]={...(DB.brandSpecs[brand][x.code]||{}),series:x.series,desc:x.desc,lpp:x.lpp,lw:x.lw,...(x.mw!=null?{mw:x.mw}:{}),cat:x.cat};
+        if(JSON.stringify(pv(p,brand))!==before||!inBrand(pv(p,brand),brand))n++;return}
+      DB.brandSpecs[brand]=DB.brandSpecs[brand]||{};DB.brandSpecs[brand][x.code]={series:x.series,desc:x.desc,lpp:x.lpp,lw:x.lw,...(x.mw!=null?{mw:x.mw}:{}),cat:x.cat}});
+    rows.forEach(x=>{DB.brandSpecs[brand][x.code].ord=x.ord});
+    if(rep)plan.rem.forEach(c=>{setBrands(c,l=>l.filter(b=>b!==brand));n++})});
+  globalThis.__RR_SPECS=DB.brandSpecs;refreshSeries();return n}
+function exportProfiles(btn){busy(btn,async()=>{
+  await needLibs("xlsx");const wb=new ExcelJS.Workbook();
+  DB.prices.brands.forEach(b=>{const ws=wb.addWorksheet(b.slice(0,31));
+    ws.columns=[{header:"Brand",key:"b",width:12},{header:"Category",key:"cat",width:14},{header:"Series",key:"s",width:18},{header:"Profile code",key:"c",width:13},{header:"Description",key:"d",width:32},
+      {header:"Lengths/pkt",key:"lpp",width:11},{header:"Kg/length",key:"lw",width:10},{header:"Kg/meter",key:"mw",width:10},{header:"HSN",key:"h",width:11}];
+    PROFILES.map(p0=>pv(p0,b)).filter(p=>inBrand(p,b)).sort((x,y)=>{const sx=SERIES.indexOf(x.series),sy=SERIES.indexOf(y.series);return sx-sy||pord(x)-pord(y)})
+      .forEach(p=>ws.addRow({b,cat:CAT_LABEL[CAT(p)].replace(/s$/,"").replace("Auxiliarie","Auxiliary"),s:p.series,c:p.code,d:p.desc,lpp:CAT(p)==="REINF"?null:p.lpp,lw:p.lw,mw:p.mw||null,h:p.hsn}));
+    ws.getRow(1).eachCell(c=>{c.font={bold:true,color:{argb:"FFFFFFFF"}};c.fill={type:"pattern",pattern:"solid",fgColor:{argb:"FF0F3B4C"}}});ws.views=[{state:"frozen",ySplit:1}]});
+  const buf=await wb.xlsx.writeBuffer();await saveFile(`Raviraja_profiles_${today()}.xlsx`,new Blob([buf]));
+})}
+/* Stock upload: Excel / CSV -> preview of new counts (nothing saved until Apply) */
+async function readStockFile(file){
+  let rows;
+  if(/\.csv$/i.test(file.name)||file.type==="text/csv")rows=parseCSV(await file.text());
+  else{await needLibs("xlsx");const wb=new ExcelJS.Workbook();await wb.xlsx.load(await file.arrayBuffer());const ws=wb.worksheets[0];rows=[];
+    ws.eachRow({includeEmpty:false},r=>{const a=[];r.eachCell({includeEmpty:true},(c,i)=>{let v=c.value;if(v&&typeof v==="object")v=v.text??v.result??(v.richText?v.richText.map(x=>x.text).join(""):"");a[i-1]=v==null?"":String(v)});rows[r.number-1]=a})}
+  const find=(h,re)=>h.findIndex(x=>re.test(String(x||"").trim()));
+  let hi=-1,col={};
+  for(let i=0;i<Math.min(rows.length,15);i++){const h=rows[i]||[];
+    const c=find(h,/^(profile\s*)?code$|^profile$|^item\s*code$/i);
+    if(c>=0){hi=i;col={c,b:find(h,/^brand$/i),f:find(h,/^(finish|colou?r)$/i),pk:find(h,/^(packets?|pkts?|pkt)$/i),lo:find(h,/^loose(\s*lengths?)?$/i),len:find(h,/^(total\s*)?lengths?$|^total\s*len/i)};break}}
+  if(hi<0)throw new Error("No 'Profile code' column found in this file");
+  if(col.pk<0&&col.len<0&&col.lo<0)throw new Error("No Packets or Total lengths column found");
+  const norm=x=>String(x||"").toUpperCase().replace(/[^0-9A-Z.]/g,"");
+  const codeMap={};Object.keys(pByCode).forEach(k=>codeMap[norm(k)]=k);
+  const brandMap={};DB.prices.brands.forEach(b=>brandMap[norm(b)]=b);
+  const num=v=>{const t=String(v??"").replace(/,/g,"").trim();if(t===""||t==="-")return null;const n=+t;return isFinite(n)?n:NaN};
+  const out=new Map(),bad=[];
+  for(let i=hi+1;i<rows.length;i++){const r=rows[i];if(!r||!r.some(x=>String(x||"").trim()))continue;const rn=i+1;
+    const raw=String(r[col.c]||"").trim();if(!raw||/^total$/i.test(raw)||/^total$/i.test(String(r[col.c+1]||"").trim()))continue;
+    const code=codeMap[norm(raw)];if(!code){bad.push({row:rn,why:`unknown code ${raw}`});continue}
+    const bRaw=col.b>=0?String(r[col.b]||"").trim():"",brand=bRaw?brandMap[norm(bRaw)]:S.sb;
+    if(!brand){bad.push({row:rn,why:`${code}: unknown brand ${bRaw}`});continue}
+    const p=pv(pByCode[code],brand),reinf=CAT(p)==="REINF";
+    const fRaw=col.f>=0?String(r[col.f]||"").trim():"";
+    let finish=reinf?"-":(fRaw&&fRaw!=="-"?DB.prices.finishes.find(f=>f.toLowerCase()===fRaw.toLowerCase()):S.sf);
+    if(!finish){bad.push({row:rn,why:`${code}: unknown finish ${fRaw}`});continue}
+    if(!sold(pByCode[code],brand,reinf?S.sf:finish)){bad.push({row:rn,why:`${code} isn't sold in ${brand}${reinf?"":" · "+finish}`});continue}
+    const tl=col.len>=0?num(r[col.len]):null,pk=col.pk>=0?num(r[col.pk]):null,lo=col.lo>=0?num(r[col.lo]):null;
+    if([tl,pk,lo].some(x=>Number.isNaN(x))){bad.push({row:rn,why:`${code}: quantity is not a number`});continue}
+    let len;if(pk!=null||lo!=null)len=(reinf?0:(pk||0)*p.lpp)+(lo||0)+(reinf&&pk&&lo==null?pk:0);else if(tl!=null)len=tl;else continue;   /* packets + loose win over total */
+    len=Math.round(len);if(len<0){bad.push({row:rn,why:`${code}: negative quantity`});continue}
+    const cur=stockOf(code,brand,reinf?S.sf:finish);
+    out.set(code+"|"+brand+"|"+finish,{code,brand,finish,len,cur,delta:len-cur})}
+  return {file:file.name,rows:[...out.values()],bad};
+}
 async function importCustomersFile(file){
   let rows;
   if(/\.csv$/i.test(file.name)||file.type==="text/csv")rows=parseCSV(await file.text());
@@ -2079,6 +2342,7 @@ function applyDerived(){
   if(DB.company)Object.assign(COMPANY,DB.company);if(DB.prefix)Object.assign(PREFIX,DB.prefix);
   globalThis.__RR_SPECS=DB.brandSpecs;globalThis.__RR_PRICES=DB.prices;
   DB.customProfiles.forEach(cp=>{if(!pByCode[cp.code]){const np={...cp,custom:true};PROFILES.push(np);pByCode[cp.code]=np}});
+  refreshSeries();
 }
 /* ---- start ---- */
 const APP_HOME=FB_CFG?"https://"+FB_CFG.authDomain+"/":"";
@@ -2343,5 +2607,454 @@ if(CL.on){
 
 render();
 </script>
+<!-- ================== CUSTOMER PURCHASE ORDERS (customer screen + owner inbox) ================== -->
+<style>
+html.pomode #phone,html.pocheck #phone,html.pocheck #poInboxBtn{display:none!important}
+html.pomode,html.pomode body{height:auto!important;min-height:0!important;overflow:visible!important;background:#f3f5f8}
+html.pomode #po{height:auto}
+#po{display:none;--bg:#f3f5f8;--card:#fff;--ink:#1b2430;--mut:#6b7684;--line:#e3e7ec;--acc:#0f3b4c;--acc2:#e7f1f6;--ok:#1a7f37;--sc:#c0392b;--sm:#1d8a4a;font-family:"Plus Jakarta Sans",system-ui,sans-serif;color:var(--ink);font-size:15px;background:var(--bg);min-height:100vh}
+html.pomode #po{display:block}
+#po *{box-sizing:border-box}
+#po header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line);padding:calc(10px + env(safe-area-inset-top,0px)) 14px 8px}
+#po .top{display:flex;align-items:center;justify-content:space-between;gap:8px;background:none;color:inherit;padding:0}
+#po h1{font-size:17px;margin:0;color:var(--ink);flex:none}
+#po .sub{font-size:12px;color:var(--mut)}
+#po .tabs{display:flex;gap:6px;margin-top:8px;background:none;padding:0;border-radius:0}
+#po .tabs button{flex:1;padding:8px 4px;border:1px solid var(--line);background:#fff;border-radius:8px;font-weight:600;color:var(--mut);font-size:13px;font-family:inherit}
+#po .tabs button.on{background:var(--acc);border-color:var(--acc);color:#fff;box-shadow:none}
+#po main{padding:12px 12px 120px;max-width:720px;margin:0 auto}
+#po .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:12px}
+#po .card h2{font-size:14px;margin:0 0 10px;text-transform:uppercase;letter-spacing:.04em;color:var(--mut)}
+#po label{display:block;font-size:12px;color:var(--mut);margin:8px 0 3px}
+#po input,#po textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:15px;font-family:inherit;background:#fff;color:var(--ink)}
+#po textarea{min-height:70px}
+#po .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#po .seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+#po .seg button{flex:1;padding:11px 6px;border:0;background:#fff;font-weight:700;font-size:14px;color:var(--mut);font-family:inherit}
+#po .seg button+button{border-left:1px solid var(--line)}
+#po .seg button.on.sc{background:var(--sc);color:#fff}
+#po .seg button.on.sm{background:var(--sm);color:#fff}
+#po .seg button.on.fin{background:var(--ink);color:#fff}
+#po .lock{display:flex;align-items:center;gap:10px;padding:10px;border:1px dashed var(--line);border-radius:10px;font-weight:600}
+#po .sw{width:22px;height:22px;border-radius:50%;border:1px solid #bbb;background:#fff}
+#po .po-chips{display:flex;gap:6px;overflow-x:auto;margin:8px -14px 0;padding:0 14px 2px;scrollbar-width:none}
+#po .po-chips::-webkit-scrollbar{display:none}
+#po .po-chips button{flex:none;padding:7px 12px;border-radius:999px;border:1.5px solid var(--line);background:#fff;font-weight:700;font-size:12px;font-family:inherit;color:var(--mut);white-space:nowrap}
+#po .po-chips button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+#po .po-chips button i{font-style:normal;background:#f2a33a;color:#5a3600;border-radius:999px;padding:0 6px;margin-left:5px;font-size:11px}
+#po .series{scroll-margin-top:var(--po-hd,150px);margin-bottom:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+#po .series>summary{list-style:none;padding:12px;font-weight:700;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+#po .series>summary::-webkit-details-marker{display:none}
+#po .cnt{font-size:12px;font-weight:600;color:var(--acc);background:var(--acc2);border-radius:20px;padding:2px 9px}
+#po .item{display:flex;align-items:center;gap:8px;padding:9px 12px;border-top:1px solid var(--line)}
+#po .item.has{background:#f6fbf7}
+#po .item .info{flex:1;min-width:0;background:none;padding:0;border:0;border-radius:0;color:inherit;margin:0}
+#po .item .d{font-weight:600;font-size:14px}
+#po .item .m{font-size:12px;color:var(--mut)}
+#po .item .calc{font-size:12px;color:var(--ok);font-weight:600}
+#po .step{display:flex;align-items:center;border:1px solid var(--line);border-radius:9px;overflow:hidden;flex-shrink:0}
+#po .step button{width:34px;height:36px;border:0;background:#f4f6f9;font-size:18px;font-weight:700;color:var(--ink)}
+#po .step input{width:46px;height:36px;border:0;text-align:center;padding:0;font-weight:700;border-radius:0}
+#po .bar{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:#fff;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:10px;z-index:6}
+#po .bar .t{flex:1;display:flex;gap:14px;font-size:12px}
+#po .bar .t b{display:block;font-size:16px}
+#po .btn,#poPanel .btn{width:auto;padding:11px 16px;border-radius:10px;border:0;background:#0f3b4c;color:#fff;font-weight:700;font-size:14px;text-decoration:none;display:inline-block;text-align:center;font-family:inherit;cursor:pointer}
+#po .btn.gh,#poPanel .btn.gh{background:#fff;color:#1b2430;border:1px solid #e3e7ec}
+#po .btn.wa{background:#25d366}
+#po .btn.ac{background:#f2a33a;color:#5a3600}
+#po .btn.dg,#poPanel .btn.dg{background:#fff;color:#c0392b;border:1px solid #f0c8c3}
+#po .btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+#po table,#poPanel table{width:100%;border-collapse:collapse;font-size:12.5px}
+#po th,#po td,#poPanel th,#poPanel td{border:1px solid #e3e7ec;padding:5px 4px;text-align:center}
+#po th,#poPanel th{background:#f4f6f9;font-size:11px}
+#po td.l,#poPanel td.l{text-align:left}
+#po tr.sh td,#poPanel tr.sh td{background:#eef2f7;font-weight:700;font-size:11px}
+#po .hist{padding:10px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.po-pill{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;color:#fff;white-space:nowrap}
+.po-st{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;white-space:nowrap;background:#e7f1f6;color:#16566e}
+.po-st.Received{background:#fff4e2;color:#9a5b00}.po-st.Quoted,.po-st.Dispatched{background:#e6f5ee;color:#1f8a5b}.po-st.Draft{background:#eef0f1;color:#6b7684}
+#po .note,#poPanel .note{font-size:12px;color:#6b7684;margin-top:6px}
+#po .info-box{background:#e7f1f6;color:#16566e;border-radius:10px;padding:10px;font-size:13px;margin-bottom:12px}
+.po-toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#111;color:#fff;padding:9px 14px;border-radius:8px;font-size:13px;opacity:0;transition:.2s;z-index:10001;pointer-events:none;font-family:system-ui,sans-serif}
+.po-toast.on{opacity:1}
+#po .hide{display:none!important}
+.po-modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center;z-index:10000;font-family:"Plus Jakarta Sans",system-ui,sans-serif;color:#1b2430}
+.po-modal .box{background:#fff;width:100%;max-width:720px;border-radius:16px 16px 0 0;padding:16px;max-height:85vh;overflow:auto}
+.po-modal textarea{width:100%;padding:10px;border:1px solid #e3e7ec;border-radius:8px;font-size:14px;font-family:inherit;box-sizing:border-box}
+/* owner inbox */
+#poInboxWrap{position:fixed;left:50%;transform:translateX(-50%);width:min(440px,100%);bottom:calc(84px + env(safe-area-inset-bottom,0px));pointer-events:none;z-index:50;display:flex;justify-content:flex-end;padding-right:14px}
+#poInboxBtn{pointer-events:auto;display:flex;align-items:center;gap:6px;background:#0f3b4c;color:#fff;border:0;border-radius:999px;padding:9px 14px;font:700 13px "Plus Jakarta Sans",system-ui,sans-serif;box-shadow:0 6px 16px rgba(15,59,76,.35);cursor:pointer}
+#poInboxBtn .n{background:#f2a33a;color:#5a3600;border-radius:999px;padding:1px 7px;font-size:12px}
+#poPanel{position:fixed;inset:0;z-index:9000;background:#f3f6f7;overflow:auto;font-family:"Plus Jakarta Sans",system-ui,sans-serif;color:#1b2430}
+#poPanel .hd{position:sticky;top:0;background:#0f3b4c;color:#fff;padding:calc(14px + env(safe-area-inset-top,0px)) 16px 14px;display:flex;align-items:center;gap:10px}
+#poPanel .hd b{flex:1;font-size:17px}
+#poPanel .wrap{max-width:720px;margin:0 auto;padding:14px}
+#poPanel .ord{background:#fff;border:1px solid #e3e7ec;border-radius:14px;padding:12px;margin-bottom:10px}
+#poPanel .ord.new{border-color:#f2a33a;box-shadow:inset 3px 0 0 #f2a33a}
+#poPanel .r{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+#poPanel .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+</style>
+
+<div id="po">
+<header>
+  <div class="top">
+    <div><h1>Purchase Order</h1><div class="sub" id="poCustLine">Customer not set</div></div>
+    <button class="btn gh" style="padding:7px 10px;font-size:12px" onclick="PO.go('cust')">Customer</button>
+  </div>
+  <div class="tabs">
+    <button data-v="order" class="on" onclick="PO.go('order')">New Order</button>
+    <button data-v="review" onclick="PO.go('review')">Review</button>
+    <button data-v="hist" onclick="PO.go('hist')">My Orders</button>
+  </div>
+  <div class="po-chips" id="poChips"></div>
+</header>
+<main>
+<section id="po-v-cust" class="hide">
+  <div class="card">
+    <h2>Customer details</h2>
+    <label>Customer / Firm name *</label><input id="po_c_name">
+    <div class="row2">
+      <div><label>Contact person</label><input id="po_c_person"></div>
+      <div><label>Mobile</label><input id="po_c_phone" inputmode="tel"></div>
+    </div>
+    <label>GSTIN</label><input id="po_c_gst" style="text-transform:uppercase">
+    <label>Delivery address</label><textarea id="po_c_addr"></textarea>
+    <label>Supplier WhatsApp number (for sending a copy)</label>
+    <input id="po_c_wa" inputmode="tel" placeholder="e.g. 918985587373">
+    <div class="btns"><button class="btn" onclick="PO.saveCust()">Save customer</button><button class="btn gh" onclick="PO.go('order')">Cancel</button></div>
+  </div>
+</section>
+
+<section id="po-v-order">
+  <div class="card">
+    <h2>Brand</h2>
+    <div class="seg" id="poBrandSeg">
+      <button class="sc" data-b="scraft" onclick="PO.setBrand('scraft')">S CRAFT</button>
+      <button class="sm" data-b="smart" onclick="PO.setBrand('smart')">SMART UPVC</button>
+    </div>
+    <h2 style="margin-top:14px">Finish</h2>
+    <div id="poFinScraft">
+      <div class="seg" id="poFinSeg">
+        <button class="fin" data-f="White" onclick="PO.setFin('White')">White</button>
+        <button class="fin" data-f="Colour" onclick="PO.setFin('Colour')">Colour</button>
+        <button class="fin" data-f="Laminate" onclick="PO.setFin('Laminate')">Laminate</button>
+      </div>
+      <div id="poShadeWrap"><label id="poShadeLbl">Colour shade / code</label>
+      <input id="poShade" placeholder="e.g. Golden Oak, Anthracite Grey" oninput="PO.setShade(this.value)"></div>
+    </div>
+    <div id="poFinSmart" class="lock hide"><span class="sw"></span> White only</div>
+  </div>
+  <div id="poList"></div>
+</section>
+
+<section id="po-v-review" class="hide">
+  <div class="card">
+    <h2>Order details</h2>
+    <div class="row2">
+      <div><label>Order no.</label><input id="po_o_no"></div>
+      <div><label>Order date</label><input id="po_o_date" type="date"></div>
+    </div>
+    <div class="row2">
+      <div><label>Required by</label><input id="po_o_need" type="date"></div>
+      <div><label>Your PO ref.</label><input id="po_o_ref"></div>
+    </div>
+    <label>Remarks</label><textarea id="po_o_rem" placeholder="Transport, delivery instructions…"></textarea>
+  </div>
+  <div class="card">
+    <h2 id="poSheetTitle">Order sheet</h2>
+    <div id="poSheet"></div>
+    <button class="btn ac" style="width:100%;margin-top:10px;padding:14px;font-size:15px" id="poSubmitBtn" onclick="PO.submit()">Submit order</button>
+    <div class="btns">
+      <a class="btn wa" id="poWaBtn" href="#" target="_blank" rel="noopener">WhatsApp copy</a>
+      <button class="btn gh" onclick="PO.copyText()">Copy as text</button>
+    </div>
+    <button class="btn dg" style="width:100%;margin-top:8px" onclick="PO.clearOrder()">Clear quantities</button>
+    <p class="note" id="poSubmitNote"></p>
+  </div>
+</section>
+
+<section id="po-v-hist" class="hide">
+  <div class="card"><h2>My orders</h2><div id="poHistList"></div></div>
+</section>
+</main>
+<div class="bar" id="poBar">
+  <div class="t"><div>Packets<b id="poTP">0</b></div><div>Lengths<b id="poTL">0</b></div><div>Weight kg<b id="poTW">0</b></div></div>
+  <button class="btn" style="background:#f2a33a;color:#5a3600" onclick="PO.go('review')">Review ›</button>
+</div>
+</div>
+<div class="po-toast" id="poToast"></div>
+<div id="poModal"></div>
+
+<script>
+/* Shared product list for customer orders: [description, code, lengths per packet, weight per length kg] — no prices */
+const PO_DATA={
+ scraft:{name:"S CRAFT",qBrand:"S-CRAFT",series:[
+  ["ECO SERIES",[["2 TRACK","53ET",6,4.867],["2.5 TRACK","80ET",6,6.967],["3 TRACK","95ET",4,7.941],["SMALL SASH","60ESH",8,4.578],["SLIDING SASH","75ESH",6,5.257],["INTERLOCK","38IL",20,1.132],["SMALL BEAD","17.5EB",25,1.0915]]],
+  ["PREMIUM SERIES",[["2 TRACK","62T",6,5.587],["2.5 TRACK","92T",4,7.596],["3 TRACK","112T",4,9.785],["SMALL SASH","59SS",6,5.150],["MEDIUM SASH","67MS",6,5.633],["BIGG SASH","84BS",6,7.154],["SLIDING SASH","75ESH",6,5.257],["MESH","53M",12,2.85],["MULION MESH","62MM",12,3.602],["SMALL BEAD","24.5SB",20,1.535],["DOUBLE GLAZE BEAD","11.5 DGB",20,1.18],["INTERLOCK","44IL",20,1.215]]],
+  ["CASEMENT SERIES",[["SMALL CASEMENT OUTER","42VF",6,3.45],["CASEMENT OUTER","60OF",6,6.075],["CASEMENT OUTER","72OF",6,7.35],["CASEMENT WINDOW SASH","78OW",6,7.35],["CASEMENT OUTWARD DOOR","104OD",4,9.2],["CASEMENT INWARD DOOR","104ID",4,9.564],["BIGG BEAD","35CB",20,2.05],["Z-MULION","74ZM",6,6.545],["SASH MULION","42SM",6,4.389],["T-MULION","74TM",6,6.308],["FLY MULION","60FM",6,5.283],["OPENABLE MESH","68OM",6,5.111],["PANNEL BOARD","12PB",8,3.106],["BYPOLE (60-60)","60B",4,4.15],["BYPOLE (60-92)","92 B",4,5.332]]],
+  ["AUXILIARIES",[["CORNER JOINT COUPLER (60-112)","112CJC",4,2.612],["CORNER JOINT COUPLER (60-90)","92CJC",6,2.046],["GORGIAN BAR","10GB",12,0.808],["TRACK CONNECTOR","38TC",9,2.295],["ADD ON TRACK","50AT",16,2.9],["MESH CONNECTOR","11MC",12,0.791],["SLIDING SASH CONNECTOR","22SC",20,2.15],["H-COUPLER","HC",50,0.7]]],
+  ["REINFORCEMENT",[["3 TRACK (ECO)","13X28X13",1,2.139],["2 TRACK","14X30X14",1,2.319],["SMALL SASH","17X30X17",1,2.579],["BIG SASH 84","28X28X28",1,3.158],["CASEMENT OUTER","24X27X24",1,3.086],["78 WINDOW","13X34X25",1,2.162],["T MULLION","20X25X20",1,2.162],["CASEMENT 104 OD","50X34X39",1,8.6],["SMALL CASEMENT FRAME","8X22X8",1,1.413]]]
+ ]},
+ smart:{name:"SMART UPVC",qBrand:"SMART",series:[
+  ["ECO SERIES",[["2 TRACK","53ET",6,4.926],["2.5 TRACK","80ET",6,7.026],["3 TRACK","95ET",4,8.123],["SMALL SASH","60ESH",8,4.892],["SLIDING SASH","75ESH",8,5.307],["INTERLOCK","38IL",20,1.247],["SMALL BEAD","17.5EB",25,1.236]]],
+  ["PREMIUM SERIES",[["2 TRACK","62T",6,5.666],["2.5 TRACK","92T",4,7.840],["3 TRACK","112T",4,10.056],["SMALL SASH","59SS",6,5.166],["MEDIUM SASH","67MS",6,5.733],["BIGG SASH","84BS",6,7.200],["SLIDING SASH","75ESH",8,5.307],["MESH","53M",12,2.960],["MULION MESH","62MM",12,3.600],["SMALL BEAD","24.5SB",20,1.528],["DOUBLE GLAZE BEAD","11.5 DGB",20,1.18],["INTERLOCK","44IL",20,1.300]]],
+  ["CASEMENT SERIES",[["SMALL CASEMENT OUTER","42VF",6,3.450],["CASEMENT OUTER","60OF",6,6.177],["CASEMENT OUTER","72OF",6,7.5],["CASEMENT WINDOW SASH","78OW",6,7.406],["CASEMENT OUTWARD DOOR","104OD",4,9.200],["CASEMENT INWARD DOOR","104ID",4,9.564],["BIGG BEAD","35CB",20,2.081],["Z-MULION","74ZM",6,6.545],["SASH MULION","42SM",6,4.389],["T-MULION","74TM",6,6.320],["FLY MULION","60FM",6,5.283],["OPENABLE MESH","68OM",6,5.111],["PANNEL BOARD","12PB",8,3.104],["BYPOLE (60-60)","60B",4,4.200],["BYPOLE (60-92)","92 B",4,5.332]]],
+  ["AUXILIARIES",[["CORNER JOINT COUPLER (60-112)","112CJC",4,2.612],["CORNER JOINT COUPLER (60-90)","92CJC",6,2.046],["TRACK CONNECTOR","38TC",9,2.295],["MESH CONNECTOR","11MC",20,0.791],["GORGIAN BAR","10GB",12,0.808],["ADD ON TRACK","50AT",16,2.903],["SLIDING SASH CONNECTOR","22SC",20,2.150],["H-COUPLER","HC",50,0.700]]],
+  ["REINFORCEMENT",[["3 TRACK (ECO)","13X28X13",1,2.139],["2 TRACK","14X30X14",1,2.319],["SMALL SASH","17X30X17",1,2.579],["BIG SASH 84","28X28X28",1,3.158],["CASEMENT OUTER","24X27X24",1,3.086],["78 WINDOW","13X34X25",1,2.162],["T MULLION","20X25X20",1,2.162],["CASEMENT 104 OD","50X34X39",1,8.6],["SMALL CASEMENT FRAME","8X22X8",1,1.413]]]
+ ]}
+};
+const POX={ /* shared helpers */
+  r3:n=>Math.round(n*1000)/1000,
+  esc:s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),
+  toast(m){const t=document.getElementById('poToast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),1900)},
+  get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},
+  modal(html){document.getElementById('poModal').innerHTML=`<div class="po-modal" onclick="if(event.target===this)POX.close()"><div class="box">${html}</div></div>`},
+  close(){document.getElementById('poModal').innerHTML=''},
+  async copy(s,msg){try{await navigator.clipboard.writeText(s);POX.toast(msg)}catch(e){POX.modal(`<p class="note" style="font-size:12px;color:#6b7684">Copy blocked — select and copy below:</p><textarea style="min-height:220px">${POX.esc(s)}</textarea><button class="btn gh" style="width:100%;margin-top:8px;padding:11px;border-radius:10px;border:1px solid #e3e7ec;background:#fff" onclick="POX.close()">Close</button>`)}},
+  sheetTable(o){
+    let h=`<table><tr><th>#</th><th>Description</th><th>Code</th><th>Pkts</th><th>Lengths</th><th>Kg</th></tr>`,cur='',n=0;
+    o.items.forEach(x=>{if(x.series!==cur){cur=x.series;h+=`<tr class="sh"><td colspan="6">${POX.esc(cur)}</td></tr>`}
+      h+=`<tr><td>${++n}</td><td class="l">${POX.esc(x.desc)}</td><td>${POX.esc(x.code)}</td><td>${x.packets||'–'}</td><td>${x.lengths}</td><td>${(+x.weight).toFixed(2)}</td></tr>`});
+    return h+`<tr class="sh"><td colspan="3">TOTAL</td><td>${o.totals.packets}</td><td>${o.totals.lengths}</td><td>${(+o.totals.weight).toFixed(2)}</td></tr></table>`},
+  text(o){
+    let t=`*PURCHASE ORDER*\n${o.brand} – ${o.finish}${o.shade?' ('+o.shade+')':''}\nOrder No: ${o.orderNo}\nDate: ${o.orderDate}${o.requiredBy?'\nRequired by: '+o.requiredBy:''}${o.customerRef?'\nRef: '+o.customerRef:''}\n\nCustomer: ${o.customer.name}${o.customer.person?'\nContact: '+o.customer.person:''}${o.customer.phone?'\nMobile: '+o.customer.phone:''}${o.customer.gst?'\nGSTIN: '+o.customer.gst:''}${o.customer.address?'\nAddress: '+o.customer.address:''}\n`;
+    let cur='',n=0;
+    o.items.forEach(x=>{if(x.series!==cur){cur=x.series;t+=`\n_${cur}_\n`}t+=x.packets?`${++n}. ${x.desc} (${x.code}) – ${x.packets} pkt = ${x.lengths} len, ${(+x.weight).toFixed(2)} kg\n`:`${++n}. ${x.desc} (${x.code}) – ${x.lengths} len, ${(+x.weight).toFixed(2)} kg\n`});
+    t+=`\n*TOTAL: ${o.totals.packets} packets | ${o.totals.lengths} lengths | ${(+o.totals.weight).toFixed(2)} kg*`;
+    if(o.remarks)t+=`\n\nRemarks: ${o.remarks}`;
+    t+=`\n\n[PO-DATA]${JSON.stringify({b:o.brandKey,f:o.finish,s:o.shade,n:o.orderNo,d:o.orderDate,r:o.requiredBy,ref:o.customerRef,rem:o.remarks,c:o.customer,i:o.items.map(x=>[x.series,x.code,x.packets||x.lengths])})}[/PO-DATA]`;
+    return t},
+  /* rebuild an order from the [PO-DATA] block of a WhatsApp message */
+  parse(txt){const m=String(txt).match(/\[PO-DATA\]([\s\S]*?)\[\/PO-DATA\]/);let j;
+    try{j=m?JSON.parse(m[1]):JSON.parse(txt)}catch(e){return null}
+    if(j.items&&j.customer)return j;
+    const D=PO_DATA[j.b];if(!D)return null;const items=[];
+    (j.i||[]).forEach(([ser,code,p])=>{const s=D.series.find(x=>x[0]===ser);const it=s&&s[1].find(x=>x[1]===code);if(it&&p>0){const R=ser==='REINFORCEMENT',L=R?p:p*it[2];items.push({series:ser,desc:it[0],code,perPacket:R?0:it[2],lengthWeight:it[3],packets:R?0:p,lengths:L,weight:POX.r3(L*it[3])})}});
+    return {orderNo:j.n,orderDate:j.d,requiredBy:j.r||'',customerRef:j.ref||'',remarks:j.rem||'',customer:j.c||{},brand:D.name,brandKey:j.b,finish:j.f,shade:j.s||'',items,
+      totals:{packets:items.reduce((a,x)=>a+x.packets,0),lengths:items.reduce((a,x)=>a+x.lengths,0),weight:POX.r3(items.reduce((a,x)=>a+x.weight,0))}}}
+};
+
+/* ---------- mode: customer screen or the normal quotation app ---------- */
+const PO_MODE={customer:document.documentElement.classList.contains("pomode")||location.hash==="#customer-order",db:null,user:null,uid:null,owner:false};
+(async function(){
+  await null;                                              // let PO and PO_INBOX below be defined first
+  const H=document.documentElement;
+  if(PO_MODE.customer)H.classList.add("pomode");
+  let user=null,db=null;
+  if(window.claude&&claude.use){
+    const t=setTimeout(()=>H.classList.remove("pocheck"),5000);
+    try{user=await claude.use("user")}catch(e){}
+    try{db=await claude.use("db")}catch(e){}
+    clearTimeout(t);
+  }
+  PO_MODE.user=user;PO_MODE.db=db;PO_MODE.owner=!!(user&&user.isOwner&&user.isOwner());
+  if(user&&!PO_MODE.owner)PO_MODE.customer=true;           // anyone you share this app with sees only the order screen
+  try{PO_MODE.uid=user?await user.id():null}catch(e){}
+  if(PO_MODE.customer){H.classList.add("pomode");PO.start()}else PO_INBOX.start();
+  H.classList.remove("pocheck");
+})();
+
+/* ---------- CUSTOMER ORDER SCREEN ---------- */
+const PO=(function(){
+  const $=id=>document.getElementById(id),{r3,esc,toast}=POX;
+  let C=POX.get('po_cust',{name:'',person:'',phone:'',gst:'',addr:'',wa:''});
+  let S=POX.get('po_draft',{brand:'scraft',fin:'Colour',shade:'',qty:{scraft:{},smart:{}}});
+  S.qty=S.qty||{};S.qty.scraft=S.qty.scraft||{};S.qty.smart=S.qty.smart||{};if(S.v!==4){S.qty.scraft={};S.v=4}
+  let H=POX.get('po_hist',[]);let remote=null,ref=null;
+  const persist=()=>POX.set('po_draft',S);
+  const key=(si,ii)=>si+'_'+ii;
+  const isWhite=()=>S.brand==='smart'||S.fin==='White';
+  const finLabel=()=>isWhite()?'White':(S.fin+(S.shade?' – '+S.shade:''));
+  /* S Craft: Eco series only in White (White has everything); Colour / Laminate have no Eco */
+  const vis=s=>S.brand!=='scraft'||S.fin==='White'||s[0]!=='ECO SERIES';
+
+  function go(v){
+    ['cust','order','review','hist'].forEach(x=>$('po-v-'+x).classList.toggle('hide',x!==v));
+    document.querySelectorAll('#po .tabs button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+    $('poBar').classList.toggle('hide',v!=='order');$('poChips').classList.toggle('hide',v!=='order');
+    if(v==='cust')fillCust();if(v==='review')renderReview();if(v==='hist')renderHist();
+    window.scrollTo(0,0);
+  }
+  function fillCust(){$('po_c_name').value=C.name;$('po_c_person').value=C.person;$('po_c_phone').value=C.phone;$('po_c_gst').value=C.gst;$('po_c_addr').value=C.addr;$('po_c_wa').value=C.wa}
+  function saveCust(){
+    C={name:$('po_c_name').value.trim(),person:$('po_c_person').value.trim(),phone:$('po_c_phone').value.trim(),gst:$('po_c_gst').value.trim().toUpperCase(),addr:$('po_c_addr').value.trim(),wa:$('po_c_wa').value.replace(/\D/g,'')};
+    if(!C.name){toast('Enter customer name');return}
+    POX.set('po_cust',C);custLine();toast('Customer saved');go('order');
+  }
+  function custLine(){$('poCustLine').textContent=C.name?C.name+(C.phone?' · '+C.phone:''):'Customer not set — tap Customer'}
+  function setBrand(b){S.brand=b;persist();renderOrder()}
+  function setFin(f){S.fin=f;persist();renderOrder()}
+  function setShade(v){S.shade=v;persist()}
+  function renderFinish(){
+    document.querySelectorAll('#poBrandSeg button').forEach(x=>x.classList.toggle('on',x.dataset.b===S.brand));
+    const sc=S.brand==='scraft';$('poFinScraft').classList.toggle('hide',!sc);$('poFinSmart').classList.toggle('hide',sc);
+    document.querySelectorAll('#poFinSeg button').forEach(x=>x.classList.toggle('on',x.dataset.f===S.fin));
+    $('poShadeWrap').classList.toggle('hide',S.fin==='White');$('poShadeLbl').textContent=S.fin==='Laminate'?'Laminate design / code':'Colour shade / code';$('poShade').value=S.shade||'';
+  }
+  const calcTxt=(it,p,R)=>{const L=R?p:p*it[2];return R?`${r3(L*it[3])} kg`:`${L} lengths · ${r3(L*it[3])} kg`};
+  const itemAt=k=>{const[si,ii]=k.split('_').map(Number);return PO_DATA[S.brand].series[si][1][ii]};
+  function renderOrder(){
+    renderFinish();const d=PO_DATA[S.brand],q=S.qty[S.brand];let h='';
+    d.series.forEach((s,si)=>{if(!vis(s))return;const cnt=s[1].filter((_,ii)=>q[key(si,ii)]>0).length;
+      h+=`<details class="series" id="poSer${si}" open><summary>${s[0]} <span class="cnt" id="poCnt${si}">${cnt} items</span></summary>`;
+      s[1].forEach((it,ii)=>{const k=key(si,ii),p=q[k]||0,R=s[0]==='REINFORCEMENT';
+        h+=`<div class="item ${p?'has':''}" id="poIt${k}"><div class="info"><div class="d">${it[0]}</div>
+        <div class="m">${it[1]} · ${R?'steel · order in lengths':it[2]+'/pkt'} · ${it[3]} kg/len</div><div class="calc" id="poCl${k}">${p?calcTxt(it,p,R):''}</div></div>
+        <div class="step"><button onclick="PO.bump('${k}',-1)">−</button><input inputmode="numeric" id="poQ${k}" value="${p||''}" placeholder="0" oninput="PO.setQ('${k}',this.value)"><button onclick="PO.bump('${k}',1)">+</button></div></div>`});
+      h+='</details>'});
+    $('poList').innerHTML=h;totals();renderChips();
+  }
+  const short=n=>n.replace(/ SERIES$/,'');
+  function renderChips(){const d=PO_DATA[S.brand],q=S.qty[S.brand];
+    $('poChips').innerHTML=d.series.map((s,si)=>{if(!vis(s))return '';const c=s[1].filter((_,ii)=>q[key(si,ii)]>0).length;return `<button data-si="${si}" onclick="PO.jump(${si})">${short(s[0])}${c?`<i>${c}</i>`:''}</button>`}).join('');spy()}
+  function hdH(){return document.querySelector('#po header').getBoundingClientRect().height}
+  function jump(si){const el=$('poSer'+si);if(!el)return;el.open=true;document.getElementById('po').style.setProperty('--po-hd',(hdH()+8)+'px');
+    window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-hdH()-8,behavior:'smooth'});setOn(si)}
+  function setOn(si){document.querySelectorAll('#poChips button').forEach(b=>{const on=+b.dataset.si===si;b.classList.toggle('on',on);if(on){const r=b.parentNode;if(b.offsetLeft<r.scrollLeft||b.offsetLeft+b.offsetWidth>r.scrollLeft+r.clientWidth)r.scrollTo({left:b.offsetLeft-14,behavior:'smooth'})}})}
+  function spy(){if($('po-v-order').classList.contains('hide'))return;const lim=hdH()+20;let cur=0;
+    const V=[];PO_DATA[S.brand].series.forEach((s,si)=>{if(vis(s))V.push(si)});cur=V[0]||0;
+    V.forEach(si=>{const el=$('poSer'+si);if(el&&el.getBoundingClientRect().top<=lim)cur=si});
+    if(window.innerHeight+window.scrollY>=document.body.scrollHeight-4)cur=V[V.length-1];setOn(cur)}
+  let spyT=0;window.addEventListener('scroll',()=>{if(!PO_MODE.customer)return;cancelAnimationFrame(spyT);spyT=requestAnimationFrame(spy)},{passive:true});
+  function setQ(k,v){const n=Math.max(0,parseInt(v)||0),q=S.qty[S.brand];if(n)q[k]=n;else delete q[k];persist();
+    const it=itemAt(k),si0=+k.split('_')[0],R=PO_DATA[S.brand].series[si0][0]==='REINFORCEMENT';$('poCl'+k).textContent=n?calcTxt(it,n,R):'';$('poIt'+k).classList.toggle('has',!!n);
+    const si=+k.split('_')[0];$('poCnt'+si).textContent=PO_DATA[S.brand].series[si][1].filter((_,ii)=>q[key(si,ii)]>0).length+' items';totals();renderChips()}
+  function bump(k,d){const i=$('poQ'+k);const n=Math.max(0,(parseInt(i.value)||0)+d);i.value=n||'';setQ(k,n)}
+  function lines(){const d=PO_DATA[S.brand],q=S.qty[S.brand],out=[];
+    d.series.forEach((s,si)=>vis(s)&&s[1].forEach((it,ii)=>{const p=q[key(si,ii)];if(p){const R=s[0]==='REINFORCEMENT',L=R?p:p*it[2];out.push({series:s[0],desc:it[0],code:it[1],perPacket:R?0:it[2],lengthWeight:it[3],packets:R?0:p,lengths:L,weight:r3(L*it[3])})}}));return out}
+  function totals(){const l=lines();$('poTP').textContent=l.reduce((a,x)=>a+x.packets,0);$('poTL').textContent=l.reduce((a,x)=>a+x.lengths,0);$('poTW').textContent=r3(l.reduce((a,x)=>a+x.weight,0)).toFixed(1)}
+  const today=()=>new Date(Date.now()+5.5*3600e3).toISOString().slice(0,10);
+  const allOrders=()=>remote?Object.values(remote.orders||{}).sort((a,b)=>String(b.submittedAt).localeCompare(String(a.submittedAt))):H;
+  const nextNo=()=>'PO-'+new Date().getFullYear().toString().slice(2)+'-'+String(allOrders().length+1).padStart(3,'0');
+  function build(){const l=lines();
+    return {type:'customer_purchase_order',version:1,orderNo:$('po_o_no').value.trim(),orderDate:$('po_o_date').value,requiredBy:$('po_o_need').value,customerRef:$('po_o_ref').value.trim(),remarks:$('po_o_rem').value.trim(),
+      customer:{name:C.name,person:C.person,phone:C.phone,gst:C.gst,address:C.addr},brand:PO_DATA[S.brand].name,brandKey:S.brand,
+      finish:S.brand==='smart'?'White':S.fin,shade:isWhite()?'':S.shade.trim(),items:l,
+      totals:{packets:l.reduce((a,x)=>a+x.packets,0),lengths:l.reduce((a,x)=>a+x.lengths,0),weight:r3(l.reduce((a,x)=>a+x.weight,0))}}}
+  function renderReview(){
+    if(!$('po_o_no').value)$('po_o_no').value=nextNo();if(!$('po_o_date').value)$('po_o_date').value=today();
+    ['po_o_no','po_o_date','po_o_need','po_o_ref','po_o_rem'].forEach(id=>$(id).oninput=updWA);
+    const o=build();$('poSheetTitle').textContent=o.brand+' · '+finLabel();
+    $('poSheet').innerHTML=o.items.length?`<div class="note" style="margin:0 0 8px">${esc(C.name||'Customer not set')}${C.phone?' · '+esc(C.phone):''}</div>`+POX.sheetTable(o):'<p class="note">No items yet. Go to New Order and enter packets.</p>';
+    $('poSubmitNote').textContent=PO_MODE.db?'Submit sends the order straight to Raviraja Industries. WhatsApp copy is optional.':'Online submit is not available here — use WhatsApp copy to send the order.';
+    $('poSubmitBtn').textContent=PO_MODE.db?'Submit order':'Send order on WhatsApp';updWA()}
+  function updWA(){$('poWaBtn').href='https://wa.me/'+(C.wa||'')+'?text='+encodeURIComponent(POX.text(build()))}
+  function check(o){if(!o.items.length){toast('No items in order');return false}if(!C.name){toast('Set customer details first');go('cust');return false}
+    if(!isWhite()&&!S.shade.trim()){toast('Enter '+S.fin.toLowerCase()+' shade');go('order');return false}if(!o.orderNo){toast('Enter order no.');return false}return true}
+  function copyText(){const o=build();if(check(o))POX.copy(POX.text(o),'Order copied')}
+  function listen(){
+    if(!PO_MODE.db||!PO_MODE.uid||ref)return;
+    try{ref=PO_MODE.db.doc('po/'+PO_MODE.uid)}catch(e){return}
+    ref.onSnapshot(s=>{remote=s.exists?s.data():{orders:{}};if(!$('po-v-hist').classList.contains('hide'))renderHist()},()=>{remote=null});
+  }
+  let busy=false;
+  async function submit(){
+    const o=build();if(!check(o))return;
+    if(!PO_MODE.db||!PO_MODE.uid){window.open($('poWaBtn').href,'_blank');return}
+    if(busy)return;busy=true;$('poSubmitBtn').textContent='Sending…';
+    const id='o'+Date.now();o.id=id;o.status='Submitted';o.submittedAt=new Date().toISOString();
+    try{
+      const cur=await ref.get();
+      if(cur.exists)await ref.update({customer:o.customer,updatedAt:o.submittedAt,orders:{[id]:o}});
+      else await ref.set({customer:o.customer,updatedAt:o.submittedAt,orders:{[id]:o}});
+      H.unshift(o);POX.set('po_hist',H.slice(0,100));
+      S.qty[S.brand]={};persist();['po_o_no','po_o_need','po_o_ref','po_o_rem'].forEach(x=>$(x).value='');
+      renderOrder();
+      POX.modal(`<h3 style="margin:0 0 6px">Order ${esc(o.orderNo)} submitted ✓</h3><p class="note">Raviraja Industries can see it now. You'll see its status under My Orders.</p>
+        <a class="btn wa" style="display:block;margin-top:10px;padding:12px;border-radius:10px;background:#25d366;color:#fff;text-align:center;text-decoration:none;font-weight:700" target="_blank" rel="noopener" href="https://wa.me/${C.wa||''}?text=${encodeURIComponent(POX.text(o))}">Also send WhatsApp copy</a>
+        <button style="width:100%;margin-top:8px;padding:12px;border-radius:10px;border:1px solid #e3e7ec;background:#fff;font-weight:700" onclick="POX.close();PO.go('hist')">Done</button>`);
+    }catch(e){toast(e&&e.code==='quota_exceeded'?'Order storage is full — please contact Raviraja':'Could not submit ('+((e&&e.code)||'error')+'). Use WhatsApp copy.')}
+    busy=false;renderReview();
+  }
+  function clearOrder(){S.qty[S.brand]={};persist();['po_o_no','po_o_need','po_o_ref','po_o_rem'].forEach(id=>$(id).value='');renderOrder();renderReview();toast('Cleared')}
+  function renderHist(){const L=allOrders();
+    if(!L.length){$('poHistList').innerHTML='<p class="note">No orders yet.</p>';return}
+    $('poHistList').innerHTML=L.map((o,i)=>`<div class="hist"><div style="min-width:0"><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><b>${esc(o.orderNo)}</b><span class="po-pill" style="background:${o.brandKey==='smart'?'var(--sm)':'var(--sc)'}">${esc(o.brand)}</span>${o.status?`<span class="po-st ${esc(o.status)}">${esc(o.status)}</span>`:''}</div>
+      <div class="note" style="margin:2px 0 0">${esc(o.orderDate)} · ${esc(o.finish)}${o.shade?' – '+esc(o.shade):''} · ${o.totals.packets} pkt · ${(+o.totals.weight).toFixed(1)} kg</div></div>
+      <div style="display:flex;gap:6px"><button class="btn gh" style="padding:8px 10px" onclick="PO.view(${i})">View</button><button class="btn gh" style="padding:8px 10px" onclick="PO.repeat(${i})">Repeat</button></div></div>`).join('')}
+  function view(i){const o=allOrders()[i];POX.modal(`<h3 style="margin:0 0 4px">${esc(o.orderNo)} · ${esc(o.brand)}</h3><p class="note">${esc(o.finish)}${o.shade?' – '+esc(o.shade):''} · ${esc(o.orderDate)}${o.status?' · '+esc(o.status):''}</p>${POX.sheetTable(o)}${o.remarks?`<p class="note">Remarks: ${esc(o.remarks)}</p>`:''}<button style="width:100%;margin-top:10px;padding:12px;border-radius:10px;border:1px solid #e3e7ec;background:#fff;font-weight:700" onclick="POX.close()">Close</button>`)}
+  function repeat(i){const o=allOrders()[i];S.brand=o.brandKey||'scraft';if(S.brand==='scraft'){S.fin=o.finish||'Colour';S.shade=o.shade||''}
+    const q={};PO_DATA[S.brand].series.forEach((s,si)=>s[1].forEach((it,ii)=>{const m=o.items.find(x=>x.series===s[0]&&x.code===it[1]);if(m)q[key(si,ii)]=m.packets||m.lengths}));
+    S.qty[S.brand]=q;persist();$('po_o_no').value='';$('po_o_date').value='';renderOrder();go('order');toast('Copied into a new order')}
+  function start(){custLine();renderOrder();listen();if(!C.name)go('cust')}
+  return {jump,go,saveCust,setBrand,setFin,setShade,setQ,bump,submit,copyText,clearOrder,view,repeat,start};
+})();
+
+/* ---------- OWNER INBOX inside the quotation app ---------- */
+const PO_INBOX=(function(){
+  const {esc,toast}=POX;let list=[],docs={},seen=POX.get('po_seen',{}),panel=null,started=false,loadNote='';
+  const norm=c=>String(c||'').toUpperCase().replace(/\s+/g,'');
+  function start(){if(started)return;started=true;
+    const w=document.createElement('div');w.id='poInboxWrap';w.innerHTML='<button id="poInboxBtn" style="display:none" onclick="PO_INBOX.open()">📥 Customer POs <span class="n" id="poInboxN"></span></button>';document.body.appendChild(w);
+    setInterval(btn,600);
+    const db=PO_MODE.db;if(!db||!PO_MODE.owner)return;
+    const t=setTimeout(()=>{loadNote='Customer orders can\'t be reached yet — check internet.';paint()},10000);
+    db.collection('po').onSnapshot(s=>{if(!s.metadata.fromCache){clearTimeout(t);loadNote=''}
+      list=imported.slice();docs={};s.docs.forEach(d=>{const v=d.data()||{};docs[d.id]=v;Object.values(v.orders||{}).forEach(o=>list.push({...o,_doc:d.id}))});
+      list.sort((a,b)=>String(b.submittedAt).localeCompare(String(a.submittedAt)));btn();paint()},e=>{clearTimeout(t);loadNote='Customer orders are not available ('+(e&&e.code)+').';paint()});
+  }
+  const fresh=()=>list.filter(o=>o.status==='Submitted'&&!seen[o.id]).length;
+  function btn(){const b=document.getElementById('poInboxBtn');if(!b)return;
+    const show=typeof S!=='undefined'&&S.user&&['home','docs'].includes(S.screen)&&!S.sheet&&!panel;
+    b.style.display=show?'flex':'none';const n=fresh();document.getElementById('poInboxN').textContent=n||'';document.getElementById('poInboxN').style.display=n?'inline':'none'}
+  function open(){panel=document.createElement('div');panel.id='poPanel';document.body.appendChild(panel);paint();btn()}
+  function close(){if(panel){panel.remove();panel=null}const s={};list.forEach(o=>s[o.id]=1);seen={...seen,...s};POX.set('po_seen',seen);btn()}
+  function paint(){if(!panel)return;
+    const live=!!(PO_MODE.db&&PO_MODE.owner);
+    panel.innerHTML=`<div class="hd"><button class="btn gh" style="padding:6px 10px" onclick="PO_INBOX.close()">‹ Back</button><b>Customer Purchase Orders</b></div><div class="wrap">
+      <div class="r" style="margin-bottom:12px"><button class="btn" style="flex:1" onclick="PO_INBOX.importBox()">Import PO from WhatsApp</button><button class="btn gh" style="flex:1" onclick="PO_INBOX.link()">Customer link</button></div>
+      ${loadNote?`<p class="note" style="color:#9a5b00">${esc(loadNote)}</p>`:''}
+      ${!live?'<p class="note">Live customer orders work in the claude.ai copy of this app. Here you can import a PO a customer sent on WhatsApp.</p>':''}
+      ${list.length?list.map((o,i)=>`<div class="ord ${o.status==='Submitted'&&!seen[o.id]?'new':''}"><div class="r"><b class="mono">${esc(o.orderNo)}</b>
+        <span class="po-pill" style="background:${o.brandKey==='smart'?'#1d8a4a':'#c0392b'}">${esc(o.brand)}</span><span class="po-st ${esc(o.status||'')}">${esc(o.status||'')}</span></div>
+        <div style="font-weight:700;margin-top:6px">${esc(o.customer&&o.customer.name)}</div>
+        <div class="note" style="margin:2px 0 0">${esc(o.orderDate)}${o.requiredBy?' · need by '+esc(o.requiredBy):''} · ${esc(o.finish)}${o.shade?' – '+esc(o.shade):''} · ${o.totals.packets} pkt · ${(+o.totals.weight).toFixed(1)} kg</div>
+        <div class="acts"><button class="btn gh" onclick="PO_INBOX.view(${i})">View</button><button class="btn" onclick="PO_INBOX.make(${i},'QUOTATION')">Make quotation</button>
+        <button class="btn gh" onclick="PO_INBOX.make(${i},'PI')">Make PO</button>${o._doc?`<button class="btn gh" onclick="PO_INBOX.status(${i})">Status…</button>`:`<button class="btn dg" onclick="PO_INBOX.drop(${i})">Remove</button>`}</div></div>`).join('')
+        :`<p class="note">No customer orders yet.</p>`}</div>`}
+  function view(i){const o=list[i],c=o.customer||{};POX.modal(`<h3 style="margin:0 0 4px">${esc(o.orderNo)} · ${esc(o.brand)}</h3>
+    <p class="note" style="font-size:12px;color:#6b7684">${esc(c.name)}${c.phone?' · '+esc(c.phone):''}${c.gst?' · GSTIN '+esc(c.gst):''}<br>${esc(c.address||'')}<br>${esc(o.finish)}${o.shade?' – '+esc(o.shade):''} · ${esc(o.orderDate)}${o.requiredBy?' · need by '+esc(o.requiredBy):''}${o.customerRef?' · Ref '+esc(o.customerRef):''}</p>
+    ${POX.sheetTable(o)}${o.remarks?`<p class="note" style="font-size:12px">Remarks: ${esc(o.remarks)}</p>`:''}
+    <button style="width:100%;margin-top:10px;padding:12px;border-radius:10px;border:1px solid #e3e7ec;background:#fff;font-weight:700" onclick="POX.close()">Close</button>`)}
+  async function setStatus(i,st){const o=list[i];if(!o._doc||!PO_MODE.db)return;
+    try{await PO_MODE.db.doc('po/'+o._doc).update({orders:{[o.id]:{status:st,statusAt:new Date().toISOString()}}});toast('Marked '+st)}catch(e){toast('Could not update status')}}
+  function status(i){POX.modal(`<h3 style="margin:0 0 10px">Order status</h3>${['Received','Quoted','Dispatched','Submitted'].map(s=>`<button style="width:100%;margin-top:6px;padding:12px;border-radius:10px;border:1px solid #e3e7ec;background:#fff;font-weight:700" onclick="POX.close();PO_INBOX.setStatus(${i},'${s}')">${s}</button>`).join('')}<p class="note" style="font-size:12px;color:#6b7684">The customer sees this status under My Orders.</p>`)}
+  function make(i,type){const o=list[i];
+    if(typeof S==='undefined'||!S.user){toast('Log in to the app first');return}
+    if(typeof canType==='function'&&!canType(type)){toast("You don't have permission for this document");return}
+    const c=o.customer||{},g=String(c.gst||'').toUpperCase().replace(/[^0-9A-Z]/g,''),nm=String(c.name||'').trim().toUpperCase().replace(/\s+/g,' ');
+    if(!nm){toast('Order has no customer name');return}
+    let cu=DB.customers.find(x=>g&&x.gstin===g)||DB.customers.find(x=>x.name===nm);
+    if(!cu){addCustomers([{gstin:g,name:nm,address:c.address||'',phone:c.phone||''}]);save();cu=DB.customers.find(x=>g&&x.gstin===g)||DB.customers.find(x=>x.name===nm)}
+    if(!cu){toast('Could not add customer');return}
+    const qByNorm={};Object.keys(pByCode).forEach(k=>qByNorm[norm(k)]=k);
+    const brand0=(PO_DATA[o.brandKey]||{}).qBrand||(o.brandKey==='smart'?'SMART':'S-CRAFT'),finish=o.brandKey==='smart'?'White':(o.finish||'Colour'),shade=o.brandKey==='smart'?'':(o.shade||'');
+    const agg={},miss=[];o.items.forEach(x=>{const code=qByNorm[norm(x.code)];if(!code){miss.push(x.code);return}agg[code]=(agg[code]||0)+(x.series==='REINFORCEMENT'||!x.packets?(+x.lengths||0):(+x.packets||0))});
+    const bn=x=>String(x).toUpperCase().replace(/[^A-Z0-9]/g,''),want=bn(brand0);
+    const brand=DB.prices.brands.find(b=>bn(b)===want)||DB.prices.brands.find(b=>bn(b).startsWith(want)||want.startsWith(bn(b)))||DB.prices.brands[0];
+    const items=Object.entries(agg).map(([code,packets])=>{const p=pByCode[code];return p&&p.series==='REINFORCEMENT'?{code,lengths:packets,brand,finish,shade}:{code,packets,brand,finish,shade}});
+    S.draft={type,customerId:cu.id,items,brand,finish:DB.prices.finishes.includes(finish)?finish:DB.prices.finishes[0],shade};
+    if(typeof sortItems==='function')sortItems(S.draft.items);S.q='';
+    if(o._doc)setStatus(i,'Quoted');
+    close();go('new');toast((type==='PI'?'Purchase order':'Quotation')+' ready from '+o.orderNo+(miss.length?' — not found: '+miss.join(', '):''));
+  }
+  let imported=POX.get('po_imported',[]);
+  list=imported.slice();
+  function importBox(){POX.modal(`<h3 style="margin:0 0 4px">Import customer PO</h3><p class="note" style="font-size:12px;color:#6b7684">Paste the whole WhatsApp message the customer sent from the order app.</p>
+    <textarea id="poImpTxt" style="min-height:160px"></textarea><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+    <button style="padding:12px;border-radius:10px;border:0;background:#0f3b4c;color:#fff;font-weight:700" onclick="PO_INBOX.doImport()">Import</button><button style="padding:12px;border-radius:10px;border:1px solid #e3e7ec;background:#fff;font-weight:700" onclick="POX.close()">Cancel</button></div>`)}
+  function doImport(){const o=POX.parse(document.getElementById('poImpTxt').value);
+    if(!o||!o.items||!o.items.length){toast('No order found in that message');return}
+    o.id='w'+Date.now();o.status='Imported';o.submittedAt=new Date().toISOString();
+    imported.unshift(o);POX.set('po_imported',imported.slice(0,200));list.unshift(o);POX.close();paint();toast('PO '+o.orderNo+' imported')}
+  function drop(i){const o=list[i];imported=imported.filter(x=>x.id!==o.id);POX.set('po_imported',imported);list.splice(i,1);paint()}
+  function link(){POX.modal(`<h3 style="margin:0 0 6px">Customer order link</h3><p class="note" style="font-size:13px;color:#4a5d66;line-height:1.5">Share this app with your customer from claude.ai (Share → invite their email). When they open it, they see only the order screen — no quotations or prices.
+    If you send the link yourself, add <b>#customer-order</b> to the end so it opens straight on the order screen.</p><button style="width:100%;margin-top:10px;padding:12px;border-radius:10px;border:1px solid #e3e7ec;background:#fff;font-weight:700" onclick="POX.close()">OK</button>`)}
+  return {start,open,close,view,make,status,setStatus,importBox,doImport,drop,link};
+})();
+</script>
+<!-- ================== /CUSTOMER PURCHASE ORDERS ================== -->
+
 </body>
 </html>
