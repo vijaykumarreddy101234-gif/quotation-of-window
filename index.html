@@ -475,7 +475,7 @@ const G36="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 function gstCheck(g){
   g=(g||"").toUpperCase().replace(/\s/g,"");
   if(g.length<15)return {ok:false,partial:true,g,msg:g.length?`${g.length}/15 characters`:""};
-  if(!/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z][A-Z][0-9A-Z]$/.test(g))return {ok:false,g,msg:"Wrong format. Example: 36AALCR2439Q1ZN"};
+  if(!/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z][A-Z][0-9A-Z]$/.test(g))return {ok:false,g,msg:"Wrong format. Example: 27AJMPC2303H2ZL"};
   let sum=0;for(let i=0;i<14;i++){const v=G36.indexOf(g[i])*((i%2)+1);sum+=Math.floor(v/36)+v%36}
   if(G36[(36-sum%36)%36]!==g[14])return {ok:false,g,msg:"Check digit doesn't match. Please re-check the number"};
   const st=STATES[g.slice(0,2)];
@@ -485,9 +485,32 @@ function gstCheck(g){
 
 /* ================== STORE (demo, saved on this device) ================== */
 const PREFIX={QUOTATION:"RRQT-",PI:"RRPO-",INVOICE:"RRINV-"}, LABEL={QUOTATION:"Quotation",PI:"Purchase Order",INVOICE:"Tax Invoice"};
-const APP_MODE="clean";   // "clean" in the online copy: starts with no sample customers or documents
-function seed(){return {customers:[{id:1,name:"CASH CUSTOMER",address:"",gstin:"",state:"Telangana",stateCode:"36",phone:"",balance:0,balanceNote:""}],
-  docs:[],next:{QUOTATION:400,PI:1,INVOICE:1},nextId:1,nextCust:2}}
+const APP_MODE="demo";   // "clean" in the online copy: starts with no sample customers or documents
+function seed(){
+  if(APP_MODE==="clean")return {customers:[{id:1,name:"CASH CUSTOMER",address:"",gstin:"",state:"Telangana",stateCode:"36",phone:"",balance:0,balanceNote:""}],
+    docs:[],next:{QUOTATION:400,PI:1,INVOICE:1},nextId:1,nextCust:2};
+  const c1={id:1,name:"SHRI GANESH ELECTRICAL AND MECHANICAL",address:"Datta Nagar, H No 4, Nr Vikhe Patil Hospital, Vadgaon Gupta Road, Ahilyanagar, Maharashtra 414111",gstin:"27AJMPC2303H2ZL",state:"Maharashtra",stateCode:"27",phone:""};
+  const c2={id:2,name:"SAI BALAJI WINDOWS",address:"Kukatpally, Hyderabad, Telangana",gstin:"36ABCDE1234F1Z1",state:"Telangana",stateCode:"36",phone:"9876543210"};
+  const L=(code,packets,weight,rate,extra={})=>({code,packets,weight,rate,...extra});
+  const E="ECO SERIES",PR="PREMIUM SERIES",CS="CASMENT SERIES",AX="AUXILIARIES",RF="REINFORCEMENT";
+  const R=(code,lengths,weight,desc)=>({code,lengths,weight,rate:95,series:RF,desc});
+  const items=[
+   L("95ET",4,127.584,150,{series:E}),L("60SH",3,109.872,150,{series:E,desc:"SLIDING SASH",lpp:8,hsn:"39162099"}),
+   L("75SH",2,63.084,150,{series:E,desc:"SLIDING SASH",lpp:6,hsn:"39162099"}),L("38IL",1,22.640,150,{series:E}),L("17.5 EB",2,54.575,150,{series:E}),
+   L("62T",2,67.044,150,{series:PR}),L("112T",15,587.100,150,{series:PR}),L("59SS",5,147.000,150,{series:PR,desc:"SMALL SASH (WITHOUT GASKET)"}),
+   L("59SS",10,309.000,150,{series:PR}),L("67MS",10,337.980,150,{series:PR}),L("84BS",5,214.620,150,{series:PR}),
+   L("24.5 ESB",10,307.000,150,{series:PR}),L("24.5 ESB",2,54.200,150,{series:PR,desc:"SMALL BEAD (WITHOUT GASKET)"}),L("44IL",3,72.900,150,{series:PR}),
+   L("42VF",2,41.400,150,{series:CS}),L("60OF",6,218.700,150,{series:CS}),L("78OW",3,132.300,150,{series:CS}),L("35CB",2,82.000,150,{series:CS,desc:"CASEMENT BEAD"}),
+   L("104OD",2,73.600,150,{series:CS}),L("42SM",2,52.668,150,{series:CS,desc:"SASH MULLION (WITHOUT GASKET)"}),L("74TM",2,75.696,150,{series:CS}),
+   L("60OB",1,16.600,150,{series:CS,desc:"BAYPOLE (60-60)",lpp:4,hsn:"39162099"}),
+   L("11MC",1,15.820,170,{series:AX}),L("22 SC",1,43.000,170,{series:AX}),L("HC",1,35.000,170,{series:AX}),L("112CJC",1,10.448,170,{series:AX}),
+   R("13X28X13",52,111.228,"3 TRACK (ECO SERIES)"),R("14X30X14",72,166.968,"2 TRACK"),R("17X30X17",150,386.850,"SMALL SASH"),R("28X28X28",30,94.740,"BIG SASH 84"),
+   R("24X27X24",36,111.096,"CASEMENT OUTER"),R("13X34X25",18,38.916,"78 WINDOW"),R("20X25X20",12,25.944,"T MULLION"),R("50X34X39",8,68.800,"CASEMENT 104 OD"),R("8X22X8",12,16.956,"SMALL CASEMENT FRAME")];
+  const d1=mkDoc("QUOTATION","RRQT-399","2026-09-19",c1,items);
+  const d2=mkDoc("QUOTATION","RRQT-400","2026-11-16",c2,[L("62T",5,null,150),L("59SS",4,null,150),L("44IL",1,null,150),L("HC",1,null,170)]);
+  d2.id=2;
+  return {customers:[c1,c2],docs:[d2,d1],next:{QUOTATION:401,PI:1,INVOICE:1},nextId:3,nextCust:3};
+}
 function mkDoc(type,no,date,cust,items,sourceId=null){
   const lines=sortLines(items.map(calcLine)).map(l=>l.baked||!l.variant?l:{...l,series:`${l.series} — ${l.variant}`.toUpperCase(),baked:true});
   return {id:1,type,no,date,customerId:cust.id,lines,t:totals(lines,cust.stateCode),status:"DRAFT",sourceId,transport:"By Road"};
@@ -555,6 +578,9 @@ function addCustomers(rows){ // rows: [{gstin,name,address,phone,state}] -> {add
     DB.customers.push({id:newId()||DB.nextCust++,name,gstin:g,state:r.state||(chk.ok?chk.state:""),stateCode:chk.ok?chk.stateCode:(g.slice(0,2)||""),
       address:String(r.address||"").replace(/\s+/g," ").replace(/,\s*,/g,",").trim(),phone:ph,balance:0,balanceNote:""});res.added.push(name)});
   return res}
+/*CUSTLIST-START*/
+if(APP_MODE==="demo"&&!DB.custList1){addCustomers([["36AKQPR6477A2ZO", "AARON INDUSTRIES", "H.No 13-6-418/A/31, Ramsingapur, Gudimalakapur, Hyderabad", "8499008000"], ["29ARAPJ4362P1ZB", "ADNAN GLASS AND ALLUMINIUM", "SECTOR NO 4, SURVEY NO 73 & 74, 8th Main Road, NEAR BHARAT KHANAWALI, Navanagar, Bagalkote, Karnataka, 587103", "8073696916"], ["36SFMPS4784C1ZJ", "AS INFOTECH UPVC SYSTEMS", "SY NO 1459, Hyderabad Road, Padma Nagar Colony, Nalgonda, Telangana, 508001", "7660093678"], ["20DISPS6665G1ZQ", "ARADHIYA ENTERPRISES", "638, D P S, Turiyabera, Jamshedpur, East Singhbhum, Jharkhand, 831012", "7979781674"], ["27ALWPD9257D3ZM", "ARCOVA", "Shop No 6, Date Complex, Shindvane Road, Urulikanchan, Pune, Maharashtra, 412202", "7709970679"], ["29AMGPH8373M1ZC", "A-ONE UPVC", "Two Shops With Tin Shed 5-993/36/14 & 16, Near Saba Function Hall, Hagarga Road, Kalaburagi, Karnataka, 585104", "9535826985"], ["36DELPS6665K1ZK", "AZISSA ENTERPRISES", "Ground floor, 2-5-22/A/G5, Happy home avenue and plaza, Inner Ring Road, Pillar no 190, Upparpally, Hyderabad, Rangareddy, Telangana", "9573847281"], ["36HAAPS2023C1Z4", "A1 UPVC DOORS AND WINDOWS", "H.NO.3-330/1G/3, Valigonda X Road, Choutuppal, Yadadri Bhuvanagiri, Telangana, 508252", "6281325469"], ["21BAYPM3724L1ZA", "AYUSH ENTERPRISES", "Nandapur Road, Semiliguda, Koraput, Odisha, 764036", "9439373834"], ["36CMUPR5951F1ZC", "BALAJI FABRICATION", "Plot no 29, H.No. 2-157, Hymavathi Nagar, Hayathnagar, Hyderabad, Rangareddy, Telangana, 501505", "9014146599"], ["36AHQPN6311C2ZE", "BALAJI ENTERPRISES", "55-4-319/1/C, Main Road, Bheemaram, Hasanparthy, Hanumakonda, Telangana, 506015", "9849734289"]].map(([gstin,name,address,phone])=>({gstin,name,address,phone})));DB.custList1=true;try{localStorage.setItem("rr-quote-v1",JSON.stringify(DB))}catch(e){}}
+/*CUSTLIST-END*/
 const SERIES_RENAME={"80.5 SERIES":"ECO SERIES","92 SERIES":"PREMIUM SERIES"};
 DB.customProfiles.forEach(cp=>{if(SERIES_RENAME[cp.series])cp.series=SERIES_RENAME[cp.series]});
 DB.customProfiles.forEach(cp=>{if(!pByCode[cp.code]){const np={...cp,custom:true};PROFILES.push(np);pByCode[cp.code]=np}});
@@ -2056,7 +2082,7 @@ function exportRegister(btn){busy(btn,async()=>{
 })}
 
 /* ================== CLOUD: Gmail sign-in + one shared database for all members (Firebase) ================== */
-var FB_CFG={apiKey:"AIzaSyCdHNSEIL2I3KM_giyR8xQCMTS93Rvh-98",authDomain:"raviraja-quotations.firebaseapp.com",projectId:"raviraja-quotations",storageBucket:"raviraja-quotations.firebasestorage.app",messagingSenderId:"668456022383",appId:"1:668456022383:web:505c57910a90b2edc9b89a"};/*FBCFG*/
+var FB_CFG=null;/*FBCFG*/
 const OWNER_EMAIL="ravirajaindustries@gmail.com";
 const FB_CDN="https://www.gstatic.com/firebasejs/10.12.2/";
 const SETTINGS_KEYS=["company","prefix","pdf","pdfBrand"];               // admin only
